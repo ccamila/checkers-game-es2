@@ -1,1 +1,1 @@
-# checkers-game-es2
+# Checkers Game
