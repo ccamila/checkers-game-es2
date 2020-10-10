@@ -34,9 +34,9 @@ public class Board : MonoBehaviour, IBoard
 
     public void ConstructBoard()
     {
-        GameObject squareGame = Instantiate(WhiteSquare, centralPlaceholder, true);
+        GameObject squareGame = Instantiate(BlackSquare, centralPlaceholder, true);
         Vector3 positionSquare = new Vector3(centralPlaceholder.position.x, centralPlaceholder.position.y, 0);
-        WhiteSquare.transform.position = positionSquare;
+        BlackSquare.transform.position = positionSquare;
 
         int columnValue = 0;
         bool black = true;
@@ -54,18 +54,18 @@ public class Board : MonoBehaviour, IBoard
                     if (black == true)
                     {
                         positionSquare = new Vector3(rowScale * rowValue, columnScale * columnValue, 0);
-                        if (BlackSquare)
+                        if (WhiteSquare)
                         {
-                            Instantiate(BlackSquare, positionSquare, originalRotation);
+                            Instantiate(WhiteSquare, positionSquare, originalRotation, centralPlaceholder);
                         }
                         black = false;
                     }
                     else
                     {
                         positionSquare = new Vector3(rowScale * rowValue, columnScale * columnValue, 0);
-                        if (WhiteSquare)
+                        if (BlackSquare)
                         {
-                            Instantiate(WhiteSquare, positionSquare, originalRotation);
+                            Instantiate(BlackSquare, positionSquare, originalRotation, centralPlaceholder);
                         }
                         black = true;
                     }
@@ -76,9 +76,9 @@ public class Board : MonoBehaviour, IBoard
                     {
 
                         positionSquare = new Vector3(rowScale * rowValue, columnScale * columnValue, 0);
-                        if (WhiteSquare)
+                        if (BlackSquare)
                         {
-                            Instantiate(WhiteSquare, positionSquare, originalRotation);
+                            Instantiate(BlackSquare, positionSquare, originalRotation, centralPlaceholder);
                         }
                         black = false;
 
@@ -86,9 +86,9 @@ public class Board : MonoBehaviour, IBoard
                     else
                     {
                         positionSquare = new Vector3(rowScale * rowValue, columnScale * columnValue, 0);
-                        if (BlackSquare)
+                        if (WhiteSquare)
                         {
-                            Instantiate(BlackSquare, positionSquare, originalRotation);
+                            Instantiate(WhiteSquare, positionSquare, originalRotation, centralPlaceholder);
                         }
                         black = true;
 
