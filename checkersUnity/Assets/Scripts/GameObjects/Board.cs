@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,6 +20,28 @@ public class Board : MonoBehaviour, IBoard
     [SerializeField]
     private Transform centralPlaceholder;
 
+    //[SerializeField]
+    // private Material[] colorMaterial;
+
+/*    [SerializeField]
+    private BoardPiece[][] tablePosition;*/
+
+    //private bool concludedTableBuild = false;
+
+
+
+
+    [Serializable]
+    private class BoradPiecesMatrix
+    {
+        [SerializeField]
+        private BoardPiece[] piecePosition;
+
+    }
+
+    [SerializeField]
+
+    private BoradPiecesMatrix[] BoradPieces;
 
     public void OnChangeBehaviour()
     {
@@ -39,11 +62,12 @@ public class Board : MonoBehaviour, IBoard
         BlackSquare.transform.position = positionSquare;
 
         int columnValue = 0;
-        bool black = true;
+        bool blackTablePiece = false;
         float rowScale = squareGame.transform.localScale.x;
         float columnScale = squareGame.transform.localScale.y;
         int rowValue = 1;
         Quaternion originalRotation = squareGame.transform.rotation;
+
         if (boardClassic_8x8 == true)
         {
             int totalPieces = 62;
@@ -51,36 +75,41 @@ public class Board : MonoBehaviour, IBoard
             {
                 if (columnValue % 2 == 0)
                 {
-                    if (black == true)
+                    if (blackTablePiece == false)
                     {
                         positionSquare = new Vector3(rowScale * rowValue, columnScale * columnValue, 0);
                         if (WhiteSquare)
                         {
                             Instantiate(WhiteSquare, positionSquare, originalRotation, centralPlaceholder);
                         }
-                        black = false;
+                        blackTablePiece = true;
                     }
                     else
                     {
                         positionSquare = new Vector3(rowScale * rowValue, columnScale * columnValue, 0);
                         if (BlackSquare)
                         {
-                            Instantiate(BlackSquare, positionSquare, originalRotation, centralPlaceholder);
+                            GameObject squareTable = Instantiate(WhiteSquare, positionSquare, originalRotation, centralPlaceholder);
+                            //squareTable.GetComponent<MeshRenderer>().material = colorMaterial[rowValue % 2];
+                            //Instantiate(BlackSquare, positionSquare, originalRotation, centralPlaceholder);
                         }
-                        black = true;
+                        blackTablePiece = false;
                     }
                 }
                 else
                 {
-                    if (black == true)
+                    if (blackTablePiece == false)
                     {
 
                         positionSquare = new Vector3(rowScale * rowValue, columnScale * columnValue, 0);
                         if (BlackSquare)
                         {
-                            Instantiate(BlackSquare, positionSquare, originalRotation, centralPlaceholder);
+                            Debug.Log(rowValue);
+                            Debug.Log(columnValue);
+                            //GameObject squareTable = Instantiate(WhiteSquare, positionSquare, originalRotation, centralPlaceholder);
+                            //squareTable.GetComponent<MeshRenderer>().material = colorMaterial[(rowValue % 2) -1];
                         }
-                        black = false;
+                        blackTablePiece = true;
 
                     }
                     else
@@ -90,11 +119,12 @@ public class Board : MonoBehaviour, IBoard
                         {
                             Instantiate(WhiteSquare, positionSquare, originalRotation, centralPlaceholder);
                         }
-                        black = true;
+                        blackTablePiece = false;
 
                     }
 
                 }
+
                 rowValue++;
                 if (totalPieces % 8 == 0)
                 {
@@ -105,9 +135,11 @@ public class Board : MonoBehaviour, IBoard
                 totalPieces--;
 
             }
-
-
         }
+
+        Piece pieceBuilder = new Piece();
+        pieceBuilder.BuildPieces();
+        //concludedTableBuild = true;
 
     }
 

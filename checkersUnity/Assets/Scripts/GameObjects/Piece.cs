@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Piece : MonoBehaviour, IPieces
+public class Piece : IPieces
 {
     [SerializeField]
     private Material[] colorsTopaint;
@@ -36,6 +36,11 @@ public class Piece : MonoBehaviour, IPieces
 
     // Update is called once per frame
     void Update()
+    {
+        
+    }
+
+    public void BuildPieces()
     {
         
     }
