@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PiecesContructor : MonoBehaviour
+public class PiecesConstructor : MonoBehaviour
 {
 
     [SerializeField]
@@ -11,29 +11,29 @@ public class PiecesContructor : MonoBehaviour
     [SerializeField]
     private Material whiteMaterial;
 
-    private static PiecesContructor _instance;
+    private static PiecesConstructor _instance;
 
     List<List<BoardPiece>> playbleBoard;
 
     List<Piece> whitePiecesList;
-    List<Piece> DarkPiecesList;
+    List<Piece> darkPiecesList;
 
-    public static PiecesContructor instance()
+    public static PiecesConstructor instance()
     {
         if (_instance != null)
         {
             return _instance;
         }
 
-        _instance = FindObjectOfType<PiecesContructor>();
+        _instance = FindObjectOfType<PiecesConstructor>();
 
         if (_instance == null)
         {
-            GameObject resourceObject = Resources.Load<GameObject>("PiecesContructor");
+            GameObject resourceObject = Resources.Load<GameObject>("PiecesConstructor");
             if (resourceObject != null)
             {
                 GameObject instanceObject = Instantiate(resourceObject);
-                _instance = instanceObject.GetComponent<PiecesContructor>();
+                _instance = instanceObject.GetComponent<PiecesConstructor>();
                 DontDestroyOnLoad(instanceObject);
             }
             else
@@ -45,7 +45,7 @@ public class PiecesContructor : MonoBehaviour
     public void PieceConstructor()
     {
         whitePiecesList = new List<Piece>();
-        DarkPiecesList = new List<Piece>();
+        darkPiecesList = new List<Piece>();
 
         //pieceGameObject = Resources.Load<GameObject>("Piece");
         //piece = pieceGameObject.GetComponent<Piece>();
@@ -64,6 +64,8 @@ public class PiecesContructor : MonoBehaviour
                 GameObject pieceGameObject = Resources.Load<GameObject>("Piece");
                 Instantiate(pieceGameObject);
                 pieceGameObject.transform.position = playbleBoard[rowValue][columnValue].transform.position;
+                playbleBoard[rowValue][columnValue].SetPlayable();
+                pieceGameObject.GetComponent<Piece>().SetBlackColor(false);
                 whitePiecesList.Add(pieceGameObject.GetComponent<Piece>());
                 pieceGameObject.GetComponent<MeshRenderer>().material = whiteMaterial;
                 placeController--;
@@ -74,9 +76,11 @@ public class PiecesContructor : MonoBehaviour
                 GameObject pieceGameObject = Resources.Load<GameObject>("Piece");
                 Instantiate(pieceGameObject);
                 pieceGameObject.transform.position = playbleBoard[rowValue][columnValue].transform.position;
-                placeController--;
+                playbleBoard[rowValue][columnValue].SetPlayable();
                 pieceGameObject.GetComponent<MeshRenderer>().material = grayMaterial;
-                DarkPiecesList.Add(pieceGameObject.GetComponent<Piece>());
+                pieceGameObject.GetComponent<Piece>().SetBlackColor(true);
+                darkPiecesList.Add(pieceGameObject.GetComponent<Piece>());
+                placeController--;
 
             }
 
@@ -94,5 +98,14 @@ public class PiecesContructor : MonoBehaviour
                 columnValue = 0;
             }
         }
+    }
+
+    public List<Piece> getWhitePiece()
+    {
+        return whitePiecesList;
+    }
+    public List<Piece> getDarkPiece()
+    {
+        return darkPiecesList;
     }
 }

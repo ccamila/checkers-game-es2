@@ -4,32 +4,19 @@ using UnityEngine;
 
 public class Piece : MonoBehaviour, IPieces
 {
-    [SerializeField]
-    private Material[] colorsTopaint;
-    public int getColor()
+    private bool isBlack;
+    public bool IsBlack()
     {
-        throw new System.NotImplementedException();
-        return 0;
+        return isBlack;
     }
 
-    public void setColor(int colorId)
+    public void SetBlackColor(bool isColorBalck)
     {
-        Color colorImplementation = Color.black;
-
-        if (colorId == 1)
-        {
-            colorImplementation = Color.white;
-        } 
-        throw new System.NotImplementedException();
+        isBlack = isColorBalck;
     }
 
-    public void walk()
+    public void Walk()
     {
         throw new System.NotImplementedException();
-    }
-
-    public void BuildPieces()
-    {
-        
     }
 }

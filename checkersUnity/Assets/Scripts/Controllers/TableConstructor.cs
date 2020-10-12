@@ -13,7 +13,7 @@ public class TableConstructor : MonoBehaviour
     GameObject boardGameObject;
     private Board board;
     private int totalPieces;
-    PiecesContructor pc;
+    PiecesConstructor pc;
 
 
     private List<List<BoardPiece>> playableArea;
@@ -45,7 +45,7 @@ public class TableConstructor : MonoBehaviour
 
     private void Awake()
     {
-        pc = PiecesContructor.instance();
+        pc = PiecesConstructor.instance();
         playableArea = new List<List<BoardPiece>>();
         BoardCounstructor();
 

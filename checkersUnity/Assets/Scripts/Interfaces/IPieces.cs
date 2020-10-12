@@ -4,7 +4,7 @@ using UnityEngine;
 
 interface IPieces 
 {
-    void walk();
-    int  getColor();
-    void setColor(int colorId); // 0 for white, 1 for black
+    void Walk();
+    bool  IsBlack();
+    void SetBlackColor(bool color); // 0 for white, 1 for black
 }
