@@ -15,7 +15,7 @@ public class Board : MonoBehaviour, IBoard
     public class BoardPiecesMatrix
     {
         [SerializeField]
-        private BoardPiece[] tablePiecePosition;
+        public BoardPiece[] tablePiecePosition;
 
     }
 

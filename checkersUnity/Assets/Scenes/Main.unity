@@ -400,6 +400,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   centralPosition: {fileID: 172437365}
+  blackMaterial: {fileID: 2100000, guid: e407044fbc1cad340933ad00aefb7633, type: 2}
 --- !u!1 &1803579837
 GameObject:
   m_ObjectHideFlags: 0
