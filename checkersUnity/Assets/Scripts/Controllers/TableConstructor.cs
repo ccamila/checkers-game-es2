@@ -12,9 +12,12 @@ public class TableConstructor : MonoBehaviour
     private Board board;
     private int totalPieces;
 
+    private List<List<BoardPiece>> playableArea;
+
 
     private void Awake()
     {
+        playableArea = new List<List<BoardPiece>>();
         BoardCounstructor();
 
     }
@@ -36,6 +39,7 @@ public class TableConstructor : MonoBehaviour
         Instantiate(boardGameObject, centralPosition);
         board = boardGameObject.GetComponent<Board>();
         var boardPieces = board.GetBoardMatrix();
+        List<BoardPiece> auxiliarBoardPiecesList = new List<BoardPiece>();
         if (boardPieces != null && boardPieces.Length > 0 && boardPieces[0].tablePiecePosition != null && boardPieces[0].tablePiecePosition.Length > 0)
         {
             totalPieces = boardPieces.Length * boardPieces[0].tablePiecePosition.Length;
@@ -49,6 +53,8 @@ public class TableConstructor : MonoBehaviour
                     if (columnValue % 2 == 0)
                     {
                         boardPieces[rowValue].tablePiecePosition[columnValue].gameObject.GetComponent<MeshRenderer>().material = blackMaterial;
+                        boardPieces[rowValue].tablePiecePosition[columnValue].SetPlayable();
+                        auxiliarBoardPiecesList.Add(boardPieces[rowValue].tablePiecePosition[columnValue]);
 
                     }
                 }
@@ -59,7 +65,8 @@ public class TableConstructor : MonoBehaviour
                     {
 
                         boardPieces[rowValue].tablePiecePosition[columnValue].gameObject.GetComponent<MeshRenderer>().material = blackMaterial;
-
+                        boardPieces[rowValue].tablePiecePosition[columnValue].SetPlayable();
+                        auxiliarBoardPiecesList.Add(boardPieces[rowValue].tablePiecePosition[columnValue]);
                     }
                 }
                 placeController--;
@@ -68,19 +75,25 @@ public class TableConstructor : MonoBehaviour
                     columnValue++;
                 }
 
-                if (placeController % 8 == 0)
+                if (placeController % boardPieces.Length == 0)
                 {
                     rowValue++;
                     columnValue = 0;
+                    playableArea.Add(auxiliarBoardPiecesList);
+                    auxiliarBoardPiecesList = new List<BoardPiece>();
                 }
 
             }
-
         }
 
-        /*        Debug.Log(boardPieces[0]);
-                var row = boardPieces[0];
-                Debug.Log(boardPi)*/
-        //int totalBoardPieces = boardPieces.Length *
+    }
+
+    public List<List<BoardPiece>> GetPlaybleArea()
+    {
+        if (playableArea.Count > 0)     
+        {
+            return playableArea;
+        }
+        return null;
     }
 }

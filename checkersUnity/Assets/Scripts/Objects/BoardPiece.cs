@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BoardPiece :MonoBehaviour, IBoardPiece
 {
-    private bool isPlayable;
+    private bool isPlayable = false;
     [SerializeField]
     private Transform centralPosition;
     public bool IsPlayable()
