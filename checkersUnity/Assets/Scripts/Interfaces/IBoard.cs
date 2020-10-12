@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-interface IBoard 
+interface IBoard
 {
     void ConstructBoard();
     void OnChangeBehaviour();
