@@ -16,4 +16,9 @@ public class BoardPiece :MonoBehaviour, IBoardPiece
     {
         isPlayable = !isPlayable;
     }
+
+    public Transform GetCentralPosition()
+    {
+        return centralPosition;
+    }
 }

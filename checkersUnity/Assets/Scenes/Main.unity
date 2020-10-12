@@ -367,7 +367,7 @@ GameObject:
   - component: {fileID: 1576858958}
   - component: {fileID: 1576858959}
   m_Layer: 0
-  m_Name: TableController
+  m_Name: TableConstructor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -411,7 +411,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1803579838}
   m_Layer: 0
-  m_Name: PieceController
+  m_Name: PiecesContructor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

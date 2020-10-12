@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TableConstructor : MonoBehaviour
 {
+    private static TableConstructor _instance;
+
     [SerializeField]
     private Transform centralPosition;
     [SerializeField]
@@ -11,25 +13,41 @@ public class TableConstructor : MonoBehaviour
     GameObject boardGameObject;
     private Board board;
     private int totalPieces;
+    PiecesContructor pc;
+
 
     private List<List<BoardPiece>> playableArea;
+
+    public static TableConstructor instance()
+    {
+        if (_instance != null)
+        {
+            return _instance;
+        }
+
+        _instance = FindObjectOfType<TableConstructor>();
+
+        if (_instance == null)
+        {
+            GameObject resourceObject = Resources.Load<GameObject>("TableConstructor");
+            if (resourceObject != null)
+            {
+                GameObject instanceObject = Instantiate(resourceObject);
+                _instance = instanceObject.GetComponent<TableConstructor>();
+                DontDestroyOnLoad(instanceObject);
+            }
+            else
+                Debug.Log("Resource does not have a definition for TableConstructor");
+        }
+        return _instance;
+    }
 
 
     private void Awake()
     {
+        pc = PiecesContructor.instance();
         playableArea = new List<List<BoardPiece>>();
         BoardCounstructor();
-
-    }
-
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
 
     }
 
@@ -85,8 +103,9 @@ public class TableConstructor : MonoBehaviour
 
             }
         }
-
+        pc.PieceConstructor();
     }
+
 
     public List<List<BoardPiece>> GetPlaybleArea()
     {

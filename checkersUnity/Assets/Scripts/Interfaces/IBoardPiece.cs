@@ -8,5 +8,6 @@ interface IBoardPiece
 
     void SetPlayable();
 
+    Transform GetCentralPosition();
 
 }
