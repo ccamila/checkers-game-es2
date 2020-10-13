@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class BoardPiece :MonoBehaviour, IBoardPiece
 {
+
+    public GameObject table;
+
     private bool isPlayable = false;
     [SerializeField]
     private Transform centralPosition;

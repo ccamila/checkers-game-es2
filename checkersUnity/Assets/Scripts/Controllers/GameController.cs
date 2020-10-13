@@ -4,13 +4,18 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
+    private static GameController _instance;
+
     PiecesConstructor piecesConstructor;
     TableConstructor tableConstructor;
     List<List<BoardPiece>> playbleBoard;
     List<List<Piece>> checkersPiecesPositions;
     private bool turnController = false; // true black, false white 
+    Piece pieceToUpdate;
+    int[] currentPos;
+    int[] newPos;
 
-    private static GameController _instance;
+
     public static GameController instance()
     {
         if (_instance != null)
@@ -35,6 +40,28 @@ public class GameController : MonoBehaviour
         return _instance;
     }
 
+    public void SetPiece(Piece piece)
+    {
+        pieceToUpdate = piece;
+    }
+
+    public void SetNewPOs(int[] pos)
+    {
+        newPos = pos;
+    }
+
+    public void SetOldPOs(int[] pos)
+    {
+        currentPos = pos;
+    }
+    public void updateGameobject() 
+    {
+        Vector2 newpos = new Vector2(newPos[0], newPos[1]);
+        Debug.Log(newpos[0] + " " + newPos[1]);
+        Debug.Log(pieceToUpdate);
+        pieceToUpdate.gameObject.gameObject.transform.position = newpos;
+        
+    }
     private void Awake()
     {
         tableConstructor = TableConstructor.instance();
@@ -43,14 +70,14 @@ public class GameController : MonoBehaviour
         //checkersPiecesPositions = tableConstructor.GetBoard().GetPiecesPositionList();
     }
 
-    private void Update()
+/*    private void Update()
     {
 
         if (Input.GetMouseButtonDown(0))
         {
             checkersPiecesPositions = tableConstructor.GetBoard().GetPiecesPositionList();
 
-/*            for (int i = 0; i < checkersPiecesPositions.Count; i++)
+*//*            for (int i = 0; i < checkersPiecesPositions.Count; i++)
             {
                 for (int j = 0; j < checkersPiecesPositions[0].Count; j++)
                 {
@@ -58,7 +85,7 @@ public class GameController : MonoBehaviour
                 }
 
                 //Debug.Log(checkersPiecesPositions[i].Contains(auxiliarPiece));
-            }*/
+            }*//*
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
@@ -71,7 +98,7 @@ public class GameController : MonoBehaviour
 
                 //int row = checkersPiecesPositions.GetLength(0);
                 //int column
-/*                for (int i = 0; i < checkersPiecesPositions.Count; i++)
+*//*                for (int i = 0; i < checkersPiecesPositions.Count; i++)
                 {
                     for (int j = 0; j < checkersPiecesPositions[0].Count; j++)
                     {
@@ -79,11 +106,11 @@ public class GameController : MonoBehaviour
                     }
 
                     //Debug.Log(checkersPiecesPositions[i].Contains(auxiliarPiece));
-                }*/
+                }*//*
                 //Debug.Log(checkersPiecesPositions.Find(hit.transform.gameObject.GetComponent<Piece>()));
                 //playbleBoard[0].Find(hit.transform.gameObject.GetComponent<BoardPiece>());
             }
         }
-    }
+    }*/
 
 }
