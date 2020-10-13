@@ -16,14 +16,11 @@ public class Board : MonoBehaviour, IBoard
     {
         [SerializeField]
         public BoardPiece[] tablePiecePosition;
-
     }
 
     [SerializeField]
-
     public BoardPiecesMatrix[] BoardPieces;
 
-    private Piece[,] checkersPiecesPositions;
     private List<List<Piece>> checkersPiecesPositionsList;
 
     public void OnChangeBehaviour()
@@ -133,7 +130,7 @@ public class Board : MonoBehaviour, IBoard
     void Awake()
     {
         //checkersPiecesPositionsList = startEmpityList();
-        checkersPiecesPositions = new Piece[BoardPieces.Length, BoardPieces.Length / 2];
+        //checkersPiecesPositions = new Piece[BoardPieces.Length, BoardPieces.Length / 2];
         if (boardClassic_8x8 == boardLarger_10x10)
         {
             boardClassic_8x8 = true;
@@ -142,96 +139,34 @@ public class Board : MonoBehaviour, IBoard
         //ConstructBoard();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
     public BoardPiecesMatrix[] GetBoardMatrix()
     {
         return BoardPieces;
-    }
-
-    public Piece[,] GetPiecesPosition()
-    {
-        if (checkersPiecesPositions == null)
-        {
-            checkersPiecesPositions = new Piece[BoardPieces.Length, BoardPieces.Length / 2];
-        }
-        return checkersPiecesPositions;
-    }
-
-    public void SetPiecesPosition(int row, int column, Piece piece)
-    {
-        if (checkersPiecesPositions == null)
-        {
-            checkersPiecesPositions = new Piece[BoardPieces.Length, BoardPieces.Length / 2];
-        }
-
-        checkersPiecesPositions[row, column] = piece;
-
-        /*        for (int i = 0; i < checkersPiecesPositions.GetLength(0); i++)
-                {
-                    for (int j = 0; j < checkersPiecesPositions.GetLength(1); j++)
-                    {
-                        Debug.Log(checkersPiecesPositions[i,j] + " " + i + " " + j);
-                    }
-                }*/
-        //return checkersPiecesPositions;
-
     }
 
     public List<List<Piece>> GetPiecesPositionList()
     {
         if (checkersPiecesPositionsList == null)
         {
-            Debug.Log("NOOOO list");
             checkersPiecesPositionsList = startEmpityList();
 
         }
-
-/*        for (int i = 0; i < checkersPiecesPositionsList.Count; i++)
-        {
-            for (int j = 0; j < checkersPiecesPositionsList[0].Count; j++)
-            {
-                Debug.Log(checkersPiecesPositionsList[i][j] + " " + i + " " + j + " Debugging bug");
-            }
-        }*/
         return checkersPiecesPositionsList;
     }
 
     public void SetPiecesPositionList(int row, int column, Piece piece)
     {
-/*        Debug.Log("Receiving " + (piece.gameObject.name + "at row" + row, "and colummun" + column));*/
         if (checkersPiecesPositionsList == null)
         {
-/*            Debug.Log("noo");*/
             checkersPiecesPositionsList = startEmpityList();
-
         }
-/*        Debug.Log(checkersPiecesPositionsList.Count + " size total row");
-        Debug.Log(checkersPiecesPositionsList[0].Count + "size total columns");
-
-
-        Debug.Log("Saving NOW " + (piece.gameObject.name + "at row" + row, "and colummun" + column));*/
-
         checkersPiecesPositionsList[row][column] = piece;
-
-/*        Debug.Log("Final value " + checkersPiecesPositionsList[row][column].gameObject.name);*/
-
-/*        for (int i = 0; i < checkersPiecesPositionsList.Count; i++)
-        {
-            for (int j = 0; j < checkersPiecesPositionsList[0].Count; j++)
-            {
-                Debug.Log(checkersPiecesPositionsList[i][j] + " " + i + " " + j + " Debugging bug");
-            }
-        }*/
     }
 
     private List<List<Piece>> startEmpityList()
     {
 
-        List<List<Piece>> emptyList = new List<List<Piece>>(); //new Piece[BoardPieces.Length, BoardPieces.Length / 2];
+        List<List<Piece>> emptyList = new List<List<Piece>>(); 
         for (int j = 0; j < BoardPieces.Length; j++)
         {
             List<Piece>  auxiliarList = new List<Piece>();
@@ -245,34 +180,6 @@ public class Board : MonoBehaviour, IBoard
 
         return emptyList;
     }
-
-
-    /*public void SetPiecesPositionList(List<List<Piece>> pieceList)
-    {
-        //Debug.Log("adding piece" + piece.gameObject.name);
-*//*        if (checkersPiecesPositionsList == null)
-        {
-            checkersPiecesPositionsList = startEmpityList();
-
-        }*//*
-
-        checkersPiecesPositionsList = pieceList;
-        //Debug.Log(checkersPiecesPositionsList[row][column].name + "added now");
-        //Debug.Log(checkersPiecesPositionsList[row][column].gameObject.name + " " + row + " " + column);
-
-        for (int i = 0; i < checkersPiecesPositionsList.Count; i++)
-        {
-            for (int j = 0; j < checkersPiecesPositionsList[0].Count; j++)
-            {
-
-                Debug.Log(checkersPiecesPositionsList[i][j].gameObject.name + " " + i + " " + j + "Not testable problem he");
-            }
-
-
-        }
-
-    }*/
-
 }
 
 

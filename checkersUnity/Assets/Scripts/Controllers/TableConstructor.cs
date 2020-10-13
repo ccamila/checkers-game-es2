@@ -15,7 +15,6 @@ public class TableConstructor : MonoBehaviour
     private int totalPieces;
     PiecesConstructor pc;
 
-
     private List<List<BoardPiece>> playableArea;
 
     public static TableConstructor instance()
@@ -56,7 +55,7 @@ public class TableConstructor : MonoBehaviour
         boardGameObject = Resources.Load<GameObject>("Board");
         Instantiate(boardGameObject, centralPosition);
         board = boardGameObject.GetComponent<Board>();
-        var boardPieces = board.GetBoardMatrix();
+        Board.BoardPiecesMatrix[] boardPieces = board.GetBoardMatrix();
         List<BoardPiece> auxiliarBoardPiecesList = new List<BoardPiece>();
         if (boardPieces != null && boardPieces.Length > 0 && boardPieces[0].tablePiecePosition != null && boardPieces[0].tablePiecePosition.Length > 0)
         {
@@ -72,6 +71,7 @@ public class TableConstructor : MonoBehaviour
                     {
                         boardPieces[rowValue].tablePiecePosition[columnValue].gameObject.GetComponent<MeshRenderer>().material = blackMaterial;
                         boardPieces[rowValue].tablePiecePosition[columnValue].SetPlayable();
+                        Debug.Log(boardPieces[rowValue].tablePiecePosition[columnValue].IsPlayable() + "ééééééé");
                         auxiliarBoardPiecesList.Add(boardPieces[rowValue].tablePiecePosition[columnValue]);
                     }
                 }
@@ -106,8 +106,17 @@ public class TableConstructor : MonoBehaviour
 
     public List<List<BoardPiece>> GetPlaybleArea()
     {
-        if (playableArea.Count > 0)     
+        if (playableArea.Count > 0)
         {
+            for (int i = 0; i < playableArea.Count; i++)
+            {
+                for (int j = 0; j < playableArea[0].Count; j++)
+                {
+                    Debug.Log(playableArea[i][j].gameObject.name);
+                   
+                }
+
+            }
             return playableArea;
         }
         return null;

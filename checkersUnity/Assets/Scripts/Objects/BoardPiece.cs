@@ -14,7 +14,9 @@ public class BoardPiece :MonoBehaviour, IBoardPiece
 
     public void SetPlayable()
     {
+/*        Debug.Log("Changing " + isPlayable);*/
         isPlayable = !isPlayable;
+    /*    Debug.Log("Changed " + isPlayable);*/
     }
 
     public Transform GetCentralPosition()
