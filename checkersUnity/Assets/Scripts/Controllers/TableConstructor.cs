@@ -73,15 +73,12 @@ public class TableConstructor : MonoBehaviour
                         boardPieces[rowValue].tablePiecePosition[columnValue].gameObject.GetComponent<MeshRenderer>().material = blackMaterial;
                         boardPieces[rowValue].tablePiecePosition[columnValue].SetPlayable();
                         auxiliarBoardPiecesList.Add(boardPieces[rowValue].tablePiecePosition[columnValue]);
-
                     }
                 }
                 else
                 {
-
                     if (columnValue % 2 != 0)
                     {
-
                         boardPieces[rowValue].tablePiecePosition[columnValue].gameObject.GetComponent<MeshRenderer>().material = blackMaterial;
                         boardPieces[rowValue].tablePiecePosition[columnValue].SetPlayable();
                         auxiliarBoardPiecesList.Add(boardPieces[rowValue].tablePiecePosition[columnValue]);
@@ -114,5 +111,10 @@ public class TableConstructor : MonoBehaviour
             return playableArea;
         }
         return null;
+    }
+
+    public Board GetBoard()
+    {
+        return board;
     }
 }
