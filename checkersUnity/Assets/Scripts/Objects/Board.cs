@@ -15,11 +15,11 @@ public class Board : MonoBehaviour, IBoard
     public class BoardPiecesMatrix
     {
         [SerializeField]
-        public BoardPiece[] tablePiecePosition;
+        public List<BoardPiece> tablePiecePosition;
     }
 
     [SerializeField]
-    public BoardPiecesMatrix[] BoardPieces;
+    public List<BoardPiecesMatrix> BoardPieces;
 
     private List<List<Piece>> checkersPiecesPositionsList;
 
@@ -139,17 +139,26 @@ public class Board : MonoBehaviour, IBoard
         //ConstructBoard();
     }
 
-    public BoardPiecesMatrix[] GetBoardMatrix()
+    public List<BoardPiecesMatrix> GetBoardMatrix()
     {
         return BoardPieces;
+    }
+
+    public void SetBoardPiecePlayable(int row, int column)
+    {
+        BoardPieces[row].tablePiecePosition[column].SetPlayable();
+    }
+
+    public BoardPiece GetBoardPiece(int row, int column)
+    {
+        return BoardPieces[row].tablePiecePosition[column];
     }
 
     public List<List<Piece>> GetPiecesPositionList()
     {
         if (checkersPiecesPositionsList == null)
         {
-            checkersPiecesPositionsList = startEmpityList();
-
+            checkersPiecesPositionsList = StartEmpityList();
         }
         return checkersPiecesPositionsList;
     }
@@ -158,19 +167,19 @@ public class Board : MonoBehaviour, IBoard
     {
         if (checkersPiecesPositionsList == null)
         {
-            checkersPiecesPositionsList = startEmpityList();
+            checkersPiecesPositionsList = StartEmpityList();
         }
         checkersPiecesPositionsList[row][column] = piece;
     }
 
-    private List<List<Piece>> startEmpityList()
+    private List<List<Piece>> StartEmpityList()
     {
 
         List<List<Piece>> emptyList = new List<List<Piece>>(); 
-        for (int j = 0; j < BoardPieces.Length; j++)
+        for (int j = 0; j < BoardPieces.Count; j++)
         {
             List<Piece>  auxiliarList = new List<Piece>();
-            for (int i = 0; i < BoardPieces.Length / 2; i++)
+            for (int i = 0; i < BoardPieces.Count / 2; i++)
             {
                 auxiliarList.Add(null);
             }

@@ -63,24 +63,24 @@ public class PiecesConstructor : MonoBehaviour
         while (placeController > 0)
         {
 
-            if (rowValue < (playbleBoard.Count / 2 - 1))
+            if (rowValue < (tableContructorInstance.GetPlaybleArea().Count / 2 - 1))
             {
                 GameObject newPiece = Instantiate(pieceGameObject);
                 newPiece.name = (rowValue.ToString() + " " + columnValue.ToString());
-                newPiece.transform.position = playbleBoard[rowValue][columnValue].transform.position;
-                playbleBoard[rowValue][columnValue].SetPlayable();
+                newPiece.transform.position = tableContructorInstance.GetPlaybleArea()[rowValue][columnValue].transform.position;
+                tableContructorInstance.SetPlaybleArea(rowValue,columnValue);
                 newPiece.GetComponent<Piece>().SetBlackColor(false);
                 whitePiecesList.Add(newPiece.GetComponent<Piece>());
                 newPiece.GetComponent<MeshRenderer>().material = whiteMaterial;
                 board.SetPiecesPositionList(rowValue, columnValue, newPiece.GetComponent<Piece>());
                 placeController--;
             }
-            else if (rowValue > (playbleBoard.Count / 2))
+            else if (rowValue > (tableContructorInstance.GetPlaybleArea().Count / 2))
             {
                 GameObject newPiece = Instantiate(pieceGameObject);
                 newPiece.name = (rowValue.ToString() + " " + columnValue.ToString());
-                newPiece.transform.position = playbleBoard[rowValue][columnValue].transform.position;
-                playbleBoard[rowValue][columnValue].SetPlayable();
+                newPiece.transform.position = tableContructorInstance.GetPlaybleArea()[rowValue][columnValue].transform.position;
+                tableContructorInstance.SetPlaybleArea(rowValue, columnValue);
                 newPiece.GetComponent<Piece>().SetBlackColor(true);
                 darkPiecesList.Add(newPiece.GetComponent<Piece>());
                 newPiece.GetComponent<MeshRenderer>().material = grayMaterial;
@@ -90,19 +90,18 @@ public class PiecesConstructor : MonoBehaviour
             else 
             {
 
-                playbleBoard[rowValue][columnValue].gameObject.GetComponent<MeshRenderer>().material = grayMaterial;//.SetPlayable();
-                Debug.Log(playbleBoard[rowValue][columnValue].IsPlayable() + "  " + rowValue + "  " + columnValue);
+                //playbleBoard[rowValue][columnValue].gameObject.GetComponent<MeshRenderer>().material = grayMaterial;//.SetPlayable();
+                //Debug.Log(tableContructorInstance.GetPlaybleArea()[rowValue][columnValue].IsPlayable() + "  " + rowValue + "  " + columnValue);
             }
 
-
-            if (columnValue < playbleBoard[0].Count)
+            if (columnValue < tableContructorInstance.GetPlaybleArea()[0].Count)
             {
                 columnValue++;
             }
 
-            if (placeController % playbleBoard[0].Count == 0)
+            if (placeController % tableContructorInstance.GetPlaybleArea()[0].Count == 0)
             {
-                if (rowValue < playbleBoard.Count)
+                if (rowValue < tableContructorInstance.GetPlaybleArea().Count)
                 {
                     rowValue++;
                 }
@@ -135,7 +134,7 @@ public class PiecesConstructor : MonoBehaviour
             {
                 columnControl++;
             }
-            Debug.Log("Sending " + (listToSend[i].gameObject.name + "at row" + rowControl, "and colummun" + columnControl));
+/*            Debug.Log("Sending " + (listToSend[i].gameObject.name + "at row" + rowControl, "and colummun" + columnControl));*/
             board.SetPiecesPositionList(rowControl, columnControl, listToSend[i]);
 
         }
