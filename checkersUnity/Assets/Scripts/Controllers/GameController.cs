@@ -39,6 +39,15 @@ public class GameController : MonoBehaviour
         }
         return _instance;
     }
+    private void Awake()
+    {
+        tableConstructor = TableConstructor.instance();
+        piecesConstructor = PiecesConstructor.instance();
+        tableConstructor.ConstructBoard();
+        //piecesConstructor.ConstructPieces();
+        //playbleBoard = tableConstructor.GetPlaybleArea();
+        //checkersPiecesPositions = tableConstructor.GetBoard().GetPiecesPositionList();
+    }
 
     public void SetPiece(Piece piece)
     {
@@ -62,13 +71,7 @@ public class GameController : MonoBehaviour
         pieceToUpdate.gameObject.gameObject.transform.position = newpos;
         
     }
-    private void Awake()
-    {
-        tableConstructor = TableConstructor.instance();
-        piecesConstructor = PiecesConstructor.instance();
-        //playbleBoard = tableConstructor.GetPlaybleArea();
-        //checkersPiecesPositions = tableConstructor.GetBoard().GetPiecesPositionList();
-    }
+
 
 /*    private void Update()
     {

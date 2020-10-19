@@ -11,6 +11,9 @@ public class Board : MonoBehaviour, IBoard
     [SerializeField]
     private bool boardLarger_10x10 = false;
 
+    [SerializeField]
+    private int tableSize = 8;
+
     [Serializable]
     public class BoardPiecesMatrix
     {
@@ -20,6 +23,8 @@ public class Board : MonoBehaviour, IBoard
 
     [SerializeField]
     public List<BoardPiecesMatrix> BoardPieces;
+
+    private List<List<BoardPiece>> tableMatrix;
 
     private List<List<Piece>> checkersPiecesPositionsList;
 
@@ -35,98 +40,6 @@ public class Board : MonoBehaviour, IBoard
         }
     }
 
-    public void ConstructBoard()
-    {
-        /*    
-                GameObject squareGame = Instantiate(BlackSquare, centralPlaceholder, true);
-                Vector3 positionSquare = new Vector3(centralPlaceholder.position.x, centralPlaceholder.position.y, 0);
-                BlackSquare.transform.position = positionSquare;
-
-                int columnValue = 0;
-                bool blackTablePiece = false;
-                float rowScale = squareGame.transform.localScale.x;
-                float columnScale = squareGame.transform.localScale.y;
-                int rowValue = 1;
-                Quaternion originalRotation = squareGame.transform.rotation;
-
-                if (boardClassic_8x8 == true)
-                {
-                    int totalPieces = 62;
-                    while (totalPieces >= 0)
-                    {
-                        if (columnValue % 2 == 0)
-                        {
-                            if (blackTablePiece == false)
-                            {
-                                positionSquare = new Vector3(rowScale * rowValue, columnScale * columnValue, 0);
-                                if (WhiteSquare)
-                                {
-                                    Instantiate(WhiteSquare, positionSquare, originalRotation, centralPlaceholder);
-                                }
-                                blackTablePiece = true;
-                            }
-                            else
-                            {
-                                positionSquare = new Vector3(rowScale * rowValue, columnScale * columnValue, 0);
-                                if (BlackSquare)
-                                {
-                                    GameObject squareTable = Instantiate(WhiteSquare, positionSquare, originalRotation, centralPlaceholder);
-                                    //squareTable.GetComponent<MeshRenderer>().material = colorMaterial[rowValue % 2];
-                                    //Instantiate(BlackSquare, positionSquare, originalRotation, centralPlaceholder);
-                                }
-                                blackTablePiece = false;
-                            }
-                        }
-                        else
-                        {
-                            if (blackTablePiece == false)
-                            {
-
-                                positionSquare = new Vector3(rowScale * rowValue, columnScale * columnValue, 0);
-                                if (BlackSquare)
-                                {
-                                    Debug.Log(rowValue);
-                                    Debug.Log(columnValue);
-                                    //GameObject squareTable = Instantiate(WhiteSquare, positionSquare, originalRotation, centralPlaceholder);
-                                    //squareTable.GetComponent<MeshRenderer>().material = colorMaterial[(rowValue % 2) -1];
-                                }
-                                blackTablePiece = true;
-
-                            }
-                            else
-                            {
-                                positionSquare = new Vector3(rowScale * rowValue, columnScale * columnValue, 0);
-                                if (WhiteSquare)
-                                {
-                                    Instantiate(WhiteSquare, positionSquare, originalRotation, centralPlaceholder);
-                                }
-                                blackTablePiece = false;
-
-                            }
-
-                        }
-
-                        rowValue++;
-                        if (totalPieces % 8 == 0)
-                        {
-                            columnValue++;
-                            rowValue = 0;
-
-                        }
-                        totalPieces--;
-
-                    }
-                }
-
-                Piece pieceBuilder = new Piece();
-                pieceBuilder.BuildPieces();
-                //concludedTableBuild = true; */
-
-
-
-    }
-
-
     void Awake()
     {
         //checkersPiecesPositionsList = startEmpityList();
@@ -137,6 +50,15 @@ public class Board : MonoBehaviour, IBoard
             boardLarger_10x10 = false;
         }
         //ConstructBoard();
+    }
+    public int GetSizeOfTable()
+    {
+        return tableSize;
+    }
+
+    public void SetSizeOfTable(int newSize)
+    {
+        tableSize = newSize;
     }
 
     public List<BoardPiecesMatrix> GetBoardMatrix()
@@ -189,6 +111,17 @@ public class Board : MonoBehaviour, IBoard
 
         return emptyList;
     }
+
+
+    public void AddRowOfTablePieces(List<BoardPiece> newTableRow)
+    {
+        if (tableMatrix == null)
+        {
+            tableMatrix = new List<List<BoardPiece>>(0);
+        }
+        tableMatrix.Add(newTableRow);
+    }
+
 }
 
 

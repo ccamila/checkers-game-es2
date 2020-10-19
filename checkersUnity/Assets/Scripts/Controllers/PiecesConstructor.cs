@@ -44,7 +44,7 @@ public class PiecesConstructor : MonoBehaviour
         return _instance;
     }
 
-    public void PieceConstructor()
+    public void ConstructPieces()
     {
 
         whitePiecesList = new List<Piece>();

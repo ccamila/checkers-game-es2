@@ -26,4 +26,9 @@ public class BoardPiece :MonoBehaviour, IBoardPiece
     {
         return centralPosition;
     }
+
+    public BoardPiece GetBoardPiece()
+    {
+        return this;
+    }
 }
