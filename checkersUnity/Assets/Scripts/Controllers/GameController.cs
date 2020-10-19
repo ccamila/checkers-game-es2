@@ -8,9 +8,9 @@ public class GameController : MonoBehaviour
 
     PiecesConstructor piecesConstructor;
     TableConstructor tableConstructor;
-    List<List<BoardPiece>> playbleBoard;
-    List<List<Piece>> checkersPiecesPositions;
-    private bool turnController = false; // true black, false white 
+    //List<List<BoardPiece>> playbleBoard;
+    //List<List<Piece>> checkersPiecesPositions;
+    //private bool turnController = false; // true black, false white 
     Piece pieceToUpdate;
     int[] currentPos;
     int[] newPos;
@@ -44,10 +44,12 @@ public class GameController : MonoBehaviour
         tableConstructor = TableConstructor.instance();
         piecesConstructor = PiecesConstructor.instance();
         tableConstructor.ConstructBoard();
-        //piecesConstructor.ConstructPieces();
+        piecesConstructor.ConstructPieces();
         //playbleBoard = tableConstructor.GetPlaybleArea();
         //checkersPiecesPositions = tableConstructor.GetBoard().GetPiecesPositionList();
     }
+
+
 
     public void SetPiece(Piece piece)
     {
@@ -56,6 +58,7 @@ public class GameController : MonoBehaviour
 
     public void SetNewPOs(int[] pos)
     {
+
         newPos = pos;
     }
 
@@ -66,9 +69,12 @@ public class GameController : MonoBehaviour
     public void updateGameobject() 
     {
         Vector2 newpos = new Vector2(newPos[0], newPos[1]);
-        Debug.Log(newpos[0] + " " + newPos[1]);
-        Debug.Log(pieceToUpdate);
-        pieceToUpdate.gameObject.gameObject.transform.position = newpos;
+
+        if (pieceToUpdate)
+        {
+            pieceToUpdate.gameObject.gameObject.transform.position = newpos;
+        }
+        pieceToUpdate = null;
         
     }
 

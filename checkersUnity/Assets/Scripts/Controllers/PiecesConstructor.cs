@@ -62,10 +62,11 @@ public class PiecesConstructor : MonoBehaviour
 
         while (placeController > 0)
         {
+            GameObject newPiece = Instantiate(pieceGameObject);
+
 
             if (rowValue < (tableContructorInstance.GetPlaybleArea().Count / 2 - 1))
             {
-                GameObject newPiece = Instantiate(pieceGameObject);
                 newPiece.name = (rowValue.ToString() + " " + columnValue.ToString());
                 newPiece.transform.position = tableContructorInstance.GetPlaybleArea()[rowValue][columnValue].transform.position;
                 tableContructorInstance.SetPlaybleArea(rowValue,columnValue);
@@ -77,7 +78,6 @@ public class PiecesConstructor : MonoBehaviour
             }
             else if (rowValue > (tableContructorInstance.GetPlaybleArea().Count / 2))
             {
-                GameObject newPiece = Instantiate(pieceGameObject);
                 newPiece.name = (rowValue.ToString() + " " + columnValue.ToString());
                 newPiece.transform.position = tableContructorInstance.GetPlaybleArea()[rowValue][columnValue].transform.position;
                 tableContructorInstance.SetPlaybleArea(rowValue, columnValue);
@@ -86,12 +86,6 @@ public class PiecesConstructor : MonoBehaviour
                 newPiece.GetComponent<MeshRenderer>().material = grayMaterial;
                 board.SetPiecesPositionList(rowValue, columnValue, newPiece.GetComponent<Piece>());
                 placeController--;
-            }
-            else 
-            {
-
-                //playbleBoard[rowValue][columnValue].gameObject.GetComponent<MeshRenderer>().material = grayMaterial;//.SetPlayable();
-                //Debug.Log(tableContructorInstance.GetPlaybleArea()[rowValue][columnValue].IsPlayable() + "  " + rowValue + "  " + columnValue);
             }
 
             if (columnValue < tableContructorInstance.GetPlaybleArea()[0].Count)

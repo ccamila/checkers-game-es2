@@ -14,10 +14,6 @@ public class PieceTrigger : MonoBehaviour
 
         List<List<Piece>> checkersPiecesPositions = tableConstructor.GetBoard().GetPiecesPositionList();
 
-        int row = 0; 
-        int column = 0; 
-
-        bool control = false;
 
         for (int i = 0; i < checkersPiecesPositions.Count; i++)
         {

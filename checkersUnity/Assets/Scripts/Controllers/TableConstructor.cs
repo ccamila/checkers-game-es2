@@ -10,6 +10,7 @@ public class TableConstructor : MonoBehaviour
     private Transform centralPosition;
     [SerializeField]
     private Material blackMaterial;
+
     GameObject boardGameObject;
     private Board board;
     private int totalPieces;
@@ -68,6 +69,8 @@ public class TableConstructor : MonoBehaviour
         List<BoardPiece> rowToAddToBoard = new List<BoardPiece>();
         List<BoardPiece> playableAreaRow = new List<BoardPiece>();
 
+        playableArea = new List<List<BoardPiece>>();
+
         while (totalPieces >= 0)
         {
             Vector3 positionSquare = new Vector3(rowScale * rowValue, columnScale * columnValue, 0);
@@ -82,6 +85,7 @@ public class TableConstructor : MonoBehaviour
                     blackTablePiece = true;
                     //board.SetBoardPiecePlayable(rowValue, columnValue);
                     playableAreaRow.Add(boardBlock.GetComponent<BoardPiece>());
+                    boardBlock.GetComponent<BoardPiece>().SetPlayable();
                 }
                 else
                 {
@@ -99,6 +103,8 @@ public class TableConstructor : MonoBehaviour
                 {
                     boardBlock.GetComponent<MeshRenderer>().material = blackMaterial;
                     blackTablePiece = false;
+                    playableAreaRow.Add(boardBlock.GetComponent<BoardPiece>());
+                    boardBlock.GetComponent<BoardPiece>().SetPlayable();
                 }
             }
             rowValue++;
@@ -117,6 +123,8 @@ public class TableConstructor : MonoBehaviour
                 columnValue++;
                 rowValue = 0;
                 board.AddRowOfTablePieces(rowToAddToBoard);
+                playableArea.Add(playableAreaRow);
+                playableAreaRow = new List<BoardPiece>();
                 rowToAddToBoard = new List<BoardPiece>();
 
             }
@@ -173,6 +181,7 @@ public class TableConstructor : MonoBehaviour
                     columnValue = 0;
                     playableArea.Add(auxiliarBoardPiecesList);
                     auxiliarBoardPiecesList = new List<BoardPiece>();
+                    
                 }
 
             }

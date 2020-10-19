@@ -40,7 +40,7 @@ public class Board : MonoBehaviour, IBoard
         }
     }
 
-    void Awake()
+/*    void Awake()
     {
         //checkersPiecesPositionsList = startEmpityList();
         //checkersPiecesPositions = new Piece[BoardPieces.Length, BoardPieces.Length / 2];
@@ -50,7 +50,7 @@ public class Board : MonoBehaviour, IBoard
             boardLarger_10x10 = false;
         }
         //ConstructBoard();
-    }
+    }*/
     public int GetSizeOfTable()
     {
         return tableSize;
@@ -98,10 +98,10 @@ public class Board : MonoBehaviour, IBoard
     {
 
         List<List<Piece>> emptyList = new List<List<Piece>>(); 
-        for (int j = 0; j < BoardPieces.Count; j++)
+        for (int j = 0; j < tableSize; j++)
         {
             List<Piece>  auxiliarList = new List<Piece>();
-            for (int i = 0; i < BoardPieces.Count / 2; i++)
+            for (int i = 0; i < tableSize / 2; i++)
             {
                 auxiliarList.Add(null);
             }
