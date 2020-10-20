@@ -47,7 +47,6 @@ public class TableConstructor : MonoBehaviour
     {
         pieceConstructor = PiecesConstructor.instance();
         playableArea = new List<List<BoardPiece>>();
-/*        ConstructBoard();*/
 
     }
 
@@ -55,7 +54,6 @@ public class TableConstructor : MonoBehaviour
     {
         BoardPiece boardSquare = Resources.Load<BoardPiece>("BoardPiece");
         board = Resources.Load<Board>("Board");
-       // GameObject boardInGame = Instantiate(board.gameObject, centralPosition);
         int boardSize = board.GetSizeOfTable();
         int totalSize = boardSize * boardSize;
         int totalPieces = totalSize - 1;
@@ -84,7 +82,7 @@ public class TableConstructor : MonoBehaviour
                     boardBlock.GetComponent<MeshRenderer>().material = blackMaterial;
                     blackTablePiece = true;
                     //board.SetBoardPiecePlayable(rowValue, columnValue);
-                    playableAreaRow.Add(boardBlock.GetComponent<BoardPiece>());
+                    
                     boardBlock.GetComponent<BoardPiece>().SetPlayable();
                 }
                 else
@@ -103,11 +101,12 @@ public class TableConstructor : MonoBehaviour
                 {
                     boardBlock.GetComponent<MeshRenderer>().material = blackMaterial;
                     blackTablePiece = false;
-                    playableAreaRow.Add(boardBlock.GetComponent<BoardPiece>());
+                    //playableAreaRow.Add(boardBlock.GetComponent<BoardPiece>());
                     boardBlock.GetComponent<BoardPiece>().SetPlayable();
                 }
             }
             rowValue++;
+            playableAreaRow.Add(boardBlock.GetComponent<BoardPiece>());
             if (boardBlock.GetComponent<BoardPiece>() != null)
             {
                 rowToAddToBoard.Add(boardBlock.GetComponent<BoardPiece>());

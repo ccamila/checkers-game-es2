@@ -15,6 +15,35 @@ public class GameController : MonoBehaviour
     int[] currentPos;
     int[] newPos;
 
+    private class CurrentTable
+    {
+        private Board board;
+        private List<List<Piece>> piecesPosition;
+
+        public CurrentTable(Board boardGame, List<List<Piece>> piecesPositionGame)
+        {
+            board = boardGame;
+            piecesPosition = piecesPositionGame;
+        }
+
+        public Board GetCurrentBoard()
+        {
+            return board;
+        }
+        public void SetCurrentBoard(Board updatedBoard)
+        {
+            board = updatedBoard;
+        }
+        public List<List<Piece>> GetPiecesPosition()
+        {
+            return piecesPosition;
+        }
+        public void SetPiecesPosition(List<List<Piece>> updatedPiecsositions)
+        {
+            piecesPosition = updatedPiecsositions;
+        }
+    }
+
 
     public static GameController instance()
     {
@@ -45,6 +74,7 @@ public class GameController : MonoBehaviour
         piecesConstructor = PiecesConstructor.instance();
         tableConstructor.ConstructBoard();
         piecesConstructor.ConstructPieces();
+        CurrentTable currentTable = new CurrentTable(tableConstructor.GetBoard(), piecesConstructor.GetPiecesPosition());
         //playbleBoard = tableConstructor.GetPlaybleArea();
         //checkersPiecesPositions = tableConstructor.GetBoard().GetPiecesPositionList();
     }
@@ -66,7 +96,7 @@ public class GameController : MonoBehaviour
     {
         currentPos = pos;
     }
-    public void updateGameobject() 
+    public void updateGameobject()
     {
         Vector2 newpos = new Vector2(newPos[0], newPos[1]);
 
@@ -75,39 +105,18 @@ public class GameController : MonoBehaviour
             pieceToUpdate.gameObject.gameObject.transform.position = newpos;
         }
         pieceToUpdate = null;
-        
+
     }
 
 
-/*    private void Update()
-    {
-
-        if (Input.GetMouseButtonDown(0))
+    /*    private void Update()
         {
-            checkersPiecesPositions = tableConstructor.GetBoard().GetPiecesPositionList();
 
-*//*            for (int i = 0; i < checkersPiecesPositions.Count; i++)
+            if (Input.GetMouseButtonDown(0))
             {
-                for (int j = 0; j < checkersPiecesPositions[0].Count; j++)
-                {
-                    Debug.Log(checkersPiecesPositions[i][j].gameObject.name + " " + i + " " + j);
-                }
+                checkersPiecesPositions = tableConstructor.GetBoard().GetPiecesPositionList();
 
-                //Debug.Log(checkersPiecesPositions[i].Contains(auxiliarPiece));
-            }*//*
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit, 100))
-            {
-                //Debug.Log(hit.transform.gameObject.name);
-                Piece auxiliarPiece = hit.transform.gameObject.GetComponent<Piece>();
-
-                //Debug.Log(System.Array.IndexOf(checkersPiecesPositions,auxiliarPiece));
-
-                //int row = checkersPiecesPositions.GetLength(0);
-                //int column
-*//*                for (int i = 0; i < checkersPiecesPositions.Count; i++)
+    *//*            for (int i = 0; i < checkersPiecesPositions.Count; i++)
                 {
                     for (int j = 0; j < checkersPiecesPositions[0].Count; j++)
                     {
@@ -116,10 +125,31 @@ public class GameController : MonoBehaviour
 
                     //Debug.Log(checkersPiecesPositions[i].Contains(auxiliarPiece));
                 }*//*
-                //Debug.Log(checkersPiecesPositions.Find(hit.transform.gameObject.GetComponent<Piece>()));
-                //playbleBoard[0].Find(hit.transform.gameObject.GetComponent<BoardPiece>());
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+
+                if (Physics.Raycast(ray, out hit, 100))
+                {
+                    //Debug.Log(hit.transform.gameObject.name);
+                    Piece auxiliarPiece = hit.transform.gameObject.GetComponent<Piece>();
+
+                    //Debug.Log(System.Array.IndexOf(checkersPiecesPositions,auxiliarPiece));
+
+                    //int row = checkersPiecesPositions.GetLength(0);
+                    //int column
+    *//*                for (int i = 0; i < checkersPiecesPositions.Count; i++)
+                    {
+                        for (int j = 0; j < checkersPiecesPositions[0].Count; j++)
+                        {
+                            Debug.Log(checkersPiecesPositions[i][j].gameObject.name + " " + i + " " + j);
+                        }
+
+                        //Debug.Log(checkersPiecesPositions[i].Contains(auxiliarPiece));
+                    }*//*
+                    //Debug.Log(checkersPiecesPositions.Find(hit.transform.gameObject.GetComponent<Piece>()));
+                    //playbleBoard[0].Find(hit.transform.gameObject.GetComponent<BoardPiece>());
+                }
             }
-        }
-    }*/
+        }*/
 
 }

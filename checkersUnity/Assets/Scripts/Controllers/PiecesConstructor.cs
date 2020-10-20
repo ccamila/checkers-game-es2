@@ -20,6 +20,8 @@ public class PiecesConstructor : MonoBehaviour
 
     Board board;
 
+    List<List<Piece>> piecesPosition;
+
     public static PiecesConstructor instance()
     {
         if (_instance != null)
@@ -46,7 +48,7 @@ public class PiecesConstructor : MonoBehaviour
 
     public void ConstructPieces()
     {
-
+        piecesPosition = new List<List<Piece>>();
         whitePiecesList = new List<Piece>();
         darkPiecesList = new List<Piece>();
 
@@ -54,50 +56,59 @@ public class PiecesConstructor : MonoBehaviour
         board = tableContructorInstance.GetBoard();
         playbleBoard = tableContructorInstance.GetPlaybleArea();
 
-        int totalPieces = playbleBoard.Count * playbleBoard[0].Count - (2 * playbleBoard[0].Count);
+        int totalPieces = board.GetSizeOfTable() * 3;
         int columnValue = 0;
         int placeController = totalPieces;
         int rowValue = 0;
+        List<Piece> auxiliarPiecesList = StartEmptyList();
         GameObject pieceGameObject = Resources.Load<GameObject>("Piece");
 
         while (placeController > 0)
         {
-            GameObject newPiece = Instantiate(pieceGameObject);
 
-
-            if (rowValue < (tableContructorInstance.GetPlaybleArea().Count / 2 - 1))
+            if (tableContructorInstance.GetPlaybleArea()[rowValue][columnValue].IsPlayable())
             {
-                newPiece.name = (rowValue.ToString() + " " + columnValue.ToString());
-                newPiece.transform.position = tableContructorInstance.GetPlaybleArea()[rowValue][columnValue].transform.position;
-                tableContructorInstance.SetPlaybleArea(rowValue,columnValue);
-                newPiece.GetComponent<Piece>().SetBlackColor(false);
-                whitePiecesList.Add(newPiece.GetComponent<Piece>());
-                newPiece.GetComponent<MeshRenderer>().material = whiteMaterial;
-                board.SetPiecesPositionList(rowValue, columnValue, newPiece.GetComponent<Piece>());
-                placeController--;
-            }
-            else if (rowValue > (tableContructorInstance.GetPlaybleArea().Count / 2))
-            {
-                newPiece.name = (rowValue.ToString() + " " + columnValue.ToString());
-                newPiece.transform.position = tableContructorInstance.GetPlaybleArea()[rowValue][columnValue].transform.position;
-                tableContructorInstance.SetPlaybleArea(rowValue, columnValue);
-                newPiece.GetComponent<Piece>().SetBlackColor(true);
-                darkPiecesList.Add(newPiece.GetComponent<Piece>());
-                newPiece.GetComponent<MeshRenderer>().material = grayMaterial;
-                board.SetPiecesPositionList(rowValue, columnValue, newPiece.GetComponent<Piece>());
-                placeController--;
+
+                if (rowValue < (tableContructorInstance.GetPlaybleArea().Count / 2 - 1))
+                {
+                    GameObject newPiece = Instantiate(pieceGameObject);
+                    newPiece.name = (rowValue.ToString() + " " + columnValue.ToString());
+                    newPiece.transform.position = tableContructorInstance.GetPlaybleArea()[rowValue][columnValue].transform.position;
+                    tableContructorInstance.SetPlaybleArea(rowValue, columnValue);
+                    newPiece.GetComponent<Piece>().SetBlackColor(false);
+                    whitePiecesList.Add(newPiece.GetComponent<Piece>());
+                    newPiece.GetComponent<MeshRenderer>().material = whiteMaterial;
+                    board.SetPiecesPositionList(rowValue, columnValue, newPiece.GetComponent<Piece>());
+                    placeController--;
+                    auxiliarPiecesList[columnValue] = newPiece.GetComponent<Piece>();
+                }
+                else if (rowValue > (tableContructorInstance.GetPlaybleArea().Count / 2))
+                {
+                    GameObject newPiece = Instantiate(pieceGameObject);
+                    newPiece.name = (rowValue.ToString() + " " + columnValue.ToString());
+                    newPiece.transform.position = tableContructorInstance.GetPlaybleArea()[rowValue][columnValue].transform.position;
+                    tableContructorInstance.SetPlaybleArea(rowValue, columnValue);
+                    newPiece.GetComponent<Piece>().SetBlackColor(true);
+                    darkPiecesList.Add(newPiece.GetComponent<Piece>());
+                    newPiece.GetComponent<MeshRenderer>().material = grayMaterial;
+                    board.SetPiecesPositionList(rowValue, columnValue, newPiece.GetComponent<Piece>());
+                    placeController--;
+                    auxiliarPiecesList[columnValue] = newPiece.GetComponent<Piece>();
+                }
             }
 
-            if (columnValue < tableContructorInstance.GetPlaybleArea()[0].Count)
+            if (columnValue < tableContructorInstance.GetPlaybleArea()[0].Count - 1)
             {
                 columnValue++;
             }
 
-            if (placeController % tableContructorInstance.GetPlaybleArea()[0].Count == 0)
+            if (placeController % (tableContructorInstance.GetPlaybleArea()[0].Count / 2) == 0 && (!tableContructorInstance.GetPlaybleArea()[rowValue][columnValue].IsPlayable()))
             {
                 if (rowValue < tableContructorInstance.GetPlaybleArea().Count)
                 {
                     rowValue++;
+                    piecesPosition.Add(auxiliarPiecesList);
+                    auxiliarPiecesList = StartEmptyList();
                 }
                 columnValue = 0;
             }
@@ -128,10 +139,25 @@ public class PiecesConstructor : MonoBehaviour
             {
                 columnControl++;
             }
-/*            Debug.Log("Sending " + (listToSend[i].gameObject.name + "at row" + rowControl, "and colummun" + columnControl));*/
+            /*            Debug.Log("Sending " + (listToSend[i].gameObject.name + "at row" + rowControl, "and colummun" + columnControl));*/
             board.SetPiecesPositionList(rowControl, columnControl, listToSend[i]);
 
         }
+    }
+    private List<Piece> StartEmptyList()
+    {
+        List<Piece> emptyList = new List<Piece>();
+        for (int i = 0; i < board.GetSizeOfTable(); i++)
+        {
+            Piece nullPiece = null;
+            emptyList.Add(nullPiece);
+        }
+        return emptyList;
+
+    }
+    public List<List<Piece>> GetPiecesPosition()
+    {
+        return piecesPosition;
     }
 
 }
