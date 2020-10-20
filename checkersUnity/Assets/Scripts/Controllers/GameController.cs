@@ -15,36 +15,6 @@ public class GameController : MonoBehaviour
     int[] currentPos;
     int[] newPos;
 
-    private class CurrentTable
-    {
-        private Board board;
-        private List<List<Piece>> piecesPosition;
-
-        public CurrentTable(Board boardGame, List<List<Piece>> piecesPositionGame)
-        {
-            board = boardGame;
-            piecesPosition = piecesPositionGame;
-        }
-
-        public Board GetCurrentBoard()
-        {
-            return board;
-        }
-        public void SetCurrentBoard(Board updatedBoard)
-        {
-            board = updatedBoard;
-        }
-        public List<List<Piece>> GetPiecesPosition()
-        {
-            return piecesPosition;
-        }
-        public void SetPiecesPosition(List<List<Piece>> updatedPiecsositions)
-        {
-            piecesPosition = updatedPiecsositions;
-        }
-    }
-
-
     public static GameController instance()
     {
         if (_instance != null)
@@ -78,8 +48,6 @@ public class GameController : MonoBehaviour
         //playbleBoard = tableConstructor.GetPlaybleArea();
         //checkersPiecesPositions = tableConstructor.GetBoard().GetPiecesPositionList();
     }
-
-
 
     public void SetPiece(Piece piece)
     {

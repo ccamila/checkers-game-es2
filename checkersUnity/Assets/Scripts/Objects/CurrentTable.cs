@@ -2,17 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CurrentTable : MonoBehaviour
+public class CurrentTable : ICurrentTable
 {
-    // Start is called before the first frame update
-    void Start()
+    private Board board;
+    private List<List<Piece>> piecesPosition;
+
+    public CurrentTable(Board boardGame, List<List<Piece>> piecesPositionGame)
     {
-        
+        board = boardGame;
+        piecesPosition = piecesPositionGame;
     }
 
-    // Update is called once per frame
-    void Update()
+    public Board GetCurrentBoard()
     {
-        
+        return board;
+    }
+    public void SetCurrentBoard(Board updatedBoard)
+    {
+        board = updatedBoard;
+    }
+    public List<List<Piece>> GetPiecesPosition()
+    {
+        return piecesPosition;
+    }
+    public void SetPiecesPosition(List<List<Piece>> updatedPiecsositions)
+    {
+        piecesPosition = updatedPiecsositions;
     }
 }
