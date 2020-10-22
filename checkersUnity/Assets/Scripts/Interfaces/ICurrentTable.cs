@@ -8,7 +8,6 @@ interface ICurrentTable
     void SetCurrentBoard(Board updatedBoard);
     List<List<Piece>> GetPiecesPosition();
     void SetPiecesPosition(List<List<Piece>> updatedPiecsositions);
-    bool GetIsPiecePressed();
-    void SetIsPiecePressed();
+    void UpdatePiecesPosition(int row, int column, Piece piece);
 
 }

@@ -17,6 +17,7 @@ public class GameController : MonoBehaviour
     private bool isPieceClicked = false;
     private GameObject clickedPiece = null;
     CurrentTable currentTable;
+    bool isPiecePressed;
 
 
     public static GameController instance()
@@ -73,7 +74,6 @@ public class GameController : MonoBehaviour
 
             if (currentTable.GetCurretBoardPositions()[indexOfList].Contains(positionBoard))
             {
-                Debug.Log(indexOfList + " index of current piece");
                 row = indexOfList;
                 column = currentTable.GetCurretBoardPositions()[indexOfList].IndexOf(positionBoard);
                 checkObjectController = false;
@@ -107,7 +107,7 @@ public class GameController : MonoBehaviour
             GameObject newBoardPositionPiece = currentTable.GetCurretBoardPositions()[newPos[0]][newPos[1]].gameObject;
             Vector2 newPosition = new Vector2(newBoardPositionPiece.transform.position.x, newBoardPositionPiece.transform.position.y);
 
-            Debug.Log(currentPos[0] + " corree peice " + currentPos[1]);
+/*            Debug.Log(currentPos[0] + " corree peice " + currentPos[1]);*/
             currentTable.GetCurrentBoard().SetBoardPiecePlayable(currentPos[0], currentPos[1]);
 
             pieceToUpdate.gameObject.transform.position = newPosition;

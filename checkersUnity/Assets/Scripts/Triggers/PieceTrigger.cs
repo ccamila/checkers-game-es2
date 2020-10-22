@@ -44,7 +44,6 @@ public class PieceTrigger : MonoBehaviour
 
             if (checkersPiecesPositions[indexOfList].Contains(gameObject.GetComponent<Piece>()))
             {
-                Debug.Log(indexOfList + " index of current piece");
                 row = indexOfList;
                 column = checkersPiecesPositions[indexOfList].IndexOf(gameObject.GetComponent<Piece>());
                 checkObjectController = false;

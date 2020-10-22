@@ -12,7 +12,6 @@ public class BoardTrigger : MonoBehaviour
 
         gameController = GameController.instance();
 
-        Debug.Log(gameObject.GetComponent<BoardPiece>().IsPlayable());
         if (gameController.GetIsPieceClicked())
         {
 
