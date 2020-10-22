@@ -38,15 +38,6 @@ public class CurrentTable : ICurrentTable
     {
         piecesPosition = updatedPiecsositions;
     }
-    public bool GetIsPiecePressed()
-    {
-        return isPiecePressed;
-    }
-
-    public void SetIsPiecePressed()
-    {
-        isPiecePressed = !isPiecePressed;
-    }
 
     public void UpdatePiecesPosition(int row, int column, Piece piece)
     {

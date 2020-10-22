@@ -14,31 +14,9 @@ public class Board : MonoBehaviour, IBoard
     [SerializeField]
     private int tableSize = 8;
 
- //   [Serializable]
-/*    public class BoardPiecesMatrix
-    {
-        [SerializeField]
-        public List<BoardPiece> tablePiecePosition;
-    }
-
-    [SerializeField]
-    public List<BoardPiecesMatrix> boardPieces;*/
-
     private List<List<BoardPiece>> boardPpiecesMatrix;
 
     private List<List<Piece>> checkersPiecesPositionsList;
-
-    public void OnChangeBehaviour()
-    {
-        if (boardClassic_8x8 == true)
-        {
-            boardLarger_10x10 = false;
-        }
-        else
-        {
-            boardLarger_10x10 = true;
-        }
-    }
 
     public int GetSizeOfTable()
     {
