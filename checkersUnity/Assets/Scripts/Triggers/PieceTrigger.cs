@@ -4,33 +4,63 @@ using UnityEngine;
 
 public class PieceTrigger : MonoBehaviour
 {
-    private int[] currentValue = new int[2];
+    private int row, column;
     GameController gameController;
     public void OnMouseDown()
     {
         gameController = GameController.instance();
+        if (gameController.GetIsPieceClicked())
+        {
+            if (gameController.GetClickedPiece() == gameObject)
+            {
+                gameController.SetIsPieceClicked();
+                gameController.SetClickedPiece(null);
+            }
+            else 
+            {
+                ClickedBehaviour();
+            }
+        }
+        else
+        {
+            ClickedBehaviour();
+        }
+    }
+    private void ClickedBehaviour()
+    {
+        gameController.SetIsPieceClicked();
+        
+        gameController.SetClickedPiece(gameObject);
 
         TableConstructor tableConstructor = TableConstructor.instance();
 
-        List<List<Piece>> checkersPiecesPositions = tableConstructor.GetBoard().GetPiecesPositionList();
+        List<List<Piece>> checkersPiecesPositions = gameController.GetCurrentTable().GetPiecesPosition();
 
+        bool checkObjectController = true;
+        int indexOfList = 0;
 
-        for (int i = 0; i < checkersPiecesPositions.Count; i++)
+        while (checkObjectController)
         {
 
-            if (checkersPiecesPositions[i].Contains(gameObject.GetComponent<Piece>())) 
+            if (checkersPiecesPositions[indexOfList].Contains(gameObject.GetComponent<Piece>()))
             {
-                currentValue[0] = i;
-                currentValue[1] = checkersPiecesPositions[i].IndexOf(gameObject.GetComponent<Piece>()) *2;
+                Debug.Log(indexOfList + " index of current piece");
+                row = indexOfList;
+                column = checkersPiecesPositions[indexOfList].IndexOf(gameObject.GetComponent<Piece>());
+                checkObjectController = false;
             }
-        
-                Debug.Log(checkersPiecesPositions[i].Contains(gameObject.GetComponent<Piece>()));
+            else if (indexOfList == checkersPiecesPositions.Count - 1)
+            {
+                checkObjectController = false;
+            }
+            else
+            {
+
+                indexOfList++;
+            }
         }
 
-        Debug.Log(currentValue[0]);
-        Debug.Log(currentValue[1]);
-
         gameController.SetPiece(gameObject.GetComponent<Piece>());
-        gameController.SetOldPOs(currentValue);
+        gameController.SetOldPOs(row, column);
     }
 }

@@ -14,17 +14,17 @@ public class Board : MonoBehaviour, IBoard
     [SerializeField]
     private int tableSize = 8;
 
-    [Serializable]
-    public class BoardPiecesMatrix
+ //   [Serializable]
+/*    public class BoardPiecesMatrix
     {
         [SerializeField]
         public List<BoardPiece> tablePiecePosition;
     }
 
     [SerializeField]
-    public List<BoardPiecesMatrix> BoardPieces;
+    public List<BoardPiecesMatrix> boardPieces;*/
 
-    private List<List<BoardPiece>> tableMatrix;
+    private List<List<BoardPiece>> boardPpiecesMatrix;
 
     private List<List<Piece>> checkersPiecesPositionsList;
 
@@ -50,19 +50,19 @@ public class Board : MonoBehaviour, IBoard
         tableSize = newSize;
     }
 
-    public List<BoardPiecesMatrix> GetBoardMatrix()
+    public List<List<BoardPiece>> GetBoardMatrix()
     {
-        return BoardPieces;
+        return boardPpiecesMatrix;
     }
 
     public void SetBoardPiecePlayable(int row, int column)
     {
-        BoardPieces[row].tablePiecePosition[column].SetPlayable();
+        boardPpiecesMatrix[row][column].SetPlayable();
     }
 
     public BoardPiece GetBoardPiece(int row, int column)
     {
-        return BoardPieces[row].tablePiecePosition[column];
+        return boardPpiecesMatrix[row][column];
     }
 
     public List<List<Piece>> GetPiecesPositionList()
@@ -74,13 +74,17 @@ public class Board : MonoBehaviour, IBoard
         return checkersPiecesPositionsList;
     }
 
-    public void SetPiecesPositionList(int row, int column, Piece piece)
+    public void UpdatePiecesPositionList(int row, int column, Piece piece)
     {
+
         if (checkersPiecesPositionsList == null)
         {
             checkersPiecesPositionsList = StartEmpityList();
         }
+
+
         checkersPiecesPositionsList[row][column] = piece;
+
     }
 
     private List<List<Piece>> StartEmpityList()
@@ -100,15 +104,13 @@ public class Board : MonoBehaviour, IBoard
 
         return emptyList;
     }
-
-
     public void AddRowOfTablePieces(List<BoardPiece> newTableRow)
     {
-        if (tableMatrix == null)
+        if (boardPpiecesMatrix == null)
         {
-            tableMatrix = new List<List<BoardPiece>>(0);
+            boardPpiecesMatrix = new List<List<BoardPiece>>(0);
         }
-        tableMatrix.Add(newTableRow);
+        boardPpiecesMatrix.Add(newTableRow);
     }
 
 }

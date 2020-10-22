@@ -6,7 +6,7 @@ public class CurrentTable : ICurrentTable
 {
     private Board board;
     private List<List<Piece>> piecesPosition;
-
+    private bool isPiecePressed;
     public CurrentTable(Board boardGame, List<List<Piece>> piecesPositionGame)
     {
         board = boardGame;
@@ -17,10 +17,19 @@ public class CurrentTable : ICurrentTable
     {
         return board;
     }
+
+    public List<List<BoardPiece>> GetCurretBoardPositions()
+    {
+        return board.GetBoardMatrix();
+    }
+
+
     public void SetCurrentBoard(Board updatedBoard)
     {
         board = updatedBoard;
     }
+
+
     public List<List<Piece>> GetPiecesPosition()
     {
         return piecesPosition;
@@ -29,4 +38,19 @@ public class CurrentTable : ICurrentTable
     {
         piecesPosition = updatedPiecsositions;
     }
+    public bool GetIsPiecePressed()
+    {
+        return isPiecePressed;
+    }
+
+    public void SetIsPiecePressed()
+    {
+        isPiecePressed = !isPiecePressed;
+    }
+
+    public void UpdatePiecesPosition(int row, int column, Piece piece)
+    {
+        piecesPosition[row][column] = piece;
+    }
+
 }

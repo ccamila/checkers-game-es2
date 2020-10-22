@@ -78,7 +78,7 @@ public class PiecesConstructor : MonoBehaviour
                     newPiece.GetComponent<Piece>().SetBlackColor(false);
                     whitePiecesList.Add(newPiece.GetComponent<Piece>());
                     newPiece.GetComponent<MeshRenderer>().material = whiteMaterial;
-                    board.SetPiecesPositionList(rowValue, columnValue, newPiece.GetComponent<Piece>());
+                    board.UpdatePiecesPositionList(rowValue, columnValue, newPiece.GetComponent<Piece>());
                     placeController--;
                     auxiliarPiecesList[columnValue] = newPiece.GetComponent<Piece>();
                 }
@@ -91,7 +91,7 @@ public class PiecesConstructor : MonoBehaviour
                     newPiece.GetComponent<Piece>().SetBlackColor(true);
                     darkPiecesList.Add(newPiece.GetComponent<Piece>());
                     newPiece.GetComponent<MeshRenderer>().material = grayMaterial;
-                    board.SetPiecesPositionList(rowValue, columnValue, newPiece.GetComponent<Piece>());
+                    board.UpdatePiecesPositionList(rowValue, columnValue, newPiece.GetComponent<Piece>());
                     placeController--;
                     auxiliarPiecesList[columnValue] = newPiece.GetComponent<Piece>();
                 }
@@ -140,7 +140,7 @@ public class PiecesConstructor : MonoBehaviour
                 columnControl++;
             }
             /*            Debug.Log("Sending " + (listToSend[i].gameObject.name + "at row" + rowControl, "and colummun" + columnControl));*/
-            board.SetPiecesPositionList(rowControl, columnControl, listToSend[i]);
+            board.UpdatePiecesPositionList(rowControl, columnControl, listToSend[i]);
 
         }
     }

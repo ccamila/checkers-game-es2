@@ -73,6 +73,7 @@ public class TableConstructor : MonoBehaviour
         {
             Vector3 positionSquare = new Vector3(rowScale * rowValue, columnScale * columnValue, 0);
             GameObject boardBlock = Instantiate(boardSquare.gameObject, positionSquare, originalRotation, centralPosition);
+            boardBlock.name = columnValue + " " + rowValue + " board";
 
 
             if (columnValue % 2 == 0)
@@ -132,70 +133,6 @@ public class TableConstructor : MonoBehaviour
         }
 
     }
-
-    void BoardCounstructorOld()
-    {
-        BoardPiece boardSquare = Resources.Load<BoardPiece>("BoardPiece");
-
-        boardGameObject = Resources.Load<GameObject>("Board");
-        Instantiate(boardGameObject, centralPosition);
-        board = boardGameObject.GetComponent<Board>();
-        List<Board.BoardPiecesMatrix> boardPieces = board.GetBoardMatrix();
-        List<BoardPiece> auxiliarBoardPiecesList = new List<BoardPiece>();
-        if (boardPieces != null && boardPieces.Count > 0 && boardPieces[0].tablePiecePosition != null && boardPieces[0].tablePiecePosition.Count > 0)
-        {
-            totalPieces = boardPieces.Count * boardPieces[0].tablePiecePosition.Count;
-            int columnValue = 0;
-            int placeController = totalPieces - 1;
-            int rowValue = 0;
-            while (placeController > 0)
-            {
-                if (rowValue % 2 == 0)
-                {
-                    if (columnValue % 2 == 0)
-                    {
-                        board.GetBoardPiece(rowValue, columnValue).gameObject.GetComponent<MeshRenderer>().material = blackMaterial;
-                        board.SetBoardPiecePlayable(rowValue, columnValue);
-                        auxiliarBoardPiecesList.Add(board.GetBoardPiece(rowValue, columnValue));
-                    }
-                }
-                else
-                {
-                    if (columnValue % 2 != 0)
-                    {
-                        board.GetBoardPiece(rowValue, columnValue).gameObject.GetComponent<MeshRenderer>().material = blackMaterial;
-                        board.SetBoardPiecePlayable(rowValue, columnValue);
-                        auxiliarBoardPiecesList.Add(board.GetBoardPiece(rowValue, columnValue));
-                    }
-                }
-                placeController--;
-                if (columnValue < boardPieces[0].tablePiecePosition.Count)
-                {
-                    columnValue++;
-                }
-
-                if (placeController % boardPieces.Count == 0)
-                {
-                    rowValue++;
-                    columnValue = 0;
-                    playableArea.Add(auxiliarBoardPiecesList);
-                    auxiliarBoardPiecesList = new List<BoardPiece>();
-                    
-                }
-
-            }
-        }
-        pieceConstructor.ConstructPieces();
-
-        /*        for (int i = 0; i < playableArea.Count; i++)
-                {
-                    for (int j = 0; j < playableArea[0].Count; j++)
-                    {
-                        Debug.Log(playableArea[i][j].IsPlayable() + " playble area");
-                    }
-                }*/
-    }
-
 
     public List<List<BoardPiece>> GetPlaybleArea()
     {

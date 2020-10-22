@@ -4,8 +4,11 @@ using UnityEngine;
 
 interface ICurrentTable
 {
-    public Board GetCurrentBoard();
-    public void SetCurrentBoard(Board updatedBoard);
-    public List<List<Piece>> GetPiecesPosition();
-    public void SetPiecesPosition(List<List<Piece>> updatedPiecsositions);
+    Board GetCurrentBoard();
+    void SetCurrentBoard(Board updatedBoard);
+    List<List<Piece>> GetPiecesPosition();
+    void SetPiecesPosition(List<List<Piece>> updatedPiecsositions);
+    bool GetIsPiecePressed();
+    void SetIsPiecePressed();
+
 }

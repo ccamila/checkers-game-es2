@@ -12,8 +12,12 @@ public class GameController : MonoBehaviour
     //List<List<Piece>> checkersPiecesPositions;
     //private bool turnController = false; // true black, false white 
     Piece pieceToUpdate;
-    int[] currentPos;
-    int[] newPos;
+    int[] currentPos, newPos;
+
+    private bool isPieceClicked = false;
+    private GameObject clickedPiece = null;
+    CurrentTable currentTable;
+
 
     public static GameController instance()
     {
@@ -44,7 +48,8 @@ public class GameController : MonoBehaviour
         piecesConstructor = PiecesConstructor.instance();
         tableConstructor.ConstructBoard();
         piecesConstructor.ConstructPieces();
-        CurrentTable currentTable = new CurrentTable(tableConstructor.GetBoard(), piecesConstructor.GetPiecesPosition());
+        currentTable = new CurrentTable(tableConstructor.GetBoard(), piecesConstructor.GetPiecesPosition());
+        //Debug.Log(currentTable.GetCurrentBoard().gameObject.name);
         //playbleBoard = tableConstructor.GetPlaybleArea();
         //checkersPiecesPositions = tableConstructor.GetBoard().GetPiecesPositionList();
     }
@@ -54,28 +59,103 @@ public class GameController : MonoBehaviour
         pieceToUpdate = piece;
     }
 
-    public void SetNewPOs(int[] pos)
+    public void SetNewPOs(BoardPiece positionBoard)
     {
+        bool checkObjectController = true;
+        int indexOfList = 0;
+        int row, 
+            column;
+        newPos = new int[2];
 
-        newPos = pos;
+
+        while (checkObjectController)
+        {
+
+            if (currentTable.GetCurretBoardPositions()[indexOfList].Contains(positionBoard))
+            {
+                Debug.Log(indexOfList + " index of current piece");
+                row = indexOfList;
+                column = currentTable.GetCurretBoardPositions()[indexOfList].IndexOf(positionBoard);
+                checkObjectController = false;
+                newPos[0] = row;
+                newPos[1] = column;
+            }
+            else if (indexOfList == currentTable.GetCurretBoardPositions().Count - 1)
+            {
+                checkObjectController = false;
+            }
+            else
+            {
+
+                indexOfList++;
+            }
+        }
     }
 
-    public void SetOldPOs(int[] pos)
+    public void SetOldPOs(int row, int column)
     {
-        currentPos = pos;
+        currentPos = new int[2];
+        currentPos[0] = row;
+        currentPos[1] = column;
     }
     public void updateGameobject()
     {
-        Vector2 newpos = new Vector2(newPos[0], newPos[1]);
+
 
         if (pieceToUpdate)
         {
-            pieceToUpdate.gameObject.gameObject.transform.position = newpos;
+            GameObject newBoardPositionPiece = currentTable.GetCurretBoardPositions()[newPos[0]][newPos[1]].gameObject;
+            Vector2 newPosition = new Vector2(newBoardPositionPiece.transform.position.x, newBoardPositionPiece.transform.position.y);
+
+            Debug.Log(currentPos[0] + " corree peice " + currentPos[1]);
+            currentTable.GetCurrentBoard().SetBoardPiecePlayable(currentPos[0], currentPos[1]);
+
+            pieceToUpdate.gameObject.transform.position = newPosition;
+
+            currentTable.UpdatePiecesPosition(newPos[0], newPos[1], pieceToUpdate);
+/*            for (int i = 0; i < currentTable.GetCurrentBoard().GetBoardMatrix()[newPos[0]].Count; i++)
+            {
+                Debug.Log(currentTable.GetCurrentBoard().GetBoardMatrix()[newPos[0]][i].gameObject.name);
+
+
+            }*/
+            currentTable.UpdatePiecesPosition(currentPos[0], currentPos[1], null);
+/*            for (int i = 0; i < currentTable.GetCurrentBoard().GetBoardMatrix()[newPos[0]].Count; i++)
+            {
+                Debug.Log(currentTable.GetCurrentBoard().GetBoardMatrix()[currentPos[0]][i].gameObject.name);
+
+            }*/
         }
         pieceToUpdate = null;
 
+        SetIsPieceClicked();
+        SetClickedPiece(null);
     }
 
+    public bool GetIsPieceClicked()
+    {
+        return isPieceClicked;
+    }
+
+    public void SetIsPieceClicked()
+    {
+        isPieceClicked = !isPieceClicked;
+    }
+
+    public GameObject GetClickedPiece()
+    {
+        return clickedPiece;
+    }
+
+    public void SetClickedPiece(GameObject currentClickedPiece)
+    {
+        clickedPiece = currentClickedPiece;
+    }
+
+    public CurrentTable GetCurrentTable()
+    {
+        return currentTable;
+    }
 
     /*    private void Update()
         {
