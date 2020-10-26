@@ -106,32 +106,35 @@ public class GameController : MonoBehaviour
             Debug.Log(currentBoardPieceIndex - newPos[0]);
             Debug.Log(newPos[0] - currentBoardPieceIndex);*/
 
-            if ((pieceToUpdate.GetIsUp() == true && (currentPos[0] - newPos[0]) == 1) || (pieceToUpdate.GetIsUp() == false && (newPos[0] - currentPos[0]) == 1))
+            if (((pieceToUpdate.GetIsUp() == true && (currentPos[0] - newPos[0]) == 1) || 
+                (pieceToUpdate.GetIsUp() == false && (newPos[0] - currentPos[0]) == 1)) && 
+                (currentPos[1] - newPos[1] == 1 ) || (currentPos[1] - newPos[1] == -1)) 
             {
-                Vector2 newPosition = new Vector2(newBoardPositionPiece.transform.position.x, newBoardPositionPiece.transform.position.y);
+                    Vector2 newPosition = new Vector2(newBoardPositionPiece.transform.position.x, newBoardPositionPiece.transform.position.y);
 
-                /*            Debug.Log(currentPos[0] + " corree peice " + currentPos[1]);*/
-                currentTable.GetCurrentBoard().SetBoardPiecePlayable(currentPos[0], currentPos[1]);
+                    /*            Debug.Log(currentPos[0] + " corree peice " + currentPos[1]);*/
+                    currentTable.GetCurrentBoard().SetBoardPiecePlayable(currentPos[0], currentPos[1]);
 
-                pieceToUpdate.gameObject.transform.position = newPosition;
+                    pieceToUpdate.gameObject.transform.position = newPosition;
 
-                currentTable.UpdatePiecesPosition(newPos[0], newPos[1], pieceToUpdate);
-                /*            for (int i = 0; i < currentTable.GetCurrentBoard().GetBoardMatrix()[newPos[0]].Count; i++)
-                            {
-                                Debug.Log(currentTable.GetCurrentBoard().GetBoardMatrix()[newPos[0]][i].gameObject.name);
+                    currentTable.UpdatePiecesPosition(newPos[0], newPos[1], pieceToUpdate);
+                    /*            for (int i = 0; i < currentTable.GetCurrentBoard().GetBoardMatrix()[newPos[0]].Count; i++)
+                                {
+                                    Debug.Log(currentTable.GetCurrentBoard().GetBoardMatrix()[newPos[0]][i].gameObject.name);
 
-                            }*/
-                currentTable.UpdatePiecesPosition(currentPos[0], currentPos[1], null);
-                /*            for (int i = 0; i < currentTable.GetCurrentBoard().GetBoardMatrix()[newPos[0]].Count; i++)
-                            {
-                                Debug.Log(currentTable.GetCurrentBoard().GetBoardMatrix()[currentPos[0]][i].gameObject.name);
+                                }*/
+                    currentTable.UpdatePiecesPosition(currentPos[0], currentPos[1], null);
+                    /*            for (int i = 0; i < currentTable.GetCurrentBoard().GetBoardMatrix()[newPos[0]].Count; i++)
+                                {
+                                    Debug.Log(currentTable.GetCurrentBoard().GetBoardMatrix()[currentPos[0]][i].gameObject.name);
 
-                            }*/
+                                }*/
 
-                pieceToUpdate = null;
-                SetIsPieceClicked();
-                SetClickedPiece(null);
-                isBlackTurn = !isBlackTurn;
+                    pieceToUpdate = null;
+                    SetIsPieceClicked();
+                    SetClickedPiece(null);
+                    isBlackTurn = !isBlackTurn;
+              
             }
             else 
             {
