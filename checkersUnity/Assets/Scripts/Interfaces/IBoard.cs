@@ -12,7 +12,6 @@ interface IBoard
     BoardPiece GetBoardPiece(int row, int column);
     List<List<Piece>> GetPiecesPositionList();
     void UpdatePiecesPositionList(int row, int column, Piece piece);
-    List<List<Piece>> StartEmpityList();
     void AddRowOfTablePieces(List<BoardPiece> newTableRow);
 
 

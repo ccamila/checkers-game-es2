@@ -18,6 +18,7 @@ public class GameController : MonoBehaviour
     private GameObject clickedPiece = null;
     CurrentTable currentTable;
     bool isPiecePressed;
+    bool isBlackTurn = false;
 
 
     public static GameController instance()
@@ -100,8 +101,6 @@ public class GameController : MonoBehaviour
     }
     public void updateGameobject()
     {
-
-
         if (pieceToUpdate)
         {
             GameObject newBoardPositionPiece = currentTable.GetCurretBoardPositions()[newPos[0]][newPos[1]].gameObject;
@@ -130,6 +129,7 @@ public class GameController : MonoBehaviour
 
         SetIsPieceClicked();
         SetClickedPiece(null);
+        isBlackTurn = !isBlackTurn;
     }
 
     public bool GetIsPieceClicked()
@@ -157,47 +157,8 @@ public class GameController : MonoBehaviour
         return currentTable;
     }
 
-    /*    private void Update()
-        {
-
-            if (Input.GetMouseButtonDown(0))
-            {
-                checkersPiecesPositions = tableConstructor.GetBoard().GetPiecesPositionList();
-
-    *//*            for (int i = 0; i < checkersPiecesPositions.Count; i++)
-                {
-                    for (int j = 0; j < checkersPiecesPositions[0].Count; j++)
-                    {
-                        Debug.Log(checkersPiecesPositions[i][j].gameObject.name + " " + i + " " + j);
-                    }
-
-                    //Debug.Log(checkersPiecesPositions[i].Contains(auxiliarPiece));
-                }*//*
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-
-                if (Physics.Raycast(ray, out hit, 100))
-                {
-                    //Debug.Log(hit.transform.gameObject.name);
-                    Piece auxiliarPiece = hit.transform.gameObject.GetComponent<Piece>();
-
-                    //Debug.Log(System.Array.IndexOf(checkersPiecesPositions,auxiliarPiece));
-
-                    //int row = checkersPiecesPositions.GetLength(0);
-                    //int column
-    *//*                for (int i = 0; i < checkersPiecesPositions.Count; i++)
-                    {
-                        for (int j = 0; j < checkersPiecesPositions[0].Count; j++)
-                        {
-                            Debug.Log(checkersPiecesPositions[i][j].gameObject.name + " " + i + " " + j);
-                        }
-
-                        //Debug.Log(checkersPiecesPositions[i].Contains(auxiliarPiece));
-                    }*//*
-                    //Debug.Log(checkersPiecesPositions.Find(hit.transform.gameObject.GetComponent<Piece>()));
-                    //playbleBoard[0].Find(hit.transform.gameObject.GetComponent<BoardPiece>());
-                }
-            }
-        }*/
-
+    public bool GetBlackTurn()
+    {
+        return isBlackTurn;
+    }
 }

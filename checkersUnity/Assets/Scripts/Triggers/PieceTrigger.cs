@@ -9,21 +9,28 @@ public class PieceTrigger : MonoBehaviour
     public void OnMouseDown()
     {
         gameController = GameController.instance();
-        if (gameController.GetIsPieceClicked())
+        if (gameObject.GetComponent<Piece>().IsBlack() == gameController.GetBlackTurn()) 
         {
-            if (gameController.GetClickedPiece() == gameObject)
+            if (gameController.GetIsPieceClicked())
             {
-                gameController.SetIsPieceClicked();
-                gameController.SetClickedPiece(null);
+                if (gameController.GetClickedPiece() == gameObject)
+                {
+                    gameController.SetIsPieceClicked();
+                    gameController.SetClickedPiece(null);
+                }
+                else
+                {
+                    ClickedBehaviour();
+                }
             }
-            else 
+            else
             {
                 ClickedBehaviour();
             }
         }
-        else
+        else 
         {
-            ClickedBehaviour();
+            Debug.Log("Not Your turn now");
         }
     }
     private void ClickedBehaviour()
