@@ -41,6 +41,22 @@ public class BoardTrigger : MonoBehaviour
 
             if (gameObject.GetComponent<BoardPiece>().IsPlayable())
             {
+/*                List<List<BoardPiece>> boardPieces = gameController.GetCurrentTable().GetCurretBoardPositions();
+                bool controlPieces = true;
+                int rowValues = 0;
+                while (controlPieces)
+                {
+                    if (boardPieces[rowValues].Contains(gameObject.GetComponent<BoardPiece>()))
+                    {
+                        gameController.SetcurrentBoardPieceIndex(boardPieces[rowValues].IndexOf(gameObject.GetComponent<BoardPiece>()));
+                        controlPieces = false;
+                    }
+                    rowValues++;
+                    if (rowValues == boardPieces.Count)
+                    {
+                        controlPieces = false;
+                    }
+                }*/
 
                 gameController.SetNewPOs(gameObject.GetComponent<BoardPiece>());
                 gameController.updateGameobject();

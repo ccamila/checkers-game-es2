@@ -8,9 +8,6 @@ public class GameController : MonoBehaviour
 
     PiecesConstructor piecesConstructor;
     TableConstructor tableConstructor;
-    //List<List<BoardPiece>> playbleBoard;
-    //List<List<Piece>> checkersPiecesPositions;
-    //private bool turnController = false; // true black, false white 
     Piece pieceToUpdate;
     int[] currentPos, newPos;
 
@@ -19,7 +16,7 @@ public class GameController : MonoBehaviour
     CurrentTable currentTable;
     bool isPiecePressed;
     bool isBlackTurn = false;
-
+    int currentBoardPieceIndex;
 
     public static GameController instance()
     {
@@ -65,8 +62,7 @@ public class GameController : MonoBehaviour
     {
         bool checkObjectController = true;
         int indexOfList = 0;
-        int row, 
-            column;
+        int row, column;
         newPos = new int[2];
 
 
@@ -104,32 +100,44 @@ public class GameController : MonoBehaviour
         if (pieceToUpdate)
         {
             GameObject newBoardPositionPiece = currentTable.GetCurretBoardPositions()[newPos[0]][newPos[1]].gameObject;
-            Vector2 newPosition = new Vector2(newBoardPositionPiece.transform.position.x, newBoardPositionPiece.transform.position.y);
+/*            Debug.Log(pieceToUpdate.GetIsUp());
+            Debug.Log(currentPos[0]);
+            Debug.Log(newPos[0]);
+            Debug.Log(currentBoardPieceIndex - newPos[0]);
+            Debug.Log(newPos[0] - currentBoardPieceIndex);*/
 
-/*            Debug.Log(currentPos[0] + " corree peice " + currentPos[1]);*/
-            currentTable.GetCurrentBoard().SetBoardPiecePlayable(currentPos[0], currentPos[1]);
-
-            pieceToUpdate.gameObject.transform.position = newPosition;
-
-            currentTable.UpdatePiecesPosition(newPos[0], newPos[1], pieceToUpdate);
-/*            for (int i = 0; i < currentTable.GetCurrentBoard().GetBoardMatrix()[newPos[0]].Count; i++)
+            if ((pieceToUpdate.GetIsUp() == true && (currentPos[0] - newPos[0]) == 1) || (pieceToUpdate.GetIsUp() == false && (newPos[0] - currentPos[0]) == 1))
             {
-                Debug.Log(currentTable.GetCurrentBoard().GetBoardMatrix()[newPos[0]][i].gameObject.name);
+                Vector2 newPosition = new Vector2(newBoardPositionPiece.transform.position.x, newBoardPositionPiece.transform.position.y);
 
+                /*            Debug.Log(currentPos[0] + " corree peice " + currentPos[1]);*/
+                currentTable.GetCurrentBoard().SetBoardPiecePlayable(currentPos[0], currentPos[1]);
 
-            }*/
-            currentTable.UpdatePiecesPosition(currentPos[0], currentPos[1], null);
-/*            for (int i = 0; i < currentTable.GetCurrentBoard().GetBoardMatrix()[newPos[0]].Count; i++)
+                pieceToUpdate.gameObject.transform.position = newPosition;
+
+                currentTable.UpdatePiecesPosition(newPos[0], newPos[1], pieceToUpdate);
+                /*            for (int i = 0; i < currentTable.GetCurrentBoard().GetBoardMatrix()[newPos[0]].Count; i++)
+                            {
+                                Debug.Log(currentTable.GetCurrentBoard().GetBoardMatrix()[newPos[0]][i].gameObject.name);
+
+                            }*/
+                currentTable.UpdatePiecesPosition(currentPos[0], currentPos[1], null);
+                /*            for (int i = 0; i < currentTable.GetCurrentBoard().GetBoardMatrix()[newPos[0]].Count; i++)
+                            {
+                                Debug.Log(currentTable.GetCurrentBoard().GetBoardMatrix()[currentPos[0]][i].gameObject.name);
+
+                            }*/
+
+                pieceToUpdate = null;
+                SetIsPieceClicked();
+                SetClickedPiece(null);
+                isBlackTurn = !isBlackTurn;
+            }
+            else 
             {
-                Debug.Log(currentTable.GetCurrentBoard().GetBoardMatrix()[currentPos[0]][i].gameObject.name);
-
-            }*/
+                Debug.Log("Cannot Move to there now");
+            }
         }
-        pieceToUpdate = null;
-
-        SetIsPieceClicked();
-        SetClickedPiece(null);
-        isBlackTurn = !isBlackTurn;
     }
 
     public bool GetIsPieceClicked()
@@ -161,4 +169,9 @@ public class GameController : MonoBehaviour
     {
         return isBlackTurn;
     }
+
+/*    public void SetcurrentBoardPieceIndex(int currentBoardPieceIndexSelected)
+    {
+        currentBoardPieceIndex = currentBoardPieceIndexSelected;
+    }*/
 }
