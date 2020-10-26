@@ -2,9 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Piece : MonoBehaviour
+public class GameConstructor : MonoBehaviour
 {
-    // Start is called before the first frame update
+
+    void ConstructGame()
+    {
+        Board board = new Board();
+        Piece piece = new Piece();
+        
+    }
     void Start()
     {
         
