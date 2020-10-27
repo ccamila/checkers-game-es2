@@ -9,7 +9,7 @@ public class PieceTrigger : MonoBehaviour
     public void OnMouseDown()
     {
         gameController = GameController.instance();
-        if (gameObject.GetComponent<Piece>().IsBlack() == gameController.GetBlackTurn()) 
+        if (gameObject.GetComponent<Piece>().GetIsBlack() == gameController.GetBlackTurn()) 
         {
             if (gameController.GetIsPieceClicked())
             {

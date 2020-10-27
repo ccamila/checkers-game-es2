@@ -17,6 +17,8 @@ public class GameController : MonoBehaviour
     bool isPiecePressed;
     bool isBlackTurn = false;
     int currentBoardPieceIndex;
+    int[] eatPosition;
+    List<List<int>> contactPosition;
 
     public static GameController instance()
     {
@@ -97,14 +99,12 @@ public class GameController : MonoBehaviour
     }
     public void updateGameobject()
     {
+
         if (pieceToUpdate)
         {
+            bool isPieceInContactWihtOpponet = PieceInContact(currentPos[0], currentPos[1]);  
+
             GameObject newBoardPositionPiece = currentTable.GetCurretBoardPositions()[newPos[0]][newPos[1]].gameObject;
-/*            Debug.Log(pieceToUpdate.GetIsUp());
-            Debug.Log(currentPos[0]);
-            Debug.Log(newPos[0]);
-            Debug.Log(currentBoardPieceIndex - newPos[0]);
-            Debug.Log(newPos[0] - currentBoardPieceIndex);*/
 
             if (((pieceToUpdate.GetIsUp() == true && (currentPos[0] - newPos[0]) == 1) || 
                 (pieceToUpdate.GetIsUp() == false && (newPos[0] - currentPos[0]) == 1)) && 
@@ -172,9 +172,74 @@ public class GameController : MonoBehaviour
     {
         return isBlackTurn;
     }
-
-/*    public void SetcurrentBoardPieceIndex(int currentBoardPieceIndexSelected)
+    private bool PieceInContact(int row, int column)
     {
-        currentBoardPieceIndex = currentBoardPieceIndexSelected;
-    }*/
+        bool isPieceInContact = false;
+        contactPosition = new List<List<int>>();
+
+        if (pieceToUpdate.GetIsUp() == true)
+        {
+
+            if (currentPos[1] < currentTable.GetPiecesPosition()[column].Count - 1)
+            {
+                //Debug.Log(currentTable.GetPiecesPosition()[currentPos[0] - 1][currentPos[1] + 1] != null);
+                //Debug.Log(currentTable.GetPiecesPosition()[currentPos[0] - 1][currentPos[1] + 1].GetIsBlack() != currentTable.GetPiecesPosition()[currentPos[0]][currentPos[1]].GetIsBlack());
+                if (currentTable.GetPiecesPosition()[row - 1][column + 1] != null &&
+                    currentTable.GetPiecesPosition()[row - 1][column + 1].GetIsBlack() != currentTable.GetPiecesPosition()[row][column].GetIsBlack())
+                {
+                    List<int> contactPositionValues = new List<int>();
+                    contactPositionValues.Add(row - 1);
+                    contactPositionValues.Add(column + 1);
+                    contactPosition.Add(contactPositionValues);
+                    isPieceInContact = true;
+
+                }
+            }
+            if (column > 0)
+            {
+                //Debug.Log(currentTable.GetPiecesPosition()[currentPos[0] - 1][currentPos[1] + 1] != null);
+                //Debug.Log(currentTable.GetPiecesPosition()[currentPos[0] - 1][currentPos[1] + 1].GetIsBlack() != currentTable.GetPiecesPosition()[currentPos[0]][currentPos[1]].GetIsBlack());
+                if (currentTable.GetPiecesPosition()[row - 1][column - 1] != null &&
+                    currentTable.GetPiecesPosition()[row - 1][column - 1].GetIsBlack() != currentTable.GetPiecesPosition()[row][column].GetIsBlack())
+                {
+                    List<int> contactPositionValues = new List<int>();
+                    contactPositionValues.Add(row - 1);
+                    contactPositionValues.Add(column - 1);
+                    contactPosition.Add(contactPositionValues);
+                    isPieceInContact = true;
+                    
+                }
+            }
+        }
+        else
+        {
+            if (column < currentTable.GetPiecesPosition()[column].Count - 1)
+            {
+                if (currentTable.GetPiecesPosition()[row + 1][column + 1] != null &&
+                    currentTable.GetPiecesPosition()[row + 1][column + 1].GetIsBlack() != currentTable.GetPiecesPosition()[row][column].GetIsBlack())
+                {
+                    List<int> contactPositionValues = new List<int>();
+                    contactPositionValues.Add(row + 1);
+                    contactPositionValues.Add(column + 1);
+                    contactPosition.Add(contactPositionValues);
+                    isPieceInContact = true;
+                    //Debug.Log(currentTable.GetPiecesPosition()[currentPos[0] + 1][currentPos[1] + 1]);
+                }
+            }
+            if (column > 0)
+            {
+                if (currentTable.GetPiecesPosition()[row + 1][column - 1] != null &&
+                    currentTable.GetPiecesPosition()[row + 1][column - 1].GetIsBlack() != currentTable.GetPiecesPosition()[row][column].GetIsBlack())
+                {
+                    List<int> contactPositionValues = new List<int>();
+                    contactPositionValues.Add(row + 1);
+                    contactPositionValues.Add(column - 1);
+                    contactPosition.Add(contactPositionValues);
+                    isPieceInContact = true;
+                    //Debug.Log(currentTable.GetPiecesPosition()[currentPos[0] + 1][currentPos[1] - 1]);
+                }
+            }
+        }
+        return isPieceInContact;
+    }
 }
