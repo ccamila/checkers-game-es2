@@ -59,7 +59,7 @@ public class BoardTrigger : MonoBehaviour
                 }*/
 
                 gameController.SetNewPOs(gameObject.GetComponent<BoardPiece>());
-                gameController.updateGameobject();
+                gameController.UpdateGameobject();
                 gameObject.GetComponent<BoardPiece>().SetPlayable();
             }
         }
