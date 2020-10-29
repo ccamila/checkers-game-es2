@@ -28,12 +28,12 @@ public class Board : MonoBehaviour, IBoard
         return boardPpiecesMatrix;
     }
 
-    public void SetBoardPiecePlayable(int row, int column)
+    public void SetBoardSpacePlayable(int row, int column)
     {
         boardPpiecesMatrix[row][column].SetPlayable();
     }
 
-    public BoardPiece GetBoardPiece(int row, int column)
+    public BoardPiece GetBoardSpace(int row, int column)
     {
         return boardPpiecesMatrix[row][column];
     }

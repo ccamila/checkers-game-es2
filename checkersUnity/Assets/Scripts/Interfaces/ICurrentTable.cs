@@ -6,8 +6,9 @@ interface ICurrentTable
 {
     Board GetCurrentBoard();
     void SetCurrentBoard(Board updatedBoard);
+    List<List<BoardPiece>> GetCurretBoardSpacePositions();
     List<List<Piece>> GetPiecesPosition();
-    void SetPiecesPosition(List<List<Piece>> updatedPiecsositions);
+
     void UpdatePiecesPosition(int row, int column, Piece piece);
 
 }

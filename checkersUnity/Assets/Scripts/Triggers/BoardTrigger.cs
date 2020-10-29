@@ -11,56 +11,30 @@ public class BoardTrigger : MonoBehaviour
     {
 
         gameController = GameController.instance();
+        Debug.Log(gameObject.GetComponent<BoardPiece>().IsPlayable());
 
         if (gameController.GetIsPieceClicked())
         {
 
             TableConstructor tableConstructor = TableConstructor.instance();
-            Board board = tableConstructor.GetBoard();
+            //Board board = tableConstructor.GetBoard();
 
-            /*       for (int i = 0; i < playableArea.Count; i++)
-                    {
-                        for (int j = 0; j < playableArea[0].Count; j++)
-                        {
-                            Debug.Log(playableArea[i][j].gameObject.name + " ## ## ##" + playableArea[i][j].IsPlayable());
-
-                        }
-                        Debug.Log(gameObject.GetComponent<BoardPiece>().IsPlayable());
-                    }*/
-
-            /*        Debug.Log(gameObject.GetComponent<BoardPiece>().IsPlayable() + "fd");*/
-
-            /*        for (int i = 0; i < board.GetBoardMatrix().Count; i++)
-                    {
-                        for (int j = 0; j < board.GetBoardMatrix()[0].tablePiecePosition.Count; j++)
-                        {
-
-                            Destroy(board.GetBoardMatrix()[i].tablePiecePosition[j].gameObject.GetComponent<MeshRenderer>().material = grayMaterial);
-                        }
-                    }*/
 
             if (gameObject.GetComponent<BoardPiece>().IsPlayable())
             {
-/*                List<List<BoardPiece>> boardPieces = gameController.GetCurrentTable().GetCurretBoardPositions();
-                bool controlPieces = true;
-                int rowValues = 0;
-                while (controlPieces)
+                if (gameController.GetMandatoryEat() == true)
                 {
-                    if (boardPieces[rowValues].Contains(gameObject.GetComponent<BoardPiece>()))
-                    {
-                        gameController.SetcurrentBoardPieceIndex(boardPieces[rowValues].IndexOf(gameObject.GetComponent<BoardPiece>()));
-                        controlPieces = false;
-                    }
-                    rowValues++;
-                    if (rowValues == boardPieces.Count)
-                    {
-                        controlPieces = false;
-                    }
-                }*/
-
-                gameController.SetNewPOs(gameObject.GetComponent<BoardPiece>());
-                gameController.UpdateGameobject();
-                gameObject.GetComponent<BoardPiece>().SetPlayable();
+                    gameController.SetNewBoardPosition(gameObject.GetComponent<BoardPiece>());
+                    gameController.UpdateGameObjectBlockedDueMandatoryEat();
+                    gameObject.GetComponent<BoardPiece>().SetPlayable();
+                }
+                else 
+                {
+                    
+                    gameController.SetNewBoardPosition(gameObject.GetComponent<BoardPiece>());
+                    gameController.UpdateGameObject();
+                    gameObject.GetComponent<BoardPiece>().SetPlayable();
+                }
             }
         }
     }
