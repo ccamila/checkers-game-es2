@@ -5,11 +5,6 @@ using UnityEngine;
 
 public class Board : MonoBehaviour, IBoard
 {
-    [SerializeField]
-    private bool boardClassic_8x8 = true;
-
-    [SerializeField]
-    private bool boardLarger_10x10 = false;
 
     [SerializeField]
     private int tableSize = 8;
@@ -33,12 +28,12 @@ public class Board : MonoBehaviour, IBoard
         return boardPpiecesMatrix;
     }
 
-    public void SetBoardPiecePlayable(int row, int column)
+    public void SetBoardSpacePlayable(int row, int column)
     {
         boardPpiecesMatrix[row][column].SetPlayable();
     }
 
-    public BoardPiece GetBoardPiece(int row, int column)
+    public BoardPiece GetBoardSpace(int row, int column)
     {
         return boardPpiecesMatrix[row][column];
     }
@@ -67,7 +62,6 @@ public class Board : MonoBehaviour, IBoard
 
     private List<List<Piece>> StartEmpityList()
     {
-
         List<List<Piece>> emptyList = new List<List<Piece>>(); 
         for (int j = 0; j < tableSize; j++)
         {

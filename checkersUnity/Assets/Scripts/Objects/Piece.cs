@@ -13,7 +13,7 @@ public class Piece : MonoBehaviour, IPieces
         return isKing;
     }
 
-    public bool IsBlack()
+    public bool GetIsBlack()
     {
         return isBlack;
     }

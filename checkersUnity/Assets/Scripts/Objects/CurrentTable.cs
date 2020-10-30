@@ -18,25 +18,19 @@ public class CurrentTable : ICurrentTable
         return board;
     }
 
-    public List<List<BoardPiece>> GetCurretBoardPositions()
+    public List<List<BoardPiece>> GetCurretBoardSpacePositions()
     {
         return board.GetBoardMatrix();
     }
-
 
     public void SetCurrentBoard(Board updatedBoard)
     {
         board = updatedBoard;
     }
 
-
     public List<List<Piece>> GetPiecesPosition()
     {
         return piecesPosition;
-    }
-    public void SetPiecesPosition(List<List<Piece>> updatedPiecsositions)
-    {
-        piecesPosition = updatedPiecsositions;
     }
 
     public void UpdatePiecesPosition(int row, int column, Piece piece)

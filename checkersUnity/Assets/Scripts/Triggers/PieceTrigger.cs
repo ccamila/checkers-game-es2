@@ -9,14 +9,21 @@ public class PieceTrigger : MonoBehaviour
     public void OnMouseDown()
     {
         gameController = GameController.instance();
-        if (gameObject.GetComponent<Piece>().IsBlack() == gameController.GetBlackTurn()) 
+        if (gameController.GetMandatoryEat() == false)
         {
-            if (gameController.GetIsPieceClicked())
+            if (gameObject.GetComponent<Piece>().GetIsBlack() == gameController.GetBlackTurn())
             {
-                if (gameController.GetClickedPiece() == gameObject)
+                if (gameController.GetIsPieceClicked())
                 {
-                    gameController.SetIsPieceClicked();
-                    gameController.SetClickedPiece(null);
+                    if (gameController.GetClickedPiece() == gameObject)
+                    {
+                        gameController.SetIsPieceClicked();
+                        gameController.SetClickedPiece(null);
+                    }
+                    else
+                    {
+                        ClickedBehaviour();
+                    }
                 }
                 else
                 {
@@ -25,12 +32,12 @@ public class PieceTrigger : MonoBehaviour
             }
             else
             {
-                ClickedBehaviour();
+                Debug.Log("Not Your turn now");
             }
         }
         else 
         {
-            Debug.Log("Not Your turn now");
+            Debug.Log("You are obligate to eat");
         }
     }
     private void ClickedBehaviour()
@@ -67,6 +74,6 @@ public class PieceTrigger : MonoBehaviour
         }
 
         gameController.SetPiece(gameObject.GetComponent<Piece>());
-        gameController.SetOldPOs(row, column);
+        gameController.SetOldPosition(row, column);
     }
 }
