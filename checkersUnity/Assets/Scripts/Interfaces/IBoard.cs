@@ -2,9 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-interface IBoard 
+interface IBoard
 {
-    void ConstructBoard();
-    void OnChangeBehaviour();
+
+    int GetSizeOfTable();
+    void SetSizeOfTable(int newSize);
+    List<List<BoardPiece>> GetBoardMatrix();
+    void SetBoardSpacePlayable(int row, int column);
+    BoardPiece GetBoardSpace(int row, int column);
+    List<List<Piece>> GetPiecesPositionList();
+    void UpdatePiecesPositionList(int row, int column, Piece piece);
+    void AddRowOfTablePieces(List<BoardPiece> newTableRow);
+
 
 }
