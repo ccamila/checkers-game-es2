@@ -8,6 +8,7 @@ public class GameController : MonoBehaviour
 
     PiecesConstructor piecesConstructor;
     TableConstructor tableConstructor;
+    IAPlayerController iaPlayerController;
     Piece pieceToUpdate;
     int[] currentPosition, newPosition;
 
@@ -56,8 +57,10 @@ public class GameController : MonoBehaviour
     {
         tableConstructor = TableConstructor.instance();
         piecesConstructor = PiecesConstructor.instance();
+        iaPlayerController = IAPlayerController.Instance();
         tableConstructor.ConstructBoard();
         piecesConstructor.ConstructPieces();
+        iaPlayerController.SetGameController();
         currentTable = new CurrentTable(tableConstructor.GetBoard(), piecesConstructor.GetPiecesPosition());
         //Debug.Log(currentTable.GetCurrentBoard().gameObject.name);
         //playbleBoard = tableConstructor.GetPlaybleArea();
@@ -106,9 +109,30 @@ public class GameController : MonoBehaviour
         currentPosition[0] = row;
         currentPosition[1] = column;
     }
+   
+    private void UpdateTurn(bool setMandatoryEatFalse)
+    {
+        pieceToUpdate = null;
+        SetIsPieceClicked();
+        SetClickedPiece(null);
+        if (setMandatoryEatFalse)
+        {
+            mandatoryEat = false;
+        }
+        isBlackTurn = !isBlackTurn;
+        if( (isBlackTurn && iaPlayerController.GetIsIAPlayerBlack()) || (!isBlackTurn && !iaPlayerController.GetIsIAPlayerBlack()))
+        {
+            if (!iaPlayerController.MakeAMove())
+            {
+                Debug.Log("AI cant move");
+            }
+
+        }
+           
+    }
     public void UpdateGameObject()
     {
-
+        
         if (pieceToUpdate)
         {
 
@@ -129,7 +153,7 @@ public class GameController : MonoBehaviour
             if (canEatLeft && (((newPosition[0] != eatPositionLeft[0]) || newPosition[1] != eatPositionLeft[1])) ||
                 (canEatRight && ((newPosition[0] != eatPositionRight[0]) || newPosition[1] != eatPositionRight[1])))
             {
-                Debug.Log("You have to eat now");
+                //Debug.Log("You have to eat now");
             }
             else if (canEatLeft && (newPosition[0] == eatPositionLeft[0] && newPosition[1] == eatPositionLeft[1]))
             {
@@ -159,11 +183,12 @@ public class GameController : MonoBehaviour
                 }
                 else
                 {
-                    pieceToUpdate = null;
+                    this.UpdateTurn(true);
+                    /*pieceToUpdate = null;
                     SetIsPieceClicked();
                     SetClickedPiece(null);
                     mandatoryEat = false;
-                    isBlackTurn = !isBlackTurn;
+                    isBlackTurn = !isBlackTurn;*/
                 }
 
             }
@@ -196,11 +221,12 @@ public class GameController : MonoBehaviour
                 }
                 else
                 {
-                    pieceToUpdate = null;
+                    this.UpdateTurn(true);
+                   /* pieceToUpdate = null;
                     SetIsPieceClicked();
                     SetClickedPiece(null);
                     mandatoryEat = false;
-                    isBlackTurn = !isBlackTurn;
+                    isBlackTurn = !isBlackTurn;*/
                 }
                 //hasEaten = true;
             }
@@ -224,10 +250,11 @@ public class GameController : MonoBehaviour
                     currentPosition[0] = newPosition[0];
                     currentPosition[1] = newPosition[1];
 
-                    pieceToUpdate = null;
+                    this.UpdateTurn(false);
+                    /*pieceToUpdate = null;
                     SetIsPieceClicked();
                     SetClickedPiece(null);
-                    isBlackTurn = !isBlackTurn;
+                    isBlackTurn = !isBlackTurn;*/
 
                 }
                 else
@@ -271,11 +298,12 @@ public class GameController : MonoBehaviour
                 }
                 else
                 {
-                    pieceToUpdate = null;
+                    this.UpdateTurn(true);
+                   /* pieceToUpdate = null;
                     SetIsPieceClicked();
                     SetClickedPiece(null);
                     mandatoryEat = false;
-                    isBlackTurn = !isBlackTurn;
+                    isBlackTurn = !isBlackTurn;*/
                 }
 
 
@@ -310,11 +338,12 @@ public class GameController : MonoBehaviour
                 }
                 else
                 {
-                    pieceToUpdate = null;
+                    this.UpdateTurn(true);
+                    /*pieceToUpdate = null;
                     SetIsPieceClicked();
                     SetClickedPiece(null);
                     mandatoryEat = false;
-                    isBlackTurn = !isBlackTurn;
+                    isBlackTurn = !isBlackTurn;*/
                 }
 
             }
@@ -349,11 +378,12 @@ public class GameController : MonoBehaviour
                 }
                 else
                 {
-                    pieceToUpdate = null;
+                    this.UpdateTurn(true);
+                   /* pieceToUpdate = null;
                     SetIsPieceClicked();
                     SetClickedPiece(null);
                     mandatoryEat = false;
-                    isBlackTurn = !isBlackTurn;
+                    isBlackTurn = !isBlackTurn;*/
                 }
 
             }
@@ -392,11 +422,12 @@ public class GameController : MonoBehaviour
                 }
                 else
                 {
-                    pieceToUpdate = null;
+                    this.UpdateTurn(true);
+                   /* pieceToUpdate = null;
                     SetIsPieceClicked();
                     SetClickedPiece(null);
                     mandatoryEat = false;
-                    isBlackTurn = !isBlackTurn;
+                    isBlackTurn = !isBlackTurn;*/
                 }
 
             }
