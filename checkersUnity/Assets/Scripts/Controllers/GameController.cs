@@ -146,179 +146,208 @@ public class GameController : MonoBehaviour
                 canEatDownRight = PieceInContactDownRight(contacPositionDownRight[0], contacPositionDownRight[1], isPieceInContactWihtOpponentDownRight);
             }
 
-            if (canEatUpLeft && (((newPosition[0] != eatPositionUpLeft[0]) || newPosition[1] != eatPositionUpLeft[1])) ||
+/*            if (canEatUpLeft && (((newPosition[0] != eatPositionUpLeft[0]) || newPosition[1] != eatPositionUpLeft[1])) ||
                 (canEatUpRight && ((newPosition[0] != eatPositionUpRight[0]) || newPosition[1] != eatPositionUpRight[1])) ||
                 (canEatDownRight && ((newPosition[0] != eatPositionDownRight[0]) || newPosition[1] != eatPositionDownRight[1])) ||
                 (canEatDownRight && ((newPosition[0] != eatPositionDownRight[0]) || newPosition[1] != eatPositionDownRight[1])))
             {
                 Debug.Log("You have to eat now");
             }
-            else if (canEatUpLeft && (newPosition[0] == eatPositionUpLeft[0] && newPosition[1] == eatPositionUpLeft[1]))
+            else*/ if (canEatUpLeft && (newPosition[0] == eatPositionUpLeft[0] && newPosition[1] == eatPositionUpLeft[1]))
             {
-
-                GameObject newBoardPositionPiece = currentTable.GetCurretBoardSpacePositions()[newPosition[0]][newPosition[1]].gameObject;
-                Vector2 newBoardPosition = new Vector2(newBoardPositionPiece.transform.position.x, newBoardPositionPiece.transform.position.y);
-
-                currentTable.GetCurrentBoard().SetBoardSpacePlayable(currentPosition[0], currentPosition[1]);
-
-                pieceToUpdate.gameObject.transform.position = newBoardPosition;
-
-                currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
-
-                currentTable.UpdatePiecesPosition(currentPosition[0], currentPosition[1], null);
-                currentPosition[0] = newPosition[0];
-                currentPosition[1] = newPosition[1];
-                currentTable.GetCurrentBoard().SetBoardSpacePlayable(contactPositionUpLeft[0], contactPositionUpLeft[1]);
-
-                piecesToEat.Add(currentTable.GetPiecesPosition()[contactPositionUpLeft[0]][contactPositionUpLeft[1]]);
-                auxiliarPositionList.Add(contactPositionUpLeft[0]);
-                auxiliarPositionList.Add(contactPositionUpLeft[1]);
-
-                currentTable.GetPiecesPosition()[contactPositionUpLeft[0]][contactPositionUpLeft[1]].SetIsAvaiableToEat(false);
-                
-                bool checkToEatAgain = CheckPieceDiagonals(newPosition[0], newPosition[1]);
-                Debug.Log(checkToEatAgain + " EATT again UP LEF");
-                if (checkToEatAgain)
+                if (!piecesToEat.Contains(currentTable.GetPiecesPosition()[contactPositionUpLeft[0]][contactPositionUpLeft[1]]))
                 {
-                    mandatoryEat = true;
+                    GameObject newBoardPositionPiece = currentTable.GetCurretBoardSpacePositions()[newPosition[0]][newPosition[1]].gameObject;
+                    Vector2 newBoardPosition = new Vector2(newBoardPositionPiece.transform.position.x, newBoardPositionPiece.transform.position.y);
+
+                    currentTable.GetCurrentBoard().SetBoardSpacePlayable(currentPosition[0], currentPosition[1]);
+
+                    pieceToUpdate.gameObject.transform.position = newBoardPosition;
+
+                    currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
+
+                    currentTable.UpdatePiecesPosition(currentPosition[0], currentPosition[1], null);
+                    currentPosition[0] = newPosition[0];
+                    currentPosition[1] = newPosition[1];
+                    currentTable.GetCurrentBoard().SetBoardSpacePlayable(contactPositionUpLeft[0], contactPositionUpLeft[1]);
+
+                    piecesToEat.Add(currentTable.GetPiecesPosition()[contactPositionUpLeft[0]][contactPositionUpLeft[1]]);
+                    auxiliarPositionList.Add(contactPositionUpLeft[0]);
+                    auxiliarPositionList.Add(contactPositionUpLeft[1]);
+
+                    currentTable.GetPiecesPosition()[contactPositionUpLeft[0]][contactPositionUpLeft[1]].SetIsAvaiableToEat(false);
+
+                    bool checkToEatAgain = CheckPieceDiagonals(newPosition[0], newPosition[1]);
+                    Debug.Log(checkToEatAgain + " EATT again UP LEF");
+                    if (checkToEatAgain)
+                    {
+                        mandatoryEat = true;
+                    }
+                    else
+                    {
+                        pieceToUpdate = null;
+                        SetIsPieceClicked();
+                        SetClickedPiece(null);
+                        mandatoryEat = false;
+                        isBlackTurn = !isBlackTurn;
+                        piecesToEat = new List<Piece>();
+                        Debug.Log("Eating piece " + currentTable.GetPiecesPosition()[contactPositionUpLeft[0]][contactPositionUpLeft[1]].gameObject.name);
+                        Destroy(currentTable.GetPiecesPosition()[contactPositionUpLeft[0]][contactPositionUpLeft[1]].gameObject);
+                        currentTable.UpdatePiecesPosition(contactPositionUpLeft[0], contactPositionUpLeft[1], null);
+                    }
                 }
                 else
                 {
-                    pieceToUpdate = null;
-                    SetIsPieceClicked();
-                    SetClickedPiece(null);
-                    mandatoryEat = false;
-                    isBlackTurn = !isBlackTurn;
-                    piecesToEat = new List<Piece>();
-                    Debug.Log("Eating piece " + currentTable.GetPiecesPosition()[contactPositionUpLeft[0]][contactPositionUpLeft[1]].gameObject.name);
-                    Destroy(currentTable.GetPiecesPosition()[contactPositionUpLeft[0]][contactPositionUpLeft[1]].gameObject);
-                    currentTable.UpdatePiecesPosition(contactPositionUpLeft[0], contactPositionUpLeft[1], null);
+                    Debug.Log("jogada morre aqui, liberar ");
                 }
 
             }
             else if (canEatUpRight && (newPosition[0] == eatPositionUpRight[0] && newPosition[1] == eatPositionUpRight[1]))
             {
-                GameObject newBoardPositionPiece = currentTable.GetCurretBoardSpacePositions()[newPosition[0]][newPosition[1]].gameObject;
-                Vector2 newBoardPosition = new Vector2(newBoardPositionPiece.transform.position.x, newBoardPositionPiece.transform.position.y);
-
-                currentTable.GetCurrentBoard().SetBoardSpacePlayable(currentPosition[0], currentPosition[1]);
-
-                pieceToUpdate.gameObject.transform.position = newBoardPosition;
-
-                currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
-
-                currentTable.UpdatePiecesPosition(currentPosition[0], currentPosition[1], null);
-                currentPosition[0] = newPosition[0];
-                currentPosition[1] = newPosition[1];
-
-                currentTable.GetCurrentBoard().SetBoardSpacePlayable(contacPositionUpRight[0], contacPositionUpRight[1]);
-                piecesToEat.Add(currentTable.GetPiecesPosition()[contacPositionUpRight[0]][contacPositionUpRight[1]]);
-
-                currentTable.GetPiecesPosition()[contacPositionUpRight[0]][contacPositionUpRight[1]].SetIsAvaiableToEat(false);
-
-                bool checkToEatAgain = CheckPieceDiagonals(newPosition[0], newPosition[1]);
-                Debug.Log(checkToEatAgain + " EATT again UP RIG");
-                if (checkToEatAgain)
+                if (!piecesToEat.Contains(currentTable.GetPiecesPosition()[contacPositionUpRight[0]][contacPositionUpRight[1]]))
                 {
-                    mandatoryEat = true;
+                    GameObject newBoardPositionPiece = currentTable.GetCurretBoardSpacePositions()[newPosition[0]][newPosition[1]].gameObject;
+                    Vector2 newBoardPosition = new Vector2(newBoardPositionPiece.transform.position.x, newBoardPositionPiece.transform.position.y);
+
+                    currentTable.GetCurrentBoard().SetBoardSpacePlayable(currentPosition[0], currentPosition[1]);
+
+                    pieceToUpdate.gameObject.transform.position = newBoardPosition;
+
+                    currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
+
+                    currentTable.UpdatePiecesPosition(currentPosition[0], currentPosition[1], null);
+                    currentPosition[0] = newPosition[0];
+                    currentPosition[1] = newPosition[1];
+
+                    currentTable.GetCurrentBoard().SetBoardSpacePlayable(contacPositionUpRight[0], contacPositionUpRight[1]);
+                    piecesToEat.Add(currentTable.GetPiecesPosition()[contacPositionUpRight[0]][contacPositionUpRight[1]]);
+
+                    currentTable.GetPiecesPosition()[contacPositionUpRight[0]][contacPositionUpRight[1]].SetIsAvaiableToEat(false);
+
+                    bool checkToEatAgain = CheckPieceDiagonals(newPosition[0], newPosition[1]);
+                    Debug.Log(checkToEatAgain + " EATT again UP RIG");
+                    if (checkToEatAgain)
+                    {
+                        mandatoryEat = true;
+                    }
+                    else
+                    {
+                        pieceToUpdate = null;
+                        SetIsPieceClicked();
+                        SetClickedPiece(null);
+                        mandatoryEat = false;
+                        isBlackTurn = !isBlackTurn;
+                        Debug.Log("Eating piece " + currentTable.GetPiecesPosition()[contacPositionUpRight[0]][contacPositionUpRight[1]].gameObject.name);
+                        Destroy(currentTable.GetPiecesPosition()[contacPositionUpRight[0]][contacPositionUpRight[1]].gameObject);
+                        currentTable.UpdatePiecesPosition(contacPositionUpRight[0], contacPositionUpRight[1], null);
+
+                    }
                 }
                 else
                 {
-                    pieceToUpdate = null;
-                    SetIsPieceClicked();
-                    SetClickedPiece(null);
-                    mandatoryEat = false;
-                    isBlackTurn = !isBlackTurn;
-                    Debug.Log("Eating piece " + currentTable.GetPiecesPosition()[contacPositionUpRight[0]][contacPositionUpRight[1]].gameObject.name);
-                    Destroy(currentTable.GetPiecesPosition()[contacPositionUpRight[0]][contacPositionUpRight[1]].gameObject);
-                    currentTable.UpdatePiecesPosition(contacPositionUpRight[0], contacPositionUpRight[1], null);
-
+                    Debug.Log("jogada morre aqui, liberar ");
                 }
+
                 //hasEaten = true;
             }
             else if (canEatDownLeft && (newPosition[0] == eatPositionDownLeft[0] && newPosition[1] == eatPositionDownLeft[1]))
             {
-
-                GameObject newBoardPositionPiece = currentTable.GetCurretBoardSpacePositions()[newPosition[0]][newPosition[1]].gameObject;
-                Vector2 newBoardPosition = new Vector2(newBoardPositionPiece.transform.position.x, newBoardPositionPiece.transform.position.y);
-
-                currentTable.GetCurrentBoard().SetBoardSpacePlayable(currentPosition[0], currentPosition[1]);
-
-                pieceToUpdate.gameObject.transform.position = newBoardPosition;
-
-                currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
-
-                currentTable.UpdatePiecesPosition(currentPosition[0], currentPosition[1], null);
-                currentPosition[0] = newPosition[0];
-                currentPosition[1] = newPosition[1];
-                currentTable.GetCurrentBoard().SetBoardSpacePlayable(contactPositionDownLeft[0], contactPositionDownLeft[1]);
-
-                piecesToEat.Add(currentTable.GetPiecesPosition()[contactPositionDownLeft[0]][contactPositionDownLeft[1]]);
-                auxiliarPositionList.Add(contactPositionDownLeft[0]);
-                auxiliarPositionList.Add(contactPositionDownLeft[1]);
-
-                currentTable.GetPiecesPosition()[contactPositionDownLeft[0]][contactPositionDownLeft[1]].SetIsAvaiableToEat(false);
-
-                bool checkToEatAgain = CheckPieceDiagonals(newPosition[0], newPosition[1]);
-                Debug.Log(checkToEatAgain + " EATT again DWn LEF");
-                if (checkToEatAgain)
+                if (!piecesToEat.Contains(currentTable.GetPiecesPosition()[contactPositionDownLeft[0]][contactPositionDownLeft[1]]))
                 {
-                    mandatoryEat = true;
+
+                    GameObject newBoardPositionPiece = currentTable.GetCurretBoardSpacePositions()[newPosition[0]][newPosition[1]].gameObject;
+                    Vector2 newBoardPosition = new Vector2(newBoardPositionPiece.transform.position.x, newBoardPositionPiece.transform.position.y);
+
+                    currentTable.GetCurrentBoard().SetBoardSpacePlayable(currentPosition[0], currentPosition[1]);
+
+                    pieceToUpdate.gameObject.transform.position = newBoardPosition;
+
+                    currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
+
+                    currentTable.UpdatePiecesPosition(currentPosition[0], currentPosition[1], null);
+                    currentPosition[0] = newPosition[0];
+                    currentPosition[1] = newPosition[1];
+                    currentTable.GetCurrentBoard().SetBoardSpacePlayable(contactPositionDownLeft[0], contactPositionDownLeft[1]);
+
+                    piecesToEat.Add(currentTable.GetPiecesPosition()[contactPositionDownLeft[0]][contactPositionDownLeft[1]]);
+                    auxiliarPositionList.Add(contactPositionDownLeft[0]);
+                    auxiliarPositionList.Add(contactPositionDownLeft[1]);
+
+                    currentTable.GetPiecesPosition()[contactPositionDownLeft[0]][contactPositionDownLeft[1]].SetIsAvaiableToEat(false);
+
+                    bool checkToEatAgain = CheckPieceDiagonals(newPosition[0], newPosition[1]);
+                    Debug.Log(checkToEatAgain + " EATT again DWn LEF");
+                    if (checkToEatAgain)
+                    {
+                        mandatoryEat = true;
+                    }
+                    else
+                    {
+                        pieceToUpdate = null;
+                        SetIsPieceClicked();
+                        SetClickedPiece(null);
+                        mandatoryEat = false;
+                        isBlackTurn = !isBlackTurn;
+                        Debug.Log("Eating piece " + currentTable.GetPiecesPosition()[contactPositionDownLeft[0]][contactPositionDownLeft[1]].gameObject.name);
+                        Destroy(currentTable.GetPiecesPosition()[contactPositionDownLeft[0]][contactPositionDownLeft[1]].gameObject);
+                        currentTable.UpdatePiecesPosition(contactPositionDownLeft[0], contactPositionDownLeft[1], null);
+                    }
                 }
                 else
                 {
-                    pieceToUpdate = null;
-                    SetIsPieceClicked();
-                    SetClickedPiece(null);
-                    mandatoryEat = false;
-                    isBlackTurn = !isBlackTurn;
-                    Debug.Log("Eating piece " + currentTable.GetPiecesPosition()[contactPositionDownLeft[0]][contactPositionDownLeft[1]].gameObject.name);
-                    Destroy(currentTable.GetPiecesPosition()[contactPositionDownLeft[0]][contactPositionDownLeft[1]].gameObject);
-                    currentTable.UpdatePiecesPosition(contactPositionDownLeft[0], contactPositionDownLeft[1], null);
+                    Debug.Log("jogada morre aqui, liberar ");
                 }
 
             }
             else if (canEatDownRight && (newPosition[0] == eatPositionDownRight[0] && newPosition[1] == eatPositionDownRight[1]))
             {
-                GameObject newBoardPositionPiece = currentTable.GetCurretBoardSpacePositions()[newPosition[0]][newPosition[1]].gameObject;
-                Vector2 newBoardPosition = new Vector2(newBoardPositionPiece.transform.position.x, newBoardPositionPiece.transform.position.y);
-
-                currentTable.GetCurrentBoard().SetBoardSpacePlayable(currentPosition[0], currentPosition[1]);
-
-                pieceToUpdate.gameObject.transform.position = newBoardPosition;
-
-                currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
-
-                currentTable.UpdatePiecesPosition(currentPosition[0], currentPosition[1], null);
-                currentPosition[0] = newPosition[0];
-                currentPosition[1] = newPosition[1];
-
-                currentTable.GetCurrentBoard().SetBoardSpacePlayable(contacPositionDownRight[0], contacPositionDownRight[1]);
-                GameObject pieceToDestroy = currentTable.GetPiecesPosition()[contacPositionDownRight[0]][contacPositionDownRight[1]].gameObject;
-                Debug.Log(pieceToDestroy);
-                Destroy(pieceToDestroy);
-                currentTable.UpdatePiecesPosition(contacPositionDownRight[0], contacPositionDownRight[1], null);
-
-                bool checkToEatAgain = CheckPieceDiagonals(newPosition[0], newPosition[1]);
-
-                currentTable.GetPiecesPosition()[contactPositionDownLeft[0]][contactPositionDownLeft[1]].SetIsAvaiableToEat(false);
-
-                Debug.Log(checkToEatAgain + " EATT again DWN RIG");
-                if (checkToEatAgain)
+                if (!piecesToEat.Contains(currentTable.GetPiecesPosition()[contacPositionDownRight[0]][contacPositionDownRight[1]]))
                 {
 
-                    mandatoryEat = true;
+                    GameObject newBoardPositionPiece = currentTable.GetCurretBoardSpacePositions()[newPosition[0]][newPosition[1]].gameObject;
+                    Vector2 newBoardPosition = new Vector2(newBoardPositionPiece.transform.position.x, newBoardPositionPiece.transform.position.y);
+
+                    currentTable.GetCurrentBoard().SetBoardSpacePlayable(currentPosition[0], currentPosition[1]);
+
+                    pieceToUpdate.gameObject.transform.position = newBoardPosition;
+
+                    currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
+
+                    currentTable.UpdatePiecesPosition(currentPosition[0], currentPosition[1], null);
+                    currentPosition[0] = newPosition[0];
+                    currentPosition[1] = newPosition[1];
+
+                    currentTable.GetCurrentBoard().SetBoardSpacePlayable(contacPositionDownRight[0], contacPositionDownRight[1]);
+                    GameObject pieceToDestroy = currentTable.GetPiecesPosition()[contacPositionDownRight[0]][contacPositionDownRight[1]].gameObject;
+                    Debug.Log(pieceToDestroy);
+                    Destroy(pieceToDestroy);
+                    currentTable.UpdatePiecesPosition(contacPositionDownRight[0], contacPositionDownRight[1], null);
+
+                    bool checkToEatAgain = CheckPieceDiagonals(newPosition[0], newPosition[1]);
+
+                    currentTable.GetPiecesPosition()[contactPositionDownLeft[0]][contactPositionDownLeft[1]].SetIsAvaiableToEat(false);
+
+                    Debug.Log(checkToEatAgain + " EATT again DWN RIG");
+                    if (checkToEatAgain)
+                    {
+
+                        mandatoryEat = true;
+                    }
+                    else
+                    {
+                        pieceToUpdate = null;
+                        SetIsPieceClicked();
+                        SetClickedPiece(null);
+                        mandatoryEat = false;
+                        isBlackTurn = !isBlackTurn;
+                        Debug.Log("Eating piece " + currentTable.GetPiecesPosition()[contactPositionDownLeft[0]][contactPositionDownLeft[1]].gameObject.name);
+                        Destroy(currentTable.GetPiecesPosition()[contactPositionDownLeft[0]][contactPositionDownLeft[1]].gameObject);
+                        currentTable.UpdatePiecesPosition(contactPositionDownLeft[0], contactPositionDownLeft[1], null);
+                    }
                 }
                 else
                 {
-                    pieceToUpdate = null;
-                    SetIsPieceClicked();
-                    SetClickedPiece(null);
-                    mandatoryEat = false;
-                    isBlackTurn = !isBlackTurn;
-                    Debug.Log("Eating piece " + currentTable.GetPiecesPosition()[contactPositionDownLeft[0]][contactPositionDownLeft[1]].gameObject.name);
-                    Destroy(currentTable.GetPiecesPosition()[contactPositionDownLeft[0]][contactPositionDownLeft[1]].gameObject);
-                    currentTable.UpdatePiecesPosition(contactPositionDownLeft[0], contactPositionDownLeft[1], null);
+                    Debug.Log("jogada morre aqui, liberar ");
                 }
                 //hasEaten = true;
             }
