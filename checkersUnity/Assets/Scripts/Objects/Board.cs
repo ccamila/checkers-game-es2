@@ -30,6 +30,7 @@ public class Board : MonoBehaviour, IBoard
 
     public void SetBoardSpacePlayable(int row, int column)
     {
+        Debug.Log("updatting pos " + row + " " + column + " from " + boardPpiecesMatrix[row][column].IsPlayable() + " to " + !boardPpiecesMatrix[row][column].IsPlayable());
         boardPpiecesMatrix[row][column].SetPlayable();
     }
 

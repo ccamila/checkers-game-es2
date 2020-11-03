@@ -11,4 +11,6 @@ interface IPieces
     void SetIsKing(bool isThePieceKing);
     bool GetIsUp();
     void SetIsUp(bool isThePieceUpInTable);
+    bool GetIsAvaiableToEat();
+    void SetIsAvaiableToEat(bool isAvaiableToEatValue);
 }

@@ -7,6 +7,7 @@ public class Piece : MonoBehaviour, IPieces
     private bool isBlack;
     private bool isKing;
     private bool isUp;
+    private bool isAvaiableToEat;
 
     public bool GetIsKing()
     {
@@ -43,4 +44,13 @@ public class Piece : MonoBehaviour, IPieces
         isUp = isThePieceUpInTable;
     }
 
+    public bool GetIsAvaiableToEat()
+    {
+        return isAvaiableToEat;
+    }
+
+    public void SetIsAvaiableToEat(bool isAvaiableToEatValue)
+    {
+        isAvaiableToEat = isAvaiableToEatValue;
+    }
 }

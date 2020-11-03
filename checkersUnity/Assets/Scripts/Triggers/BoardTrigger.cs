@@ -33,7 +33,7 @@ public class BoardTrigger : MonoBehaviour
                     
                     gameController.SetNewBoardPosition(gameObject.GetComponent<BoardPiece>());
                     gameController.UpdateGameObject();
-                    gameObject.GetComponent<BoardPiece>().SetPlayable();
+                    /*gameObject.GetComponent<BoardPiece>().SetPlayable();*/
                 }
             }
         }
