@@ -29,7 +29,9 @@ public class GameController : MonoBehaviour
     List<int> positionUpRight;
     List<int> positionDownLeft;
     List<int> positionDownRight;
-    List<List<int>> placesToEatAgain;
+    //List<int> positionlacesToEatAgain;
+    Dictionary<int, List<int>> positionToEatAgain;
+    int dictionaryIndexController = 0;
     List<Piece> piecesToEat;
     List<List<int>> piecesToEatPositions;
 
@@ -146,14 +148,15 @@ public class GameController : MonoBehaviour
                 canEatDownRight = PieceInContactDownRight(contacPositionDownRight[0], contacPositionDownRight[1], isPieceInContactWihtOpponentDownRight);
             }
 
-/*            if (canEatUpLeft && (((newPosition[0] != eatPositionUpLeft[0]) || newPosition[1] != eatPositionUpLeft[1])) ||
-                (canEatUpRight && ((newPosition[0] != eatPositionUpRight[0]) || newPosition[1] != eatPositionUpRight[1])) ||
-                (canEatDownRight && ((newPosition[0] != eatPositionDownRight[0]) || newPosition[1] != eatPositionDownRight[1])) ||
-                (canEatDownRight && ((newPosition[0] != eatPositionDownRight[0]) || newPosition[1] != eatPositionDownRight[1])))
-            {
-                Debug.Log("You have to eat now");
-            }
-            else*/ if (canEatUpLeft && (newPosition[0] == eatPositionUpLeft[0] && newPosition[1] == eatPositionUpLeft[1]))
+            /*            if (canEatUpLeft && (((newPosition[0] != eatPositionUpLeft[0]) || newPosition[1] != eatPositionUpLeft[1])) ||
+                            (canEatUpRight && ((newPosition[0] != eatPositionUpRight[0]) || newPosition[1] != eatPositionUpRight[1])) ||
+                            (canEatDownRight && ((newPosition[0] != eatPositionDownRight[0]) || newPosition[1] != eatPositionDownRight[1])) ||
+                            (canEatDownRight && ((newPosition[0] != eatPositionDownRight[0]) || newPosition[1] != eatPositionDownRight[1])))
+                        {
+                            Debug.Log("You have to eat now");
+                        }
+                        else*/
+            if (canEatUpLeft && (newPosition[0] == eatPositionUpLeft[0] && newPosition[1] == eatPositionUpLeft[1]))
             {
                 if (!piecesToEat.Contains(currentTable.GetPiecesPosition()[contactPositionUpLeft[0]][contactPositionUpLeft[1]]))
                 {
@@ -170,10 +173,17 @@ public class GameController : MonoBehaviour
                     currentPosition[0] = newPosition[0];
                     currentPosition[1] = newPosition[1];
                     currentTable.GetCurrentBoard().SetBoardSpacePlayable(contactPositionUpLeft[0], contactPositionUpLeft[1]);
-
+                    List<int> auxiliarPositiontoEatList = new List<int>();
+                    auxiliarPositiontoEatList.Add(contactPositionUpLeft[0]);
+                    auxiliarPositiontoEatList.Add(contactPositionUpLeft[1]);
                     piecesToEat.Add(currentTable.GetPiecesPosition()[contactPositionUpLeft[0]][contactPositionUpLeft[1]]);
-                    auxiliarPositionList.Add(contactPositionUpLeft[0]);
-                    auxiliarPositionList.Add(contactPositionUpLeft[1]);
+                    if (positionToEatAgain == null)
+                    {
+                        positionToEatAgain = new Dictionary<int, List<int>>();
+                        dictionaryIndexController = 0;
+                    }
+                    positionToEatAgain.Add(dictionaryIndexController, auxiliarPositiontoEatList);
+                    dictionaryIndexController++;
 
                     currentTable.GetPiecesPosition()[contactPositionUpLeft[0]][contactPositionUpLeft[1]].SetIsAvaiableToEat(false);
 
@@ -194,6 +204,8 @@ public class GameController : MonoBehaviour
                         Debug.Log("Eating piece " + currentTable.GetPiecesPosition()[contactPositionUpLeft[0]][contactPositionUpLeft[1]].gameObject.name);
                         Destroy(currentTable.GetPiecesPosition()[contactPositionUpLeft[0]][contactPositionUpLeft[1]].gameObject);
                         currentTable.UpdatePiecesPosition(contactPositionUpLeft[0], contactPositionUpLeft[1], null);
+                        positionToEatAgain = new Dictionary<int, List<int>>();
+                        dictionaryIndexController = 0;
                     }
                 }
                 else
@@ -220,7 +232,18 @@ public class GameController : MonoBehaviour
                     currentPosition[1] = newPosition[1];
 
                     currentTable.GetCurrentBoard().SetBoardSpacePlayable(contacPositionUpRight[0], contacPositionUpRight[1]);
+
+                    List<int> auxiliarPositiontoEatList = new List<int>();
+                    auxiliarPositiontoEatList.Add(contacPositionUpRight[0]);
+                    auxiliarPositiontoEatList.Add(contacPositionUpRight[1]);
                     piecesToEat.Add(currentTable.GetPiecesPosition()[contacPositionUpRight[0]][contacPositionUpRight[1]]);
+                    if (positionToEatAgain == null)
+                    {
+                        positionToEatAgain = new Dictionary<int, List<int>>();
+                        dictionaryIndexController = 0;
+                    }
+                    positionToEatAgain.Add(dictionaryIndexController, auxiliarPositiontoEatList);
+                    dictionaryIndexController++;
 
                     currentTable.GetPiecesPosition()[contacPositionUpRight[0]][contacPositionUpRight[1]].SetIsAvaiableToEat(false);
 
@@ -240,6 +263,8 @@ public class GameController : MonoBehaviour
                         Debug.Log("Eating piece " + currentTable.GetPiecesPosition()[contacPositionUpRight[0]][contacPositionUpRight[1]].gameObject.name);
                         Destroy(currentTable.GetPiecesPosition()[contacPositionUpRight[0]][contacPositionUpRight[1]].gameObject);
                         currentTable.UpdatePiecesPosition(contacPositionUpRight[0], contacPositionUpRight[1], null);
+                        positionToEatAgain = new Dictionary<int, List<int>>();
+                        dictionaryIndexController = 0;
 
                     }
                 }
@@ -269,9 +294,17 @@ public class GameController : MonoBehaviour
                     currentPosition[1] = newPosition[1];
                     currentTable.GetCurrentBoard().SetBoardSpacePlayable(contactPositionDownLeft[0], contactPositionDownLeft[1]);
 
+                    List<int> auxiliarPositiontoEatList = new List<int>();
+                    auxiliarPositiontoEatList.Add(contactPositionDownLeft[0]);
+                    auxiliarPositiontoEatList.Add(contactPositionDownLeft[1]);
                     piecesToEat.Add(currentTable.GetPiecesPosition()[contactPositionDownLeft[0]][contactPositionDownLeft[1]]);
-                    auxiliarPositionList.Add(contactPositionDownLeft[0]);
-                    auxiliarPositionList.Add(contactPositionDownLeft[1]);
+                    if (positionToEatAgain == null)
+                    {
+                        positionToEatAgain = new Dictionary<int, List<int>>();
+                        dictionaryIndexController = 0;
+                    }
+                    positionToEatAgain.Add(dictionaryIndexController, auxiliarPositiontoEatList);
+                    dictionaryIndexController++;
 
                     currentTable.GetPiecesPosition()[contactPositionDownLeft[0]][contactPositionDownLeft[1]].SetIsAvaiableToEat(false);
 
@@ -291,6 +324,8 @@ public class GameController : MonoBehaviour
                         Debug.Log("Eating piece " + currentTable.GetPiecesPosition()[contactPositionDownLeft[0]][contactPositionDownLeft[1]].gameObject.name);
                         Destroy(currentTable.GetPiecesPosition()[contactPositionDownLeft[0]][contactPositionDownLeft[1]].gameObject);
                         currentTable.UpdatePiecesPosition(contactPositionDownLeft[0], contactPositionDownLeft[1], null);
+                        positionToEatAgain = new Dictionary<int, List<int>>();
+                        dictionaryIndexController = 0;
                     }
                 }
                 else
@@ -318,14 +353,22 @@ public class GameController : MonoBehaviour
                     currentPosition[1] = newPosition[1];
 
                     currentTable.GetCurrentBoard().SetBoardSpacePlayable(contacPositionDownRight[0], contacPositionDownRight[1]);
-                    GameObject pieceToDestroy = currentTable.GetPiecesPosition()[contacPositionDownRight[0]][contacPositionDownRight[1]].gameObject;
-                    Debug.Log(pieceToDestroy);
-                    Destroy(pieceToDestroy);
-                    currentTable.UpdatePiecesPosition(contacPositionDownRight[0], contacPositionDownRight[1], null);
+
+                    List<int> auxiliarPositiontoEatList = new List<int>();
+                    auxiliarPositiontoEatList.Add(contacPositionDownRight[0]);
+                    auxiliarPositiontoEatList.Add(contacPositionDownRight[1]);
+                    piecesToEat.Add(currentTable.GetPiecesPosition()[contacPositionDownRight[0]][contacPositionDownRight[1]]);
+                    if (positionToEatAgain == null)
+                    {
+                        positionToEatAgain = new Dictionary<int, List<int>>();
+                        dictionaryIndexController = 0;
+                    }
+                    positionToEatAgain.Add(dictionaryIndexController, auxiliarPositiontoEatList);
+                    dictionaryIndexController++;
 
                     bool checkToEatAgain = CheckPieceDiagonals(newPosition[0], newPosition[1]);
 
-                    currentTable.GetPiecesPosition()[contactPositionDownLeft[0]][contactPositionDownLeft[1]].SetIsAvaiableToEat(false);
+                    currentTable.GetPiecesPosition()[contacPositionDownRight[0]][contacPositionDownRight[1]].SetIsAvaiableToEat(false);
 
                     Debug.Log(checkToEatAgain + " EATT again DWN RIG");
                     if (checkToEatAgain)
@@ -340,9 +383,11 @@ public class GameController : MonoBehaviour
                         SetClickedPiece(null);
                         mandatoryEat = false;
                         isBlackTurn = !isBlackTurn;
-                        Debug.Log("Eating piece " + currentTable.GetPiecesPosition()[contactPositionDownLeft[0]][contactPositionDownLeft[1]].gameObject.name);
-                        Destroy(currentTable.GetPiecesPosition()[contactPositionDownLeft[0]][contactPositionDownLeft[1]].gameObject);
-                        currentTable.UpdatePiecesPosition(contactPositionDownLeft[0], contactPositionDownLeft[1], null);
+                        Debug.Log("Eating piece " + currentTable.GetPiecesPosition()[contacPositionDownRight[0]][contacPositionDownRight[1]].gameObject.name);
+                        Destroy(currentTable.GetPiecesPosition()[contacPositionDownRight[0]][contacPositionDownRight[1]].gameObject);
+                        currentTable.UpdatePiecesPosition(contacPositionDownRight[0], contacPositionDownRight[1], null);
+                        positionToEatAgain = new Dictionary<int, List<int>>();
+                        dictionaryIndexController = 0;
                     }
                 }
                 else
@@ -395,7 +440,19 @@ public class GameController : MonoBehaviour
                 GameObject newBoardPositionPiece = currentTable.GetCurretBoardSpacePositions()[newPosition[0]][newPosition[1]].gameObject;
                 Vector2 newBoardPosition = new Vector2(newBoardPositionPiece.transform.position.x, newBoardPositionPiece.transform.position.y);
                 currentTable.GetCurrentBoard().SetBoardSpacePlayable(currentPosition[0], currentPosition[1]);
+
+                List<int> auxiliarPositiontoEatList = new List<int>();
+                auxiliarPositiontoEatList.Add(positionUpLeft[0]);
+                auxiliarPositiontoEatList.Add(positionUpLeft[1]);
                 piecesToEat.Add(currentTable.GetPiecesPosition()[positionUpLeft[2]][positionUpLeft[3]]);
+                if (positionToEatAgain == null)
+                {
+                    positionToEatAgain = new Dictionary<int, List<int>>();
+                    dictionaryIndexController = 0;
+                }
+                positionToEatAgain.Add(dictionaryIndexController, auxiliarPositiontoEatList);
+                dictionaryIndexController++;
+
 
                 pieceToUpdate.gameObject.transform.position = newBoardPosition;
                 currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
@@ -423,7 +480,13 @@ public class GameController : MonoBehaviour
                         {
                             Debug.Log(piecesToEat[i].gameObject.name);
                             Destroy(piecesToEat[i].gameObject);
+                            List<int> boardPieceList = new List<int>();
+                            boardPieceList = positionToEatAgain[i];
+                            currentTable.GetCurrentBoard().SetBoardSpacePlayable(boardPieceList[0], boardPieceList[1]);
+
                         }
+                        positionToEatAgain = new Dictionary<int, List<int>>();
+                        dictionaryIndexController = 0;
                     }
                 }
             }
@@ -439,7 +502,18 @@ public class GameController : MonoBehaviour
                 GameObject newBoardPositionPiece = currentTable.GetCurretBoardSpacePositions()[newPosition[0]][newPosition[1]].gameObject;
                 Vector2 newBoardPosition = new Vector2(newBoardPositionPiece.transform.position.x, newBoardPositionPiece.transform.position.y);
                 currentTable.GetCurrentBoard().SetBoardSpacePlayable(currentPosition[0], currentPosition[1]);
+                List<int> auxiliarPositiontoEatList = new List<int>();
+                auxiliarPositiontoEatList.Add(positionUpRight[0]);
+                auxiliarPositiontoEatList.Add(positionUpRight[1]);
                 piecesToEat.Add(currentTable.GetPiecesPosition()[positionUpRight[2]][positionUpRight[3]]);
+                if (positionToEatAgain == null)
+                {
+                    positionToEatAgain = new Dictionary<int, List<int>>();
+                    dictionaryIndexController = 0;
+                }
+                positionToEatAgain.Add(dictionaryIndexController, auxiliarPositiontoEatList);
+                dictionaryIndexController++;
+               
                 pieceToUpdate.gameObject.transform.position = newBoardPosition;
                 currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
                 currentTable.UpdatePiecesPosition(currentPosition[0], currentPosition[1], null);
@@ -466,7 +540,13 @@ public class GameController : MonoBehaviour
                         {
                             Debug.Log(piecesToEat[i].gameObject.name);
                             Destroy(piecesToEat[i].gameObject);
+                            List<int> boardPieceList = new List<int>();
+                            boardPieceList = positionToEatAgain[i];
+                            currentTable.GetCurrentBoard().SetBoardSpacePlayable(boardPieceList[0], boardPieceList[1]);
+
                         }
+                        positionToEatAgain = new Dictionary<int, List<int>>();
+                        dictionaryIndexController = 0;
                     }
                 }
 
@@ -483,7 +563,18 @@ public class GameController : MonoBehaviour
                 GameObject newBoardPositionPiece = currentTable.GetCurretBoardSpacePositions()[newPosition[0]][newPosition[1]].gameObject;
                 Vector2 newBoardPosition = new Vector2(newBoardPositionPiece.transform.position.x, newBoardPositionPiece.transform.position.y);
                 currentTable.GetCurrentBoard().SetBoardSpacePlayable(currentPosition[0], currentPosition[1]);
+                List<int> auxiliarPositiontoEatList = new List<int>();
+                auxiliarPositiontoEatList.Add(positionDownLeft[0]);
+                auxiliarPositiontoEatList.Add(positionDownLeft[1]);
                 piecesToEat.Add(currentTable.GetPiecesPosition()[positionDownLeft[2]][positionDownLeft[3]]);
+                if (positionToEatAgain == null)
+                {
+                    positionToEatAgain = new Dictionary<int, List<int>>();
+                    dictionaryIndexController = 0;
+                }
+                positionToEatAgain.Add(dictionaryIndexController, auxiliarPositiontoEatList);
+                dictionaryIndexController++;
+                
                 pieceToUpdate.gameObject.transform.position = newBoardPosition;
                 currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
                 currentTable.UpdatePiecesPosition(currentPosition[0], currentPosition[1], null);
@@ -511,8 +602,15 @@ public class GameController : MonoBehaviour
                         {
                             Debug.Log(piecesToEat[i].gameObject.name);
                             Destroy(piecesToEat[i].gameObject);
+
+                            List<int> boardPieceList = new List<int>();
+                            boardPieceList = positionToEatAgain[i];
+                            currentTable.GetCurrentBoard().SetBoardSpacePlayable(boardPieceList[0], boardPieceList[1]);
                         }
+                        positionToEatAgain = new Dictionary<int, List<int>>();
+                        dictionaryIndexController = 0;
                     }
+
                 }
 
             }
@@ -529,7 +627,17 @@ public class GameController : MonoBehaviour
                 Vector2 newBoardPosition = new Vector2(newBoardPositionPiece.transform.position.x, newBoardPositionPiece.transform.position.y);
 
                 currentTable.GetCurrentBoard().SetBoardSpacePlayable(currentPosition[0], currentPosition[1]);
+                List<int> auxiliarPositiontoEatList = new List<int>();
+                auxiliarPositiontoEatList.Add(positionDownRight[0]);
+                auxiliarPositiontoEatList.Add(positionDownRight[1]);
                 piecesToEat.Add(currentTable.GetPiecesPosition()[positionDownRight[2]][positionDownRight[3]]);
+                if (positionToEatAgain == null)
+                {
+                    positionToEatAgain = new Dictionary<int, List<int>>();
+                    dictionaryIndexController = 0;
+                }
+                positionToEatAgain.Add(dictionaryIndexController, auxiliarPositiontoEatList);
+                dictionaryIndexController++;
 
                 pieceToUpdate.gameObject.transform.position = newBoardPosition;
                 currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
@@ -558,7 +666,13 @@ public class GameController : MonoBehaviour
                         {
                             Debug.Log(piecesToEat[i].gameObject.name);
                             Destroy(piecesToEat[i].gameObject);
+                            List<int> boardPieceList = new List<int>();
+                            boardPieceList = positionToEatAgain[i];
+                            currentTable.GetCurrentBoard().SetBoardSpacePlayable(boardPieceList[0], boardPieceList[1]);
+
                         }
+                        positionToEatAgain = new Dictionary<int, List<int>>();
+                        dictionaryIndexController = 0;
                     }
                 }
 
