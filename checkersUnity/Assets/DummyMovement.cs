@@ -26,6 +26,7 @@ public class DummyMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (transform.position.z >= 15 && !pieceGO.GetComponent<Animator>().GetBool("IsLady"))
         {
             UnityEngine.Debug.Log("Virou lady");
@@ -57,13 +58,13 @@ public class DummyMovement : MonoBehaviour
         targetPosition = destination;
 
         // ===> middlePosition serve para levantar a peça durante o movimento
-        middlePosition = new Vector3(startPosition.x + (targetPosition.x - startPosition.x)/2,
-                            startPosition.y + 1,
-                            startPosition.z + (targetPosition.z - startPosition.z) / 2);
-        /*
+        middlePosition = new Vector3((targetPosition.x + startPosition.x) / 2,
+                            (targetPosition.y + startPosition.y) / 2,
+                            (targetPosition.z - 1)) ;
+        
         UnityEngine.Debug.Log("targetPosition = " + targetPosition);
         UnityEngine.Debug.Log("startPosition = " + startPosition);
-        UnityEngine.Debug.Log("middlePosition = " + middlePosition);*/
+        UnityEngine.Debug.Log("middlePosition = " + middlePosition);
     }
 
     public void SetLady()

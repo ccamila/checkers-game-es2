@@ -139,6 +139,8 @@ public class GameController : MonoBehaviour
 
                 currentTable.GetCurrentBoard().SetBoardSpacePlayable(currentPosition[0], currentPosition[1]);
 
+                GameObject pieceChild = pieceToUpdate.gameObject.transform.GetChild(0).gameObject;
+                pieceChild.GetComponent<DummyMovement>().SetDestination(newBoardPosition, 1);
                 pieceToUpdate.gameObject.transform.position = newBoardPosition;
 
                 currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
@@ -174,6 +176,8 @@ public class GameController : MonoBehaviour
 
                 currentTable.GetCurrentBoard().SetBoardSpacePlayable(currentPosition[0], currentPosition[1]);
 
+                GameObject pieceChild = pieceToUpdate.gameObject.transform.GetChild(0).gameObject;
+                pieceChild.GetComponent<DummyMovement>().SetDestination(newBoardPosition, 1);
                 pieceToUpdate.gameObject.transform.position = newBoardPosition;
 
                 currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
@@ -216,7 +220,10 @@ public class GameController : MonoBehaviour
 
                     currentTable.GetCurrentBoard().SetBoardSpacePlayable(currentPosition[0], currentPosition[1]);
 
+                    GameObject pieceChild = pieceToUpdate.gameObject.transform.GetChild(0).gameObject;
+                    pieceChild.GetComponent<DummyMovement>().SetDestination(newBoardPosition, 1);
                     pieceToUpdate.gameObject.transform.position = newBoardPosition;
+
 
                     currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
 
