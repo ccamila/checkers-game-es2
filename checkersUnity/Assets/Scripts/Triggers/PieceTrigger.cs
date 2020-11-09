@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PieceTrigger : MonoBehaviour
 {
-    private int row, column;
+    private int pieceRow, pieceColumn;
     GameController gameController;
     public void OnMouseDown()
     {
@@ -58,8 +58,8 @@ public class PieceTrigger : MonoBehaviour
 
             if (checkersPiecesPositions[indexOfList].Contains(gameObject.GetComponent<Piece>()))
             {
-                row = indexOfList;
-                column = checkersPiecesPositions[indexOfList].IndexOf(gameObject.GetComponent<Piece>());
+                pieceRow = indexOfList;
+                pieceColumn = checkersPiecesPositions[indexOfList].IndexOf(gameObject.GetComponent<Piece>());
                 checkObjectController = false;
             }
             else if (indexOfList == checkersPiecesPositions.Count - 1)
@@ -73,7 +73,8 @@ public class PieceTrigger : MonoBehaviour
             }
         }
 
-        gameController.SetPiece(gameObject.GetComponent<Piece>());
-        gameController.SetOldPosition(row, column);
+        gameController.SetCurrentClickedPiece(gameObject.GetComponent<Piece>());
+        gameController.SetOldPieceClickedPosition(pieceRow, pieceColumn);
+        List<Piece> isPieceObligatedToEat = gameController.GetListOfPiecesAbleToEat();
     }
 }
