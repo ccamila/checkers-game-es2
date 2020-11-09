@@ -47,7 +47,7 @@ public class DummyMovement : MonoBehaviour
 
     public void SetDestination(Vector3 destination, float time)
     {
-        UnityEngine.Debug.Log("Setou novo destino");
+        //UnityEngine.Debug.Log("Setou novo destino");
 
         //Muda o estado da animação para "Movement"
         pieceGO.GetComponent<Animator>().SetBool("IsMoving", true);
@@ -61,10 +61,10 @@ public class DummyMovement : MonoBehaviour
         middlePosition = new Vector3((targetPosition.x + startPosition.x) / 2,
                             (targetPosition.y + startPosition.y) / 2,
                             (targetPosition.z - 1)) ;
-        
+        /*
         UnityEngine.Debug.Log("targetPosition = " + targetPosition);
         UnityEngine.Debug.Log("startPosition = " + startPosition);
-        UnityEngine.Debug.Log("middlePosition = " + middlePosition);
+        UnityEngine.Debug.Log("middlePosition = " + middlePosition);*/
     }
 
     public void SetLady()
