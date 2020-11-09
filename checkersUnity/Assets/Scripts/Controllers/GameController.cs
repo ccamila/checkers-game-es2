@@ -30,14 +30,16 @@ public class GameController : MonoBehaviour
     List<int> positionUpRight;
     List<int> positionDownLeft;
     List<int> positionDownRight;
-    //List<int> positionlacesToEatAgain;
+
     Dictionary<int, List<int>> positionToEatAgain;
     int dictionaryIndexController = 0;
     List<Piece> piecesToEat;
     List<List<int>> piecesToEatPositions;
     bool initialTurnEatLock = false;
     List<Piece> piecesThatHasToEatInBigginingOfTurn;
-    //List<List<int>> contactPositionleft;
+
+    [SerializeField]
+    private bool obrigatoryEat = true;
 
     public static GameController instance()
     {
@@ -120,7 +122,7 @@ public class GameController : MonoBehaviour
     {
         if (initialTurnEatLock == false)
         {
-            if (pieceToUpdate)
+            if (pieceToUpdate && piecesThatHasToEatInBigginingOfTurn.Count > 0 && piecesThatHasToEatInBigginingOfTurn.Contains(pieceToUpdate))
             {
                 piecesToEat = new List<Piece>();
                 List<int> auxiliarPositionList = new List<int>();
@@ -396,38 +398,37 @@ public class GameController : MonoBehaviour
                     }
                     //hasEaten = true;
                 }
+            }
+            else if (pieceToUpdate && piecesThatHasToEatInBigginingOfTurn.Count == 0)
+            {
+                GameObject newBoardPositionPiece = currentTable.GetCurretBoardSpacePositions()[newPosition[0]][newPosition[1]].gameObject;
+
+                /*                    Debug.Log(pieceToUpdate.GetIsUp() == true);
+                                    Debug.Log(currentPosition[1] - newPosition[1] + " rig");
+                                    Debug.Log(currentPosition[1] - newPosition[1] + " lef");*/
+                if (((pieceToUpdate.GetIsUp() == true && (currentPosition[0] - newPosition[0]) == 1) ||
+                    (pieceToUpdate.GetIsUp() == false && (newPosition[0] - currentPosition[0]) == 1)) &&
+                    (currentPosition[1] - newPosition[1] == 1) || (currentPosition[1] - newPosition[1] == -1))
+                {
+                    Vector2 newBoardPosition = new Vector2(newBoardPositionPiece.transform.position.x, newBoardPositionPiece.transform.position.y);
+
+                    pieceToUpdate.gameObject.transform.position = newBoardPosition;
+                    currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
+                    currentTable.GetCurrentBoard().SetBoardSpacePlayable(newPosition[0], newPosition[1]);
+                    currentTable.UpdatePiecesPosition(currentPosition[0], currentPosition[1], null);
+                    currentTable.GetCurrentBoard().SetBoardSpacePlayable(currentPosition[0], currentPosition[1]);
+                    currentPosition[0] = newPosition[0];
+                    currentPosition[1] = newPosition[1];
+                    pieceToUpdate = null;
+                    SetIsPieceClicked();
+                    SetClickedPiece(null);
+                    isBlackTurn = !isBlackTurn;
+                    piecesThatHasToEatInBigginingOfTurn = null;
+
+                }
                 else
                 {
-                    GameObject newBoardPositionPiece = currentTable.GetCurretBoardSpacePositions()[newPosition[0]][newPosition[1]].gameObject;
-
-                    Debug.Log(pieceToUpdate.GetIsUp() == true);
-                    Debug.Log(currentPosition[1] - newPosition[1] + " rig");
-                    Debug.Log(currentPosition[1] - newPosition[1] + " lef");
-                    if (((pieceToUpdate.GetIsUp() == true && (currentPosition[0] - newPosition[0]) == 1) ||
-                        (pieceToUpdate.GetIsUp() == false && (newPosition[0] - currentPosition[0]) == 1)) &&
-                        (currentPosition[1] - newPosition[1] == 1) || (currentPosition[1] - newPosition[1] == -1))
-                    {
-                        Vector2 newBoardPosition = new Vector2(newBoardPositionPiece.transform.position.x, newBoardPositionPiece.transform.position.y);
-
-                        pieceToUpdate.gameObject.transform.position = newBoardPosition;
-                        currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
-                        currentTable.GetCurrentBoard().SetBoardSpacePlayable(newPosition[0], newPosition[1]);
-                        currentTable.UpdatePiecesPosition(currentPosition[0], currentPosition[1], null);
-                        currentTable.GetCurrentBoard().SetBoardSpacePlayable(currentPosition[0], currentPosition[1]);
-                        currentPosition[0] = newPosition[0];
-                        currentPosition[1] = newPosition[1];
-                        pieceToUpdate = null;
-                        SetIsPieceClicked();
-                        SetClickedPiece(null);
-                        isBlackTurn = !isBlackTurn;
-                        piecesThatHasToEatInBigginingOfTurn = null;
-
-                    }
-                    else
-                    {
-                        Debug.Log("Cannot Move to there now");
-                    }
-
+                    Debug.Log("Cannot Move to there now");
                 }
             }
         }
