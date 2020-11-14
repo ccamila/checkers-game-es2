@@ -8,6 +8,10 @@ interface IBoardPiece
 
     void SetPlayable();
 
+    void SetPlayable(bool playbleState);
+
     Transform GetCentralPosition();
+
+    BoardPiece GetBoardPiece();
 
 }

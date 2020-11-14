@@ -28,10 +28,16 @@ public class Board : MonoBehaviour, IBoard
         return boardPpiecesMatrix;
     }
 
-    public void SetBoardSpacePlayable(int row, int column)
+    public void SetBoardTilePlayable(int row, int column)
     {
-        Debug.Log("updatting pos " + row + " " + column + " from " + boardPpiecesMatrix[row][column].IsPlayable() + " to " + !boardPpiecesMatrix[row][column].IsPlayable());
+        Debug.Log("updattng pos " + row + " " + column + " from " + boardPpiecesMatrix[row][column].IsPlayable() + " to " + !boardPpiecesMatrix[row][column].IsPlayable());
         boardPpiecesMatrix[row][column].SetPlayable();
+    }
+
+    public void SetBoardTilePlayable(int row, int column, bool playbleState)
+    {
+        Debug.Log("updating pos " + row + " " + column + " from " + boardPpiecesMatrix[row][column].IsPlayable() + " to " + playbleState);
+        boardPpiecesMatrix[row][column].SetPlayable(playbleState);
     }
 
     public BoardPiece GetBoardSpace(int row, int column)

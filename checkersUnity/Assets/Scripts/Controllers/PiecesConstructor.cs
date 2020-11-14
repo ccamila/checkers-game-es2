@@ -74,7 +74,7 @@ public class PiecesConstructor : MonoBehaviour
                     GameObject newPiece = Instantiate(pieceGameObject);
                     newPiece.name = (rowValue.ToString() + " " + columnValue.ToString());
                     newPiece.transform.position = tableContructorInstance.GetPlaybleArea()[rowValue][columnValue].transform.position;
-                    tableContructorInstance.SetPlaybleArea(rowValue, columnValue);
+                    tableContructorInstance.SetPlaybleTile(rowValue, columnValue);
                     newPiece.GetComponent<Piece>().SetIsKing(false);
                     newPiece.GetComponent<Piece>().SetIsUp(false);
                     newPiece.GetComponent<Piece>().SetBlackColor(false);
@@ -92,7 +92,7 @@ public class PiecesConstructor : MonoBehaviour
                     newPiece.transform.position = tableContructorInstance.GetPlaybleArea()[rowValue][columnValue].transform.position;
                     newPiece.GetComponent<Piece>().SetIsKing(false);
                     newPiece.GetComponent<Piece>().SetIsUp(true);
-                    tableContructorInstance.SetPlaybleArea(rowValue, columnValue);
+                    tableContructorInstance.SetPlaybleTile(rowValue, columnValue);
                     newPiece.GetComponent<Piece>().SetBlackColor(true);
                     newPiece.GetComponent<Piece>().SetIsAvaiableToEat(true);
                     darkPiecesList.Add(newPiece.GetComponent<Piece>());

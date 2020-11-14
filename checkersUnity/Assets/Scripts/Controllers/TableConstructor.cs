@@ -152,11 +152,19 @@ public class TableConstructor : MonoBehaviour
         return null;
     }
 
-    public void SetPlaybleArea(int row, int column)
+    public void SetPlaybleTile(int row, int column)
     {
         if (playableArea != null)
         {
             playableArea[row][column].SetPlayable();
+        }
+    }
+
+    public void SetPlaybleTile(int row, int column, bool playbleState)
+    {
+        if (playableArea != null)
+        {
+            playableArea[row][column].SetPlayable(playbleState);
         }
     }
 
