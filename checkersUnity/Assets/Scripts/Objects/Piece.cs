@@ -9,7 +9,7 @@ public class Piece : MonoBehaviour, IPieces
     private bool isUp;
     private bool isAvaiableToEat;
 
-    public bool GetIsKing()
+    public bool GetKingStatus()
     {
         return isKing;
     }
@@ -24,7 +24,7 @@ public class Piece : MonoBehaviour, IPieces
         isBlack = isColorBalck;
     }
 
-    public void SetIsKing(bool isThePieceKing)
+    public void SetKing(bool isThePieceKing)
     {
         isKing = isThePieceKing;
     }

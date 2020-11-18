@@ -7,8 +7,8 @@ interface IPieces
     void Walk();
     bool  GetIsBlack();
     void SetBlackColor(bool color); // 0 for white, 1 for black
-    bool GetIsKing();
-    void SetIsKing(bool isThePieceKing);
+    bool GetKingStatus();
+    void SetKing(bool isThePieceKing);
     bool GetIsUp();
     void SetIsUp(bool isThePieceUpInTable);
     bool GetIsAvaiableToEat();
