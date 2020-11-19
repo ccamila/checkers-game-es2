@@ -61,7 +61,9 @@ public class PiecesConstructor : MonoBehaviour
         int placeController = totalPieces;
         int rowValue = 0;
         List<Piece> auxiliarPiecesList = StartEmptyList();
-        GameObject pieceGameObject = Resources.Load<GameObject>("Piece");
+        GameObject pieceWhiteGameObject = Resources.Load<GameObject>("PieceWhite");
+        GameObject pieceBlackGameObject = Resources.Load<GameObject>("PieceBlack");
+
 
         while (placeController > 0)
         {
@@ -71,7 +73,7 @@ public class PiecesConstructor : MonoBehaviour
 
                 if (rowValue < (tableContructorInstance.GetPlaybleArea().Count / 2 - 1))
                 {
-                    GameObject newPiece = Instantiate(pieceGameObject);
+                    GameObject newPiece = Instantiate(pieceWhiteGameObject);
                     newPiece.name = (rowValue.ToString() + " " + columnValue.ToString());
                     newPiece.transform.position = tableContructorInstance.GetPlaybleArea()[rowValue][columnValue].transform.position;
                     tableContructorInstance.SetPlaybleArea(rowValue, columnValue);
@@ -86,7 +88,7 @@ public class PiecesConstructor : MonoBehaviour
                 }
                 else if (rowValue > (tableContructorInstance.GetPlaybleArea().Count / 2))
                 {
-                    GameObject newPiece = Instantiate(pieceGameObject);
+                    GameObject newPiece = Instantiate(pieceBlackGameObject);
                     newPiece.name = (rowValue.ToString() + " " + columnValue.ToString());
                     newPiece.transform.position = tableContructorInstance.GetPlaybleArea()[rowValue][columnValue].transform.position;
                     newPiece.GetComponent<Piece>().SetIsKing(false);

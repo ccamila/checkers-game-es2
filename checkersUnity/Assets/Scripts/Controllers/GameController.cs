@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -163,7 +164,7 @@ public class GameController : MonoBehaviour
 
                 currentTable.GetCurrentBoard().SetBoardSpacePlayable(currentPosition[0], currentPosition[1]);
 
-                pieceToUpdate.gameObject.transform.position = newBoardPosition;
+                MovePiece(pieceToUpdate, newBoardPosition, 1);
 
                 currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
 
@@ -173,7 +174,7 @@ public class GameController : MonoBehaviour
                 currentTable. GetCurrentBoard().SetBoardSpacePlayable(contactPositionLeft[0], contactPositionLeft[1]);
 
                 GameObject pieceToDestroy = currentTable.GetPiecesPosition()[contactPositionLeft[0]][contactPositionLeft[1]].gameObject;
-                Destroy(pieceToDestroy);
+                KillPiece(pieceToDestroy);
                 currentTable.UpdatePiecesPosition(contactPositionLeft[0], contactPositionLeft[1], null);
 
                 bool checkToEatAgain = CheckPieceDiagonals(newPosition[0], newPosition[1]);
@@ -199,7 +200,7 @@ public class GameController : MonoBehaviour
 
                 currentTable.GetCurrentBoard().SetBoardSpacePlayable(currentPosition[0], currentPosition[1]);
 
-                pieceToUpdate.gameObject.transform.position = newBoardPosition;
+                MovePiece(pieceToUpdate, newBoardPosition, 1);
 
                 currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
 
@@ -210,7 +211,7 @@ public class GameController : MonoBehaviour
                 currentTable.GetCurrentBoard().SetBoardSpacePlayable(contacPositionRight[0], contacPositionRight[1]);
                 GameObject pieceToDestroy = currentTable.GetPiecesPosition()[contacPositionRight[0]][contacPositionRight[1]].gameObject;
                 Debug.Log(pieceToDestroy);
-                Destroy(pieceToDestroy);
+                KillPiece(pieceToDestroy);
                 currentTable.UpdatePiecesPosition(contacPositionRight[0], contacPositionRight[1], null);
 
                 bool checkToEatAgain = CheckPieceDiagonals(newPosition[0], newPosition[1]);
@@ -242,7 +243,7 @@ public class GameController : MonoBehaviour
 
                     currentTable.GetCurrentBoard().SetBoardSpacePlayable(currentPosition[0], currentPosition[1]);
 
-                    pieceToUpdate.gameObject.transform.position = newBoardPosition;
+                    MovePiece(pieceToUpdate, newBoardPosition, 1);
 
                     currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
 
@@ -712,4 +713,38 @@ public class GameController : MonoBehaviour
         }
         return checkIfHasToEat;
     }
+
+    private void MovePiece(Piece piece, Vector3 newBoardPosition, int movementDuration)
+    {
+        GameObject pieceChild = piece.gameObject.transform.GetChild(0).gameObject;
+        pieceChild.GetComponent<DummyMovement>().SetDestination(newBoardPosition, 1);
+        piece.gameObject.transform.position = newBoardPosition;
+    }
+
+    private void KillPiece(GameObject pieceGO)
+    {
+        StartCoroutine(KillPiece_Coroutine(pieceGO));
+    }
+
+    private IEnumerator KillPiece_Coroutine(GameObject pieceGO)
+    {
+        Piece piece = pieceGO.GetComponent<Piece>();
+        GameObject graveyardGO;
+        //Define cor da peça
+        if (piece.GetIsBlack())
+        {
+            graveyardGO = GameObject.Find("GraveyardBlack");
+        }
+        else
+        {
+            graveyardGO = GameObject.Find("GraveyardWhite");
+        }
+        Debug.Log("Esperando...");
+        yield return new WaitForSeconds(1f);
+        Debug.Log("Terminou");
+        Graveyard graveyard = (Graveyard)graveyardGO.GetComponent(typeof(Graveyard));
+        MovePiece(piece, graveyard.GetNewPosition(), 1);
+
+    }
+
 }
