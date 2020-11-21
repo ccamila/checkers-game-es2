@@ -42,6 +42,7 @@ public class PieceTrigger : MonoBehaviour
     }
     private void ClickedBehaviour()
     {
+        Debug.Log("Selected");
         gameController.SetIsPieceClicked();
         
         gameController.SetClickedPiece(gameObject);
@@ -72,7 +73,6 @@ public class PieceTrigger : MonoBehaviour
                 indexOfList++;
             }
         }
-
         gameController.SetCurrentClickedPiece(gameObject.GetComponent<Piece>());
         gameController.SetOldPieceClickedPosition(pieceRow, pieceColumn);
         List<Piece> isPieceObligatedToEat = gameController.GetListOfPiecesAbleToEat();
