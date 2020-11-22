@@ -137,29 +137,40 @@ public class GameController : MonoBehaviour
                 bool canEatUpRight = false;
                 Debug.Log(currentPosition[0] + " ROOWWW");
                 Debug.Log(currentPosition[1] + "  COLUMN");
-                bool isPieceInContactWihtOpponentDownLeft = PieceInContactDownLeft(currentPosition[0], currentPosition[1], false);
+                bool isPieceInContactWihtOpponentDownLeft = PieceInContactDownLeft(currentPosition[0], currentPosition[1], false, false);
                 if (isPieceInContactWihtOpponentDownLeft == true && contactPositionDownLeft[1] > 0)
                 {
-                    canEatDownLeft = PieceInContactDownLeft(contactPositionDownLeft[0], contactPositionDownLeft[1], isPieceInContactWihtOpponentDownLeft);
+                    Debug.Log("can eat dow lft chek");
+                    canEatDownLeft = PieceInContactDownLeft(contactPositionDownLeft[0], contactPositionDownLeft[1], isPieceInContactWihtOpponentDownLeft, false);
+                    if (canEatDownLeft)
+                        Debug.Log("can eat dow lft");
 
                 }
-                bool isPieceInContactWihtOpponentDownRight = PieceInContactDownRight(currentPosition[0], currentPosition[1], false);
+                bool isPieceInContactWihtOpponentDownRight = PieceInContactDownRight(currentPosition[0], currentPosition[1], false, false);
                 if (isPieceInContactWihtOpponentDownRight)
                 {
-                    canEatDownRight = PieceInContactDownRight(contacPositionDownRight[0], contacPositionDownRight[1], isPieceInContactWihtOpponentDownRight);
+                    Debug.Log("can eat dow rgt check");
+                    canEatDownRight = PieceInContactDownRight(contacPositionDownRight[0], contacPositionDownRight[1], isPieceInContactWihtOpponentDownRight, false);
+                    if(canEatDownRight)
+                    Debug.Log("can eat dow rgt");
                 }
-                bool isPieceInContactWihtOpponentUpLeft = PieceInContactUpLeft(currentPosition[0], currentPosition[1], false);
+                bool isPieceInContactWihtOpponentUpLeft = PieceInContactUpLeft(currentPosition[0], currentPosition[1], false, false);
                 if (isPieceInContactWihtOpponentUpLeft == true && contactPositionUpLeft[1] > 0)
                 {
-                    canEatUpLeft = PieceInContactUpLeft(contactPositionUpLeft[0], contactPositionUpLeft[1], isPieceInContactWihtOpponentUpLeft);
+                    Debug.Log("can eat up lft check");
+                    canEatUpLeft = PieceInContactUpLeft(contactPositionUpLeft[0], contactPositionUpLeft[1], isPieceInContactWihtOpponentUpLeft, false);
+                    if (canEatUpLeft)
+                        Debug.Log("can eat up lft");
 
                 }
-                bool isPieceInContactWihtOpponentUpRight = PieceInContactUpRight(currentPosition[0], currentPosition[1], false);
+                bool isPieceInContactWihtOpponentUpRight = PieceInContactUpRight(currentPosition[0], currentPosition[1], false, false);
                 Debug.Log("ok ended");
                 if (isPieceInContactWihtOpponentUpRight)
                 {
-                    canEatUpRight = PieceInContactUpRight(contactPositionUpRight[0], contactPositionUpRight[1], isPieceInContactWihtOpponentUpRight);
-                    Debug.Log("ok ended dds");
+                    Debug.Log("can eat up rgt check");
+                    canEatUpRight = PieceInContactUpRight(contactPositionUpRight[0], contactPositionUpRight[1], isPieceInContactWihtOpponentUpRight, false);
+                    if(canEatUpRight)
+                    Debug.Log("can eat up rgt");
                 }
                 if (pieceToUpdate.GetKingStatus() == false)
                 {
@@ -869,423 +880,836 @@ public class GameController : MonoBehaviour
     {
         return mandatoryEat;
     }
-    private bool PieceInContactDownLeft(int row, int column, bool hasContatc)
+    private bool PieceInContactDownLeft(int row, int column, bool hasContatc, bool isSimulated)
     {
         bool finalCheck = false;
         bool isPieceInContact = false;
         bool canEat = false;
 
+        if (isSimulated == true)
 
-        if (column > 0)
         {
-            if (pieceToUpdate.GetKingStatus() == false)
+            if (row > 0 && column > 0)
             {
-
-                if (hasContatc == false)
+                if (pieceToUpdate.GetKingStatus() == false)
                 {
-                    if (row - 1 >= 0 && column - 1 >= 0 && currentTable.GetPiecesPosition()[row - 1][column - 1] != null &&
-                        currentTable.GetPiecesPosition()[row - 1][column - 1].GetIsBlack() != currentTable.GetPiecesPosition()[row][column].GetIsBlack())
-                    {
-                        contactPositionDownLeft = new List<int>();
-                        Debug.Log("initiating");
-                        contactPositionDownLeft.Add(row - 1);
-                        contactPositionDownLeft.Add(column - 1);
-                        isPieceInContact = true;
-                    }
-                }
-                else
-                {
-                    if (row - 1 >= 0 && column - 1 >= 0 && currentTable.GetPiecesPosition()[row - 1][column - 1] == null)
-                    {
-                        eatPositionDownLeft = new List<int>();
-                        eatPositionDownLeft.Add(row - 1);
-                        eatPositionDownLeft.Add(column - 1);
-                        canEat = true;
-                    }
-                }
-            }
-            else
-            {
-                if (hasContatc == false)
-                {
-                    int diagonalController = 1;
-                    /*positionsKingMovePossibilities = new Dictionary<int, List<int>>();*/
-                    int valueControl = row;
-                    if (column < row)
-                    {
-                        valueControl = column;
-                    }
-                    while (valueControl > 0)
-                    {
-                        Debug.Log(row + " Row");
-                        Debug.Log(column + " Column");
-                        Debug.Log(diagonalController + " diagonalController");
-                        Debug.Log(row - diagonalController);
-                        Debug.Log(column - diagonalController);
-                        Debug.Log(currentTable.GetPiecesPosition()[row - diagonalController][column - diagonalController] != null);
 
-
-                        if (currentTable.GetPiecesPosition()[row - diagonalController][column - diagonalController] != null)
-                        {
-                            Debug.Log(currentTable.GetPiecesPosition()[row - diagonalController][column - diagonalController].GetIsBlack() != currentTable.GetPiecesPosition()[row][column].GetIsBlack());
-                            Debug.Log(currentTable.GetPiecesPosition()[row - diagonalController][column - diagonalController].GetIsBlack());
-                            Debug.Log(currentTable.GetPiecesPosition()[row][column].GetIsBlack());
-                        }
-                        /*                        Debug.Log(row - diagonalController + "   ROW");
-                                                Debug.Log(column - diagonalController + "    COLLUMN");*/
-                        if (row - diagonalController >= 0 && column - diagonalController >= 0 && currentTable.GetPiecesPosition()[row - diagonalController][column - diagonalController] != null &&
-                   currentTable.GetPiecesPosition()[row - diagonalController][column - diagonalController].GetIsBlack() != currentTable.GetPiecesPosition()[row][column].GetIsBlack())
+                    if (hasContatc == false)
+                    {
+                        if (row - 1 >= 0 && column - 1 >= 0 && currentTable.GetPiecesPosition()[row - 1][column - 1] != null &&
+                            currentTable.GetPiecesPosition()[row - 1][column - 1].GetIsBlack() != currentTable.GetPiecesPosition()[row][column].GetIsBlack())
                         {
                             contactPositionDownLeft = new List<int>();
+                            Debug.Log("initiating");
                             contactPositionDownLeft.Add(row - 1);
                             contactPositionDownLeft.Add(column - 1);
                             isPieceInContact = true;
-                            valueControl = 0;
-                            Debug.Log("aqui estou ");
-                            //diagonalCheck = false;
                         }
-                        else
+                    }
+                    else
+                    {
+                        if (row - 1 >= 0 && column - 1 >= 0 && currentTable.GetPiecesPosition()[row - 1][column - 1] == null)
                         {
-                            List<int> auxPositions = new List<int>();
-                            auxPositions.Add(row - diagonalController);
-                            auxPositions.Add(column - diagonalController);
-                            Debug.Log(positionsKingMovePossibilities.Count + " MMNN V ");
-                            positionsKingMovePossibilities.Add(positionsKingMovePossibilities.Count, auxPositions);
-                            indexKingPositionController++;
-                            diagonalController++;
-                            valueControl--;
-                            /*
-                                                        if ((row == diagonalController) || (column == diagonalController))
-                                                        {
-                                                            diagonalCheck = false;
-                                                        }*/
+                            eatPositionDownLeft = new List<int>();
+                            eatPositionDownLeft.Add(row - 1);
+                            eatPositionDownLeft.Add(column - 1);
+                            canEat = true;
                         }
                     }
                 }
                 else
                 {
-                    if (row - 1 >= 0 && column - 1 >= 0 && currentTable.GetPiecesPosition()[row - 1][column - 1] == null)
+                    if (hasContatc == false)
                     {
-                        eatPositionDownLeft = new List<int>();
-                        eatPositionDownLeft.Add(row - 1);
-                        eatPositionDownLeft.Add(column - 1);
-                        canEat = true;
-                        Debug.Log("OK TO KING EAT");
+                        int diagonalController = 1;
+                        /*positionsKingMovePossibilities = new Dictionary<int, List<int>>();*/
+                        int valueControl = row;
+                        if (column < row)
+                        {
+                            valueControl = column;
+                        }
+                        while (valueControl > 0)
+                        {
+                            Debug.Log(row + " Row");
+                            Debug.Log(column + " Column");
+                            Debug.Log(diagonalController + " diagonalController");
+                            Debug.Log(row - diagonalController);
+                            Debug.Log(column - diagonalController);
+                            Debug.Log(currentTable.GetPiecesPosition()[row - diagonalController][column - diagonalController] != null);
 
+
+                            if (currentTable.GetPiecesPosition()[row - diagonalController][column - diagonalController] != null)
+                            {
+                                Debug.Log(currentTable.GetPiecesPosition()[row - diagonalController][column - diagonalController].GetIsBlack() != currentTable.GetPiecesPosition()[row][column].GetIsBlack());
+                                Debug.Log(currentTable.GetPiecesPosition()[row - diagonalController][column - diagonalController].GetIsBlack());
+                                Debug.Log(currentTable.GetPiecesPosition()[row][column].GetIsBlack());
+                            }
+                            /*                        Debug.Log(row - diagonalController + "   ROW");
+                                                    Debug.Log(column - diagonalController + "    COLLUMN");*/
+                            if (row - diagonalController >= 0 && column - diagonalController >= 0 && currentTable.GetPiecesPosition()[row - diagonalController][column - diagonalController] != null &&
+                       currentTable.GetPiecesPosition()[row - diagonalController][column - diagonalController].GetIsBlack() != currentTable.GetPiecesPosition()[row][column].GetIsBlack())
+                            {
+                                contactPositionDownLeft = new List<int>();
+                                contactPositionDownLeft.Add(row - 1);
+                                contactPositionDownLeft.Add(column - 1);
+                                isPieceInContact = true;
+                                valueControl = 0;
+                                Debug.Log("aqui estou ");
+                                //diagonalCheck = false;
+                            }
+                            else
+                            {
+                                List<int> auxPositions = new List<int>();
+                                auxPositions.Add(row - diagonalController);
+                                auxPositions.Add(column - diagonalController);
+                                Debug.Log(positionsKingMovePossibilities.Count + " MMNN V ");
+                                positionsKingMovePossibilities.Add(positionsKingMovePossibilities.Count, auxPositions);
+                                indexKingPositionController++;
+                                diagonalController++;
+                                valueControl--;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (row - 1 >= 0 && column - 1 >= 0 && currentTable.GetPiecesPosition()[row - 1][column - 1] == null)
+                        {
+                            eatPositionDownLeft = new List<int>();
+                            eatPositionDownLeft.Add(row - 1);
+                            eatPositionDownLeft.Add(column - 1);
+                            canEat = true;
+                            Debug.Log("OK TO KING EAT");
+
+                        }
                     }
                 }
             }
+
+            if (hasContatc == false)
+            {
+                finalCheck = isPieceInContact;
+            }
+            else
+            {
+                finalCheck = canEat;
+            }
+        }
+        else 
+        {
+            if (currentPosition[1] > 0 && currentPosition[0] > 0)
+            {
+                if (pieceToUpdate.GetKingStatus() == false)
+                {
+
+                    if (hasContatc == false)
+                    {
+                        if (currentPosition[0] - 1 >= 0 && currentPosition[1] - 1 >= 0 && currentTable.GetPiecesPosition()[currentPosition[0] - 1][currentPosition[1] - 1] != null &&
+                            currentTable.GetPiecesPosition()[currentPosition[0] - 1][currentPosition[1] - 1].GetIsBlack() != currentTable.GetPiecesPosition()[currentPosition[0]][currentPosition[1]].GetIsBlack())
+                        {
+                            contactPositionDownLeft = new List<int>();
+                            Debug.Log("initiating");
+                            contactPositionDownLeft.Add(currentPosition[0] - 1);
+                            contactPositionDownLeft.Add(currentPosition[1] - 1);
+                            isPieceInContact = true;
+                        }
+                    }
+                    else
+                    {
+                        if (contactPositionDownLeft[0] - 1 >= 0 && contactPositionDownLeft[1] - 1 >= 0 && currentTable.GetPiecesPosition()[contactPositionDownLeft[0] - 1][contactPositionDownLeft[1] - 1] == null)
+                        {
+                            eatPositionDownLeft = new List<int>();
+                            eatPositionDownLeft.Add(contactPositionDownLeft[0] - 1);
+                            eatPositionDownLeft.Add(contactPositionDownLeft[1] - 1);
+                            canEat = true;
+                        }
+                    }
+                }
+                else
+                {
+                    if (hasContatc == false)
+                    {
+                        int diagonalController = 1;
+                        /*positionsKingMovePossibilities = new Dictionary<int, List<int>>();*/
+                        int valueControl = currentPosition[0];
+                        if (currentPosition[1] < currentPosition[0])
+                        {
+                            valueControl = column;
+                        }
+                        while (valueControl > 0)
+                        {
+                            Debug.Log(currentPosition[0] + " Row");
+                            Debug.Log(currentPosition[1] + " Column");
+                            Debug.Log(diagonalController + " diagonalController");
+                            Debug.Log(currentPosition[0] - diagonalController);
+                            Debug.Log(currentPosition[1] - diagonalController);
+                            Debug.Log(currentTable.GetPiecesPosition()[currentPosition[0] - diagonalController][currentPosition[1] - diagonalController] != null);
+
+
+                            if (currentTable.GetPiecesPosition()[currentPosition[0] - diagonalController][column - diagonalController] != null)
+                            {
+                                Debug.Log(currentTable.GetPiecesPosition()[currentPosition[0] - diagonalController][currentPosition[1] - diagonalController].GetIsBlack() != currentTable.GetPiecesPosition()[currentPosition[0]][currentPosition[1]].GetIsBlack());
+                                Debug.Log(currentTable.GetPiecesPosition()[currentPosition[0] - diagonalController][currentPosition[1] - diagonalController].GetIsBlack());
+                                Debug.Log(currentTable.GetPiecesPosition()[currentPosition[0]][currentPosition[1]].GetIsBlack());
+                            }
+                            /*                        Debug.Log(row - diagonalController + "   ROW");
+                                                    Debug.Log(column - diagonalController + "    COLLUMN");*/
+                            if (currentPosition[0] - diagonalController >= 0 && currentPosition[1] - diagonalController >= 0 && currentTable.GetPiecesPosition()[currentPosition[0] - diagonalController][currentPosition[1] - diagonalController] != null &&
+                       currentTable.GetPiecesPosition()[currentPosition[0] - diagonalController][currentPosition[1] - diagonalController].GetIsBlack() != currentTable.GetPiecesPosition()[currentPosition[0]][currentPosition[1]].GetIsBlack())
+                            {
+                                contactPositionDownLeft = new List<int>();
+                                contactPositionDownLeft.Add(currentPosition[0] - 1);
+                                contactPositionDownLeft.Add(currentPosition[1] - 1);
+                                isPieceInContact = true;
+                                valueControl = 0;
+                                Debug.Log("aqui estou ");
+                                //diagonalCheck = false;
+                            }
+                            else
+                            {
+                                List<int> auxPositions = new List<int>();
+                                auxPositions.Add(currentPosition[0] - diagonalController);
+                                auxPositions.Add(currentPosition[1] - diagonalController);
+                                Debug.Log(positionsKingMovePossibilities.Count + " MMNN V ");
+                                positionsKingMovePossibilities.Add(positionsKingMovePossibilities.Count, auxPositions);
+                                indexKingPositionController++;
+                                diagonalController++;
+                                valueControl--;
+                                /*
+                                                            if ((row == diagonalController) || (column == diagonalController))
+                                                            {
+                                                                diagonalCheck = false;
+                                                            }*/
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (currentPosition[0] - 1 >= 0 && currentPosition[1] - 1 >= 0 && currentTable.GetPiecesPosition()[currentPosition[0] - 1][currentPosition[1] - 1] == null)
+                        {
+                            eatPositionDownLeft = new List<int>();
+                            eatPositionDownLeft.Add(currentPosition[0] - 1);
+                            eatPositionDownLeft.Add(currentPosition[1] - 1);
+                            canEat = true;
+                            Debug.Log("OK TO KING EAT");
+
+                        }
+                    }
+                }
+            }
+
+            if (hasContatc == false)
+            {
+                finalCheck = isPieceInContact;
+            }
+            else
+            {
+                finalCheck = canEat;
+            }
         }
 
-        if (hasContatc == false)
-        {
-            finalCheck = isPieceInContact;
-        }
-        else
-        {
-            finalCheck = canEat;
-        }
         return finalCheck;
     }
 
-    private bool PieceInContactDownRight(int row, int column, bool hasContatc)
+    private bool PieceInContactDownRight(int row, int column, bool hasContatc, bool isSimulated)
     {
         bool finalCheck = false;
         bool isPieceInContact = false;
         bool canEat = false;
 
-        if (column < currentTable.GetPiecesPosition()[column].Count - 1)
-        {
-            if (pieceToUpdate.GetKingStatus() == false)
-            {
-                if (hasContatc == false)
-                {
-                    if (column + 1 < currentTable.GetPiecesPosition()[0].Count && row - 1 >= 0 &&
-                        currentTable.GetPiecesPosition()[row - 1][column + 1] != null &&
-                       currentTable.GetPiecesPosition()[row - 1][column + 1].GetIsBlack() != currentTable.GetPiecesPosition()[row][column].GetIsBlack())
-                    {
-                        contacPositionDownRight = new List<int>();
-                        contacPositionDownRight.Add(row - 1);
-                        contacPositionDownRight.Add(column + 1);
-                        isPieceInContact = true;
-                    }
-                }
-                else
-                {
-                    if (column + 1 < currentTable.GetPiecesPosition()[0].Count && row - 1 >= 0 &&
-                        currentTable.GetPiecesPosition()[row - 1][column + 1] == null)
-                    {
-                        eatPositionDownRight = new List<int>();
-                        eatPositionDownRight.Add(row - 1);
-                        eatPositionDownRight.Add(column + 1);
-                        canEat = true;
-                    }
-                }
-            }
-            else
-            {
-                if (hasContatc == false)
-                {
-                    int diagonalController = 1;
-                    /*positionsKingMovePossibilities = new Dictionary<int, List<int>>();*/
-                    int valueRowControl = row;
-                    int valueColumnControl = column;
+        if (isSimulated == true)
 
-                    while (valueRowControl >= 0 && valueColumnControl < currentTable.GetCurrentBoard().GetBoardMatrix().Count)
+        {
+
+            if (currentPosition[1] < currentTable.GetPiecesPosition()[currentPosition[1]].Count - 1)
+            {
+                if (pieceToUpdate.GetKingStatus() == false)
+                {
+                    if (hasContatc == false)
                     {
-                        /*                        Debug.Log(row - diagonalController + "   ROW");
-                                                Debug.Log(column - diagonalController + "    COLLUMN");*/
-                        if (row - diagonalController >= 0 && column + diagonalController < currentTable.GetCurrentBoard().GetBoardMatrix().Count && currentTable.GetPiecesPosition()[row - diagonalController][column + diagonalController] != null &&
-                       currentTable.GetPiecesPosition()[row - diagonalController][column + diagonalController].GetIsBlack() != currentTable.GetPiecesPosition()[row][column].GetIsBlack())
+                        if (currentPosition[1] + 1 < currentTable.GetPiecesPosition()[0].Count && currentPosition[0] - 1 >= 0 &&
+                            currentTable.GetPiecesPosition()[currentPosition[0] - 1][currentPosition[1] + 1] != null &&
+                           currentTable.GetPiecesPosition()[currentPosition[0] - 1][currentPosition[1] + 1].GetIsBlack() != currentTable.GetPiecesPosition()[currentPosition[0]][currentPosition[1]].GetIsBlack())
                         {
                             contacPositionDownRight = new List<int>();
-                            contacPositionDownRight.Add(row - 1);
-                            contacPositionDownRight.Add(column + 1);
+                            contacPositionDownRight.Add(currentPosition[0] - 1);
+                            contacPositionDownRight.Add(currentPosition[1] + 1);
                             isPieceInContact = true;
-                            valueRowControl = 0;
-                            valueColumnControl = currentTable.GetCurrentBoard().GetBoardMatrix().Count;
-                            //diagonalCheck = false;
                         }
-                        else
+                    }
+                    else
+                    {
+                        if (currentPosition[1] + 1 < currentTable.GetPiecesPosition()[0].Count && currentPosition[0] - 1 >= 0 &&
+                            currentTable.GetPiecesPosition()[currentPosition[0] - 1][currentPosition[1] + 1] == null)
                         {
-                            List<int> auxPositions = new List<int>();
-                            auxPositions.Add(row - diagonalController);
-                            auxPositions.Add(column + diagonalController);
-                            Debug.Log(positionsKingMovePossibilities.Count + " MMNN V ");
-                            positionsKingMovePossibilities.Add(positionsKingMovePossibilities.Count, auxPositions);
-                            indexKingPositionController++;
-                            diagonalController++;
-                            valueColumnControl++;
-                            valueRowControl--;
-
+                            eatPositionDownRight = new List<int>();
+                            eatPositionDownRight.Add(currentPosition[0] - 1);
+                            eatPositionDownRight.Add(currentPosition[1] + 1);
+                            canEat = true;
                         }
                     }
                 }
                 else
                 {
-                    if (row - 1 >= 0 && column + 1 < currentTable.GetCurrentBoard().GetBoardMatrix().Count && currentTable.GetPiecesPosition()[row - 1][column + 1] == null)
+                    if (hasContatc == false)
                     {
-                        eatPositionDownRight = new List<int>();
-                        eatPositionDownRight.Add(row - 1);
-                        eatPositionDownRight.Add(column + 1);
-                        canEat = true;
-                        Debug.Log("OK TO KING EAT");
+                        int diagonalController = 1;
+                        /*positionsKingMovePossibilities = new Dictionary<int, List<int>>();*/
+                        int valueRowControl = currentPosition[0];
+                        int valueColumnControl = currentPosition[1];
 
+                        while (valueRowControl >= 0 && valueColumnControl < currentTable.GetCurrentBoard().GetBoardMatrix().Count)
+                        {
+                            /*                        Debug.Log(row - diagonalController + "   ROW");
+                                                    Debug.Log(column - diagonalController + "    COLLUMN");*/
+                            if (currentPosition[0] - diagonalController >= 0 && currentPosition[1] + diagonalController < currentTable.GetCurrentBoard().GetBoardMatrix().Count && currentTable.GetPiecesPosition()[currentPosition[0] - diagonalController][currentPosition[1] + diagonalController] != null &&
+                           currentTable.GetPiecesPosition()[currentPosition[0] - diagonalController][currentPosition[1] + diagonalController].GetIsBlack() != currentTable.GetPiecesPosition()[currentPosition[0]][currentPosition[1]].GetIsBlack())
+                            {
+                                contacPositionDownRight = new List<int>();
+                                contacPositionDownRight.Add(currentPosition[0] - 1);
+                                contacPositionDownRight.Add(currentPosition[1] + 1);
+                                isPieceInContact = true;
+                                valueRowControl = 0;
+                                valueColumnControl = currentTable.GetCurrentBoard().GetBoardMatrix().Count;
+                                //diagonalCheck = false;
+                            }
+                            else
+                            {
+                                List<int> auxPositions = new List<int>();
+                                auxPositions.Add(currentPosition[0] - diagonalController);
+                                auxPositions.Add(currentPosition[1] + diagonalController);
+                                Debug.Log(positionsKingMovePossibilities.Count + " MMNN V ");
+                                positionsKingMovePossibilities.Add(positionsKingMovePossibilities.Count, auxPositions);
+                                indexKingPositionController++;
+                                diagonalController++;
+                                valueColumnControl++;
+                                valueRowControl--;
+
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (currentPosition[0] - 1 >= 0 && currentPosition[1] + 1 < currentTable.GetCurrentBoard().GetBoardMatrix().Count && currentTable.GetPiecesPosition()[currentPosition[0] - 1][currentPosition[1] + 1] == null)
+                        {
+                            eatPositionDownRight = new List<int>();
+                            eatPositionDownRight.Add(currentPosition[0] - 1);
+                            eatPositionDownRight.Add(currentPosition[1] + 1);
+                            canEat = true;
+                            Debug.Log("OK TO KING EAT");
+
+                        }
                     }
                 }
             }
-        }
 
 
-        if (hasContatc == false)
-        {
-            finalCheck = isPieceInContact;
+            if (hasContatc == false)
+            {
+                finalCheck = isPieceInContact;
+            }
+            else
+            {
+                finalCheck = canEat;
+            }
         }
-        else
+        else 
         {
-            finalCheck = canEat;
+            if (currentPosition[1] < currentTable.GetPiecesPosition()[currentPosition[1]].Count - 1)
+            {
+                if (pieceToUpdate.GetKingStatus() == false)
+                {
+                    if (hasContatc == false)
+                    {
+                        if (currentPosition[1] + 1 < currentTable.GetPiecesPosition()[0].Count && currentPosition[0] - 1 >= 0 &&
+                            currentTable.GetPiecesPosition()[currentPosition[0] - 1][currentPosition[1] + 1] != null &&
+                           currentTable.GetPiecesPosition()[currentPosition[0] - 1][currentPosition[1] + 1].GetIsBlack() != currentTable.GetPiecesPosition()[currentPosition[0]][currentPosition[1]].GetIsBlack())
+                        {
+                            contacPositionDownRight = new List<int>();
+                            contacPositionDownRight.Add(currentPosition[0] - 1);
+                            contacPositionDownRight.Add(currentPosition[1] + 1);
+                            isPieceInContact = true;
+                        }
+                    }
+                    else
+                    {
+                        if (contacPositionDownRight[1] + 1 < currentTable.GetPiecesPosition()[0].Count && contacPositionDownRight[0] - 1 >= 0 &&
+                            currentTable.GetPiecesPosition()[contacPositionDownRight[0] - 1][contacPositionDownRight[1] + 1] == null)
+                        {
+                            eatPositionDownRight = new List<int>();
+                            eatPositionDownRight.Add(contacPositionDownRight[0] - 1);
+                            eatPositionDownRight.Add(contacPositionDownRight[1] + 1);
+                            canEat = true;
+                        }
+                    }
+                }
+                else
+                {
+                    if (hasContatc == false)
+                    {
+                        int diagonalController = 1;
+                        /*positionsKingMovePossibilities = new Dictionary<int, List<int>>();*/
+                        int valueRowControl = currentPosition[0];
+                        int valueColumnControl = currentPosition[1];
+
+                        while (valueRowControl >= 0 && valueColumnControl < currentTable.GetCurrentBoard().GetBoardMatrix().Count)
+                        {
+                            /*                        Debug.Log(row - diagonalController + "   ROW");
+                                                    Debug.Log(column - diagonalController + "    COLLUMN");*/
+                            if (currentPosition[0] - diagonalController >= 0 && currentPosition[1] + diagonalController < currentTable.GetCurrentBoard().GetBoardMatrix().Count && currentTable.GetPiecesPosition()[currentPosition[0] - diagonalController][currentPosition[1] + diagonalController] != null &&
+                           currentTable.GetPiecesPosition()[currentPosition[0] - diagonalController][currentPosition[1] + diagonalController].GetIsBlack() != currentTable.GetPiecesPosition()[currentPosition[0]][currentPosition[1]].GetIsBlack())
+                            {
+                                contacPositionDownRight = new List<int>();
+                                contacPositionDownRight.Add(currentPosition[0] - 1);
+                                contacPositionDownRight.Add(currentPosition[1] + 1);
+                                isPieceInContact = true;
+                                valueRowControl = 0;
+                                valueColumnControl = currentTable.GetCurrentBoard().GetBoardMatrix().Count;
+                                //diagonalCheck = false;
+                            }
+                            else
+                            {
+                                List<int> auxPositions = new List<int>();
+                                auxPositions.Add(currentPosition[0] - diagonalController);
+                                auxPositions.Add(currentPosition[1] + diagonalController);
+                                Debug.Log(positionsKingMovePossibilities.Count + " MMNN V ");
+                                positionsKingMovePossibilities.Add(positionsKingMovePossibilities.Count, auxPositions);
+                                indexKingPositionController++;
+                                diagonalController++;
+                                valueColumnControl++;
+                                valueRowControl--;
+
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (currentPosition[0] - 1 >= 0 && currentPosition[1] + 1 < currentTable.GetCurrentBoard().GetBoardMatrix().Count && currentTable.GetPiecesPosition()[currentPosition[0] - 1][currentPosition[1] + 1] == null)
+                        {
+                            eatPositionDownRight = new List<int>();
+                            eatPositionDownRight.Add(currentPosition[0] - 1);
+                            eatPositionDownRight.Add(currentPosition[1] + 1);
+                            canEat = true;
+                            Debug.Log("OK TO KING EAT");
+
+                        }
+                    }
+                }
+            }
+
+
+            if (hasContatc == false)
+            {
+                finalCheck = isPieceInContact;
+            }
+            else
+            {
+                finalCheck = canEat;
+            }
         }
         return finalCheck;
     }
 
-    private bool PieceInContactUpLeft(int row, int column, bool hasContatc)
+    private bool PieceInContactUpLeft(int row, int column, bool hasContatc, bool isSimulated)
     {
         bool finalCheck = false;
         bool isPieceInContact = false;
         bool canEat = false;
 
+        if (isSimulated == true)
 
-        if (column > 0)
         {
-            if (pieceToUpdate.GetKingStatus() == false)
+            if (column > 0)
             {
-                if (hasContatc == false)
+                if (pieceToUpdate.GetKingStatus() == false)
                 {
-                    if (row + 1 < currentTable.GetPiecesPosition().Count && column - 1 >= 0 && currentTable.GetPiecesPosition()[row + 1][column - 1] != null &&
-                    currentTable.GetPiecesPosition()[row + 1][column - 1].GetIsBlack() != currentTable.GetPiecesPosition()[row][column].GetIsBlack())
+                    if (hasContatc == false)
                     {
-                        contactPositionUpLeft = new List<int>();
-                        contactPositionUpLeft.Add(row + 1);
-                        contactPositionUpLeft.Add(column - 1);
-                        isPieceInContact = true;
-                    }
-                }
-                else
-                {
-                    if (row + 1 < currentTable.GetPiecesPosition().Count && column - 1 >= 0 && currentTable.GetPiecesPosition()[row + 1][column - 1] == null)
-                    {
-                        eatPositionUpLeft = new List<int>();
-                        eatPositionUpLeft.Add(row + 1);
-                        eatPositionUpLeft.Add(column - 1);
-                        canEat = true;
-                    }
-                }
-
-            }
-            else
-            {
-                if (hasContatc == false)
-                {
-                    int diagonalController = 1;
-                    /*positionsKingMovePossibilities = new Dictionary<int, List<int>>();*/
-                    int valueRowControl = row;
-                    int valueColumnControl = column;
-
-                    while (valueRowControl < currentTable.GetCurrentBoard().GetBoardMatrix().Count && valueColumnControl >= 0)
-                    {
-                        /*                        Debug.Log(row - diagonalController + "   ROW");
-                                                Debug.Log(column - diagonalController + "    COLLUMN");*/
-                        if (row + diagonalController < currentTable.GetCurrentBoard().GetBoardMatrix().Count && column - diagonalController >= 0 && currentTable.GetPiecesPosition()[row + diagonalController][column - diagonalController] != null &&
-                       currentTable.GetPiecesPosition()[row + diagonalController][column - diagonalController].GetIsBlack() != currentTable.GetPiecesPosition()[row][column].GetIsBlack())
+                        if (row + 1 < currentTable.GetPiecesPosition().Count && column - 1 >= 0 && currentTable.GetPiecesPosition()[row + 1][column - 1] != null &&
+                        currentTable.GetPiecesPosition()[row + 1][column - 1].GetIsBlack() != currentTable.GetPiecesPosition()[row][column].GetIsBlack())
                         {
                             contactPositionUpLeft = new List<int>();
                             contactPositionUpLeft.Add(row + 1);
                             contactPositionUpLeft.Add(column - 1);
                             isPieceInContact = true;
-                            valueRowControl = currentTable.GetCurrentBoard().GetBoardMatrix().Count;
-                            valueColumnControl = 0;
-                            //diagonalCheck = false;
-                        }
-                        else
-                        {
-                            List<int> auxPositions = new List<int>();
-                            auxPositions.Add(row + diagonalController);
-                            auxPositions.Add(column - diagonalController);
-                            Debug.Log(positionsKingMovePossibilities.Count + " MMNN V ");
-                            positionsKingMovePossibilities.Add(positionsKingMovePossibilities.Count, auxPositions);
-                            indexKingPositionController++;
-                            diagonalController++;
-                            valueColumnControl--;
-                            valueRowControl++;
-
                         }
                     }
+                    else
+                    {
+                        if (row + 1 < currentTable.GetPiecesPosition().Count && column - 1 >= 0 && currentTable.GetPiecesPosition()[row + 1][column - 1] == null)
+                        {
+                            eatPositionUpLeft = new List<int>();
+                            eatPositionUpLeft.Add(row + 1);
+                            eatPositionUpLeft.Add(column - 1);
+                            canEat = true;
+                        }
+                    }
+
                 }
                 else
                 {
-                    if (row + 1 < currentTable.GetCurrentBoard().GetBoardMatrix().Count && column - 1 >= 0 && currentTable.GetPiecesPosition()[row + 1][column - 1] == null)
+                    if (hasContatc == false)
                     {
-                        eatPositionUpLeft = new List<int>();
-                        eatPositionUpLeft.Add(row - 1);
-                        eatPositionUpLeft.Add(column + 1);
-                        canEat = true;
-                        Debug.Log("OK TO KING EAT");
+                        int diagonalController = 1;
+                        /*positionsKingMovePossibilities = new Dictionary<int, List<int>>();*/
+                        int valueRowControl = row;
+                        int valueColumnControl = column;
 
+                        while (valueRowControl < currentTable.GetCurrentBoard().GetBoardMatrix().Count && valueColumnControl >= 0)
+                        {
+                            /*                        Debug.Log(row - diagonalController + "   ROW");
+                                                    Debug.Log(column - diagonalController + "    COLLUMN");*/
+                            if (row + diagonalController < currentTable.GetCurrentBoard().GetBoardMatrix().Count && column - diagonalController >= 0 && currentTable.GetPiecesPosition()[row + diagonalController][column - diagonalController] != null &&
+                           currentTable.GetPiecesPosition()[row + diagonalController][column - diagonalController].GetIsBlack() != currentTable.GetPiecesPosition()[row][column].GetIsBlack())
+                            {
+                                contactPositionUpLeft = new List<int>();
+                                contactPositionUpLeft.Add(row + 1);
+                                contactPositionUpLeft.Add(column - 1);
+                                isPieceInContact = true;
+                                valueRowControl = currentTable.GetCurrentBoard().GetBoardMatrix().Count;
+                                valueColumnControl = 0;
+                                //diagonalCheck = false;
+                            }
+                            else
+                            {
+                                List<int> auxPositions = new List<int>();
+                                auxPositions.Add(row + diagonalController);
+                                auxPositions.Add(column - diagonalController);
+                                Debug.Log(positionsKingMovePossibilities.Count + " MMNN V ");
+                                positionsKingMovePossibilities.Add(positionsKingMovePossibilities.Count, auxPositions);
+                                indexKingPositionController++;
+                                diagonalController++;
+                                valueColumnControl--;
+                                valueRowControl++;
+
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (row + 1 < currentTable.GetCurrentBoard().GetBoardMatrix().Count && column - 1 >= 0 && currentTable.GetPiecesPosition()[row + 1][column - 1] == null)
+                        {
+                            eatPositionUpLeft = new List<int>();
+                            eatPositionUpLeft.Add(row - 1);
+                            eatPositionUpLeft.Add(column + 1);
+                            canEat = true;
+                            Debug.Log("OK TO KING EAT");
+
+                        }
                     }
                 }
             }
+            if (hasContatc == false)
+            {
+                finalCheck = isPieceInContact;
+            }
+            else
+            {
+                finalCheck = canEat;
+            }
         }
-        if (hasContatc == false)
+        else 
         {
-            finalCheck = isPieceInContact;
+            if (currentPosition[1] > 0 && currentPosition[0] > 0)
+            {
+                if (pieceToUpdate.GetKingStatus() == false)
+                {
+                    if (hasContatc == false)
+                    {
+                        if (currentPosition[0] + 1 < currentTable.GetPiecesPosition().Count && currentPosition[1] - 1 >= 0 && currentTable.GetPiecesPosition()[currentPosition[0] + 1][currentPosition[1] - 1] != null &&
+                        currentTable.GetPiecesPosition()[currentPosition[0] + 1][currentPosition[1] - 1].GetIsBlack() != currentTable.GetPiecesPosition()[currentPosition[0]][currentPosition[1]].GetIsBlack())
+                        {
+                            contactPositionUpLeft = new List<int>();
+                            contactPositionUpLeft.Add(currentPosition[0] + 1);
+                            contactPositionUpLeft.Add(currentPosition[1] - 1);
+                            isPieceInContact = true;
+                        }
+                    }
+                    else
+                    {
+                        if (contactPositionUpLeft[0] + 1 < currentTable.GetPiecesPosition().Count && contactPositionUpLeft[1] - 1 >= 0 
+                            && currentTable.GetPiecesPosition()[contactPositionUpLeft[0] + 1][contactPositionUpLeft[1] - 1] == null)
+                        {
+                            eatPositionUpLeft = new List<int>();
+                            eatPositionUpLeft.Add(contactPositionUpLeft[0] + 1);
+                            eatPositionUpLeft.Add(contactPositionUpLeft[1] - 1);
+                            canEat = true;
+                        }
+                    }
+
+                }
+                else
+                {
+                    if (hasContatc == false)
+                    {
+                        int diagonalController = 1;
+                        /*positionsKingMovePossibilities = new Dictionary<int, List<int>>();*/
+                        int valueRowControl = currentPosition[0];
+                        int valueColumnControl = currentPosition[1];
+
+                        while (valueRowControl < currentTable.GetCurrentBoard().GetBoardMatrix().Count && valueColumnControl >= 0)
+                        {
+
+                            if (currentPosition[0] + diagonalController < currentTable.GetCurrentBoard().GetBoardMatrix().Count && currentPosition[1] - diagonalController >= 0 && currentTable.GetPiecesPosition()[currentPosition[0] + diagonalController][currentPosition[1] - diagonalController] != null &&
+                           currentTable.GetPiecesPosition()[currentPosition[0] + diagonalController][currentPosition[1] - diagonalController].GetIsBlack() != currentTable.GetPiecesPosition()[currentPosition[0]][currentPosition[1]].GetIsBlack())
+                            {
+                                contactPositionUpLeft = new List<int>();
+                                contactPositionUpLeft.Add(currentPosition[0] + 1);
+                                contactPositionUpLeft.Add(currentPosition[1] - 1);
+                                isPieceInContact = true;
+                                valueRowControl = currentTable.GetCurrentBoard().GetBoardMatrix().Count;
+                                valueColumnControl = 0;
+                                //diagonalCheck = false;
+                            }
+                            else
+                            {
+                                List<int> auxPositions = new List<int>();
+                                auxPositions.Add(currentPosition[0] + diagonalController);
+                                auxPositions.Add(currentPosition[1] - diagonalController);
+                                Debug.Log(positionsKingMovePossibilities.Count + " MMNN V ");
+                                positionsKingMovePossibilities.Add(positionsKingMovePossibilities.Count, auxPositions);
+                                indexKingPositionController++;
+                                diagonalController++;
+                                valueColumnControl--;
+                                valueRowControl++;
+
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (currentPosition[0] + 1 < currentTable.GetCurrentBoard().GetBoardMatrix().Count && currentPosition[1] - 1 >= 0 && currentTable.GetPiecesPosition()[currentPosition[0] + 1][currentPosition[1] - 1] == null)
+                        {
+                            eatPositionUpLeft = new List<int>();
+                            eatPositionUpLeft.Add(currentPosition[0] - 1);
+                            eatPositionUpLeft.Add(currentPosition[1] + 1);
+                            canEat = true;
+                            Debug.Log("OK TO KING EAT");
+
+                        }
+                    }
+                }
+            }
+            if (hasContatc == false)
+            {
+                finalCheck = isPieceInContact;
+            }
+            else
+            {
+                finalCheck = canEat;
+            }
         }
-        else
-        {
-            finalCheck = canEat;
-        }
+
         return finalCheck;
     }
 
-    private bool PieceInContactUpRight(int row, int column, bool hasContatc)
+    private bool PieceInContactUpRight(int row, int column, bool hasContatc, bool isSimulated)
     {
         bool finalCheck = false;
         bool isPieceInContact = false;
         bool canEat = false;
 
-        if (row < currentTable.GetPiecesPosition()[column].Count - 1)
+        if (isSimulated == true)
+
         {
-            if (pieceToUpdate.GetKingStatus() == false)
+            if (row < currentTable.GetPiecesPosition()[column].Count - 1)
             {
-                if (hasContatc == false)
+                if (pieceToUpdate.GetKingStatus() == false)
                 {
-                    if (row + 1 < currentTable.GetPiecesPosition()[0].Count &&
-                        column + 1 < currentTable.GetPiecesPosition()[0].Count &&
-                        currentTable.GetPiecesPosition()[row + 1][column + 1] != null &&
-                        currentTable.GetPiecesPosition()[row + 1][column + 1].GetIsBlack() != currentTable.GetPiecesPosition()[row][column].GetIsBlack())
+                    if (hasContatc == false)
                     {
-
-                        contactPositionUpRight = new List<int>();
-                        contactPositionUpRight.Add(row + 1);
-                        contactPositionUpRight.Add(column + 1);
-
-                        isPieceInContact = true;
-
-                    }
-                }
-                else
-                {
-                    if (row + 1 < currentTable.GetPiecesPosition()[0].Count &&
-                        column + 1 < currentTable.GetPiecesPosition()[0].Count &&
-                        currentTable.GetPiecesPosition()[row + 1][column + 1] == null)
-                    {
-                        eatPositionUpRight = new List<int>();
-                        eatPositionUpRight.Add(row + 1);
-                        eatPositionUpRight.Add(column + 1);
-                        canEat = true;
-                    }
-                }
-
-            }
-            else
-            {
-                if (hasContatc == false)
-                {
-                    int diagonalController = 1;
-                    /*positionsKingMovePossibilities = new Dictionary<int, List<int>>();*/
-                    int valueRowControl = row;
-                    int valueColumnControl = column;
-
-                    while (valueRowControl < currentTable.GetCurrentBoard().GetBoardMatrix().Count && valueColumnControl < currentTable.GetCurrentBoard().GetBoardMatrix().Count)
-                    {
-                        /*                        Debug.Log(row - diagonalController + "   ROW");
-                                                Debug.Log(column - diagonalController + "    COLLUMN");*/
-                        if (row + diagonalController < currentTable.GetCurrentBoard().GetBoardMatrix().Count && column + diagonalController < currentTable.GetCurrentBoard().GetBoardMatrix().Count  && currentTable.GetPiecesPosition()[row + diagonalController][column + diagonalController] != null &&
-                       currentTable.GetPiecesPosition()[row + diagonalController][column + diagonalController].GetIsBlack() != currentTable.GetPiecesPosition()[row][column].GetIsBlack())
+                        if (row + 1 < currentTable.GetPiecesPosition()[0].Count &&
+                            column + 1 < currentTable.GetPiecesPosition()[0].Count &&
+                            currentTable.GetPiecesPosition()[row + 1][column + 1] != null &&
+                            currentTable.GetPiecesPosition()[row + 1][column + 1].GetIsBlack() != currentTable.GetPiecesPosition()[row][column].GetIsBlack())
                         {
+
                             contactPositionUpRight = new List<int>();
                             contactPositionUpRight.Add(row + 1);
                             contactPositionUpRight.Add(column + 1);
+
                             isPieceInContact = true;
-                            valueRowControl = currentTable.GetCurrentBoard().GetBoardMatrix().Count;
-                            valueColumnControl = 0;
-                            //diagonalCheck = false;
-                        }
-                        else
-                        {
-                            List<int> auxPositions = new List<int>();
-                            auxPositions.Add(row + diagonalController);
-                            auxPositions.Add(column + diagonalController);
-                            Debug.Log(positionsKingMovePossibilities.Count + " MMNN V ");
-                            positionsKingMovePossibilities.Add(positionsKingMovePossibilities.Count, auxPositions);
-                            indexKingPositionController++;
-                            diagonalController++;
-                            valueColumnControl++;
-                            valueRowControl++;
 
                         }
                     }
+                    else
+                    {
+                        if (row + 1 < currentTable.GetPiecesPosition()[0].Count &&
+                            column + 1 < currentTable.GetPiecesPosition()[0].Count &&
+                            currentTable.GetPiecesPosition()[row + 1][column + 1] == null)
+                        {
+                            eatPositionUpRight = new List<int>();
+                            eatPositionUpRight.Add(row + 1);
+                            eatPositionUpRight.Add(column + 1);
+                            canEat = true;
+                        }
+                    }
+
                 }
                 else
                 {
-                    if (row + 1 < currentTable.GetCurrentBoard().GetBoardMatrix().Count && column + 1 < currentTable.GetCurrentBoard().GetBoardMatrix().Count && currentTable.GetPiecesPosition()[row - 1][column + 1] == null)
+                    if (hasContatc == false)
                     {
-                        eatPositionUpRight = new List<int>();
-                        eatPositionUpRight.Add(row + 1);
-                        eatPositionUpRight.Add(column + 1);
-                        canEat = true;
-                        Debug.Log("OK TO KING EAT");
+                        int diagonalController = 1;
+                        /*positionsKingMovePossibilities = new Dictionary<int, List<int>>();*/
+                        int valueRowControl = row;
+                        int valueColumnControl = column;
 
+                        while (valueRowControl < currentTable.GetCurrentBoard().GetBoardMatrix().Count && valueColumnControl < currentTable.GetCurrentBoard().GetBoardMatrix().Count)
+                        {
+                            /*                        Debug.Log(row - diagonalController + "   ROW");
+                                                    Debug.Log(column - diagonalController + "    COLLUMN");*/
+                            if (row + diagonalController < currentTable.GetCurrentBoard().GetBoardMatrix().Count && column + diagonalController < currentTable.GetCurrentBoard().GetBoardMatrix().Count && currentTable.GetPiecesPosition()[row + diagonalController][column + diagonalController] != null &&
+                           currentTable.GetPiecesPosition()[row + diagonalController][column + diagonalController].GetIsBlack() != currentTable.GetPiecesPosition()[row][column].GetIsBlack())
+                            {
+                                contactPositionUpRight = new List<int>();
+                                contactPositionUpRight.Add(row + 1);
+                                contactPositionUpRight.Add(column + 1);
+                                isPieceInContact = true;
+                                valueRowControl = currentTable.GetCurrentBoard().GetBoardMatrix().Count;
+                                valueColumnControl = 0;
+                                //diagonalCheck = false;
+                            }
+                            else
+                            {
+                                List<int> auxPositions = new List<int>();
+                                auxPositions.Add(row + diagonalController);
+                                auxPositions.Add(column + diagonalController);
+                                Debug.Log(row + diagonalController + " row");
+                                Debug.Log(column + diagonalController + " col");
+                                Debug.Log(positionsKingMovePossibilities.Count + " MMNN V ");
+                                positionsKingMovePossibilities.Add(positionsKingMovePossibilities.Count, auxPositions);
+                                indexKingPositionController++;
+                                diagonalController++;
+                                valueColumnControl++;
+                                valueRowControl++;
+
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (row + 1 < currentTable.GetCurrentBoard().GetBoardMatrix().Count && column + 1 < currentTable.GetCurrentBoard().GetBoardMatrix().Count && currentTable.GetPiecesPosition()[row - 1][column + 1] == null)
+                        {
+                            eatPositionUpRight = new List<int>();
+                            eatPositionUpRight.Add(row + 1);
+                            eatPositionUpRight.Add(column + 1);
+                            canEat = true;
+                            Debug.Log("OK TO KING EAT");
+
+                        }
                     }
                 }
             }
-        }
-        if (hasContatc == false)
-        {
-            finalCheck = isPieceInContact;
+            if (hasContatc == false)
+            {
+                finalCheck = isPieceInContact;
+            }
+            else
+            {
+                finalCheck = canEat;
+            }
         }
         else
         {
-            finalCheck = canEat;
+            {
+                if (currentPosition[0] < currentTable.GetPiecesPosition()[currentPosition[1]].Count - 1)
+                {
+                    if (pieceToUpdate.GetKingStatus() == false)
+                    {
+                        if (hasContatc == false)
+                        {
+                            if (currentPosition[0] + 1 < currentTable.GetPiecesPosition()[0].Count &&
+                                currentPosition[1] + 1 < currentTable.GetPiecesPosition()[0].Count &&
+                                currentTable.GetPiecesPosition()[currentPosition[0] + 1][currentPosition[1] + 1] != null &&
+                                currentTable.GetPiecesPosition()[currentPosition[0] + 1][currentPosition[1] + 1].GetIsBlack() != currentTable.GetPiecesPosition()[currentPosition[0]][currentPosition[1]].GetIsBlack())
+                            {
+
+                                contactPositionUpRight = new List<int>();
+                                contactPositionUpRight.Add(currentPosition[0] + 1);
+                                contactPositionUpRight.Add(currentPosition[1] + 1);
+
+                                isPieceInContact = true;
+
+                            }
+                        }
+                        else
+                        {
+                            if (contactPositionUpRight[0] + 1 < currentTable.GetPiecesPosition()[0].Count &&
+                                contactPositionUpRight[1] + 1 < currentTable.GetPiecesPosition()[0].Count &&
+                                currentTable.GetPiecesPosition()[contactPositionUpRight[0] + 1][contactPositionUpRight[1] + 1] == null)
+                            {
+                                eatPositionUpRight = new List<int>();
+                                eatPositionUpRight.Add(contactPositionUpRight[0] + 1);
+                                eatPositionUpRight.Add(contactPositionUpRight[1] + 1);
+                                canEat = true;
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        if (hasContatc == false)
+                        {
+                            int diagonalController = 1;
+                            /*positionsKingMovePossibilities = new Dictionary<int, List<int>>();*/
+                            int valueRowControl = currentPosition[0] + 1;
+                            int valueColumnControl = currentPosition[1] + 1;
+
+                            while (valueRowControl < currentTable.GetCurrentBoard().GetBoardMatrix().Count && valueColumnControl < currentTable.GetCurrentBoard().GetBoardMatrix().Count)
+                            {
+                                /*                        Debug.Log(row - diagonalController + "   ROW");
+                                                        Debug.Log(column - diagonalController + "    COLLUMN");*/
+                                if (currentPosition[0] + diagonalController < currentTable.GetCurrentBoard().GetBoardMatrix().Count && currentPosition[1] + diagonalController < currentTable.GetCurrentBoard().GetBoardMatrix().Count && currentTable.GetPiecesPosition()[currentPosition[0] + diagonalController][currentPosition[1] + diagonalController] != null &&
+                               currentTable.GetPiecesPosition()[currentPosition[0] + diagonalController][currentPosition[1] + diagonalController].GetIsBlack() != currentTable.GetPiecesPosition()[currentPosition[0]][currentPosition[1]].GetIsBlack())
+                                {
+                                    contactPositionUpRight = new List<int>();
+                                    contactPositionUpRight.Add(currentPosition[0] + 1);
+                                    contactPositionUpRight.Add(currentPosition[1] + 1);
+                                    isPieceInContact = true;
+                                    valueRowControl = currentTable.GetCurrentBoard().GetBoardMatrix().Count;
+                                    valueColumnControl = 0;
+                                    //diagonalCheck = false;
+                                }
+                                else
+                                {
+                                    List<int> auxPositions = new List<int>();
+                                    auxPositions.Add(currentPosition[0] + diagonalController);
+                                    auxPositions.Add(currentPosition[1] + diagonalController);
+                                    Debug.Log(currentPosition[0] + diagonalController + " row");
+                                    Debug.Log(currentPosition[1] + diagonalController + " col");
+                                    Debug.Log(positionsKingMovePossibilities.Count + " MMNN V ");
+                                    positionsKingMovePossibilities.Add(positionsKingMovePossibilities.Count, auxPositions);
+                                    indexKingPositionController++;
+                                    diagonalController++;
+                                    valueColumnControl++;
+                                    valueRowControl++;
+
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (currentPosition[0] + 1 < currentTable.GetCurrentBoard().GetBoardMatrix().Count && currentPosition[1] + 1 < currentTable.GetCurrentBoard().GetBoardMatrix().Count && currentTable.GetPiecesPosition()[currentPosition[0] - 1][currentPosition[1] + 1] == null)
+                            {
+                                eatPositionUpRight = new List<int>();
+                                eatPositionUpRight.Add(currentPosition[0] + 1);
+                                eatPositionUpRight.Add(currentPosition[1] + 1);
+                                canEat = true;
+                                Debug.Log("OK TO KING EAT");
+
+                            }
+                        }
+                    }
+                }
+                if (hasContatc == false)
+                {
+                    finalCheck = isPieceInContact;
+                }
+                else
+                {
+                    finalCheck = canEat;
+                }
+            }
         }
         return finalCheck;
     }
@@ -1520,6 +1944,7 @@ public class GameController : MonoBehaviour
         /*Piece currentPieceClicked = GetClickedPiece().GetComponent<Piece>();*/
         int rowController = 0;
         int collumnController = 0;
+        Debug.Log("Enrei aqui sim");
         while (rowController < currentTable.GetCurretBoardSpacePositions()[0].Count)
         {
             if ((currentTable.GetPiecesPosition()[rowController][collumnController] != null) && (currentTable.GetPiecesPosition()[rowController][collumnController].GetIsBlack() == isBlackTurn))
@@ -1528,30 +1953,30 @@ public class GameController : MonoBehaviour
                 bool canEatUpRight = false;
                 bool canEatDownLeft = false;
                 bool canEatDownRight = false;
-                bool isPieceInContactWihtOpponentUpLeft = PieceInContactUpLeft(rowController, collumnController, false);
+                bool isPieceInContactWihtOpponentUpLeft = PieceInContactUpLeft(rowController, collumnController, false, true);
 
                 if (isPieceInContactWihtOpponentUpLeft == true && contactPositionUpLeft[1] > 0)
                 {
-                    canEatUpLeft = PieceInContactUpLeft(contactPositionUpLeft[0], contactPositionUpLeft[1], isPieceInContactWihtOpponentUpLeft);
+                    canEatUpLeft = PieceInContactUpLeft(contactPositionUpLeft[0], contactPositionUpLeft[1], isPieceInContactWihtOpponentUpLeft, true);
 
                 }
-                bool isPieceInContactWihtOpponentUpRight = PieceInContactUpRight(rowController, collumnController, false);
+                bool isPieceInContactWihtOpponentUpRight = PieceInContactUpRight(rowController, collumnController, false, true);
 
                 if (isPieceInContactWihtOpponentUpRight)
                 {
-                    canEatUpRight = PieceInContactUpRight(contactPositionUpRight[0], contactPositionUpRight[1], isPieceInContactWihtOpponentUpRight);
+                    canEatUpRight = PieceInContactUpRight(contactPositionUpRight[0], contactPositionUpRight[1], isPieceInContactWihtOpponentUpRight, true);
 
                 }
-                bool isPieceInContactWihtOpponentDownLeft = PieceInContactDownLeft(rowController, collumnController, false);
+                bool isPieceInContactWihtOpponentDownLeft = PieceInContactDownLeft(rowController, collumnController, false, true);
                 if (isPieceInContactWihtOpponentDownLeft == true && contactPositionDownLeft[1] > 0)
                 {
-                    canEatDownLeft = PieceInContactDownLeft(contactPositionDownLeft[0], contactPositionDownLeft[1], isPieceInContactWihtOpponentDownLeft);
+                    canEatDownLeft = PieceInContactDownLeft(contactPositionDownLeft[0], contactPositionDownLeft[1], isPieceInContactWihtOpponentDownLeft, true);
 
                 }
-                bool isPieceInContactWihtOpponentDownRight = PieceInContactDownRight(rowController, collumnController, false);
+                bool isPieceInContactWihtOpponentDownRight = PieceInContactDownRight(rowController, collumnController, false , true);
                 if (isPieceInContactWihtOpponentDownRight)
                 {
-                    canEatDownRight = PieceInContactDownRight(contacPositionDownRight[0], contacPositionDownRight[1], isPieceInContactWihtOpponentDownRight);
+                    canEatDownRight = PieceInContactDownRight(contacPositionDownRight[0], contacPositionDownRight[1], isPieceInContactWihtOpponentDownRight, true);
                 }
                 if (canEatDownLeft == true || canEatDownRight == true || canEatUpLeft == true || canEatUpRight == true)
                 {
@@ -1569,6 +1994,15 @@ public class GameController : MonoBehaviour
                 rowController++;
             }
 
+        }
+        Debug.Log(newListOfPiecesAbleToEat.Count);
+        for (int i = 0; i < newListOfPiecesAbleToEat.Count; i++)
+        {
+            Debug.Log(newListOfPiecesAbleToEat[i]);
+            if (i > 0 && i % 2 == 0) 
+            {
+                Debug.Log("able to eat");
+            }
         }
         return newListOfPiecesAbleToEat;
     }
