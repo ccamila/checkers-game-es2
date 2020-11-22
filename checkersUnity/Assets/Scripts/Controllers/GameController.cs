@@ -13,6 +13,8 @@ public class GameController : MonoBehaviour
     Piece pieceToUpdate;
     int[] currentPosition, newPosition;
 
+    public GameObject turnGO;
+
     private bool isPieceClicked = false;
     private bool mandatoryEat = false;
     private GameObject clickedPiece = null;
@@ -121,6 +123,7 @@ public class GameController : MonoBehaviour
             mandatoryEat = false;
         }
         isBlackTurn = !isBlackTurn;
+        UpdateTurnUI(isBlackTurn);
         if( (isBlackTurn && iaPlayerController.GetIsIAPlayerBlack()) || (!isBlackTurn && !iaPlayerController.GetIsIAPlayerBlack()))
         {
             if (!iaPlayerController.MakeAMove())
@@ -131,6 +134,13 @@ public class GameController : MonoBehaviour
         }
            
     }
+
+    public void UpdateTurnUI(bool isBlackTurn)
+    {
+        Debug.Log("Disparando turno do preto: " + isBlackTurn);
+        turnGO.GetComponent<Animator>().SetBool("isBlackTurn", isBlackTurn);
+    }
+
     public void UpdateGameObject()
     {
         
