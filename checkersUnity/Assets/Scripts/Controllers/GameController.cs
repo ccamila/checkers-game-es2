@@ -152,8 +152,8 @@ public class GameController : MonoBehaviour
                 {
                     Debug.Log("can eat dow rgt check");
                     canEatDownRight = PieceInContactDownRight(contacPositionDownRight[0], contacPositionDownRight[1], isPieceInContactWihtOpponentDownRight, false);
-                    if(canEatDownRight)
-                    Debug.Log("can eat dow rgt");
+                    if (canEatDownRight)
+                        Debug.Log("can eat dow rgt");
                 }
                 bool isPieceInContactWihtOpponentUpLeft = PieceInContactUpLeft(currentPosition[0], currentPosition[1], false, false);
                 if (isPieceInContactWihtOpponentUpLeft == true && contactPositionUpLeft[1] > 0)
@@ -170,8 +170,8 @@ public class GameController : MonoBehaviour
                 {
                     Debug.Log("can eat up rgt check");
                     canEatUpRight = PieceInContactUpRight(contactPositionUpRight[0], contactPositionUpRight[1], isPieceInContactWihtOpponentUpRight, false);
-                    if(canEatUpRight)
-                    Debug.Log("can eat up rgt");
+                    if (canEatUpRight)
+                        Debug.Log("can eat up rgt");
                 }
                 if (pieceToUpdate.GetKingStatus() == false)
                 {
@@ -931,20 +931,20 @@ public class GameController : MonoBehaviour
                         }
                         while (valueControl > 0)
                         {
-                            Debug.Log(row + " Row");
+                            /*Debug.Log(row + " Row");
                             Debug.Log(column + " Column");
                             Debug.Log(diagonalController + " diagonalController");
                             Debug.Log(row - diagonalController);
                             Debug.Log(column - diagonalController);
-                            Debug.Log(currentTable.GetPiecesPosition()[row - diagonalController][column - diagonalController] != null);
+                            Debug.Log(currentTable.GetPiecesPosition()[row - diagonalController][column - diagonalController] != null);*/
 
-
+                            /*
                             if (currentTable.GetPiecesPosition()[row - diagonalController][column - diagonalController] != null)
                             {
                                 Debug.Log(currentTable.GetPiecesPosition()[row - diagonalController][column - diagonalController].GetIsBlack() != currentTable.GetPiecesPosition()[row][column].GetIsBlack());
                                 Debug.Log(currentTable.GetPiecesPosition()[row - diagonalController][column - diagonalController].GetIsBlack());
                                 Debug.Log(currentTable.GetPiecesPosition()[row][column].GetIsBlack());
-                            }
+                            }*/
                             /*                        Debug.Log(row - diagonalController + "   ROW");
                                                     Debug.Log(column - diagonalController + "    COLLUMN");*/
                             if (row - diagonalController >= 0 && column - diagonalController >= 0 && currentTable.GetPiecesPosition()[row - diagonalController][column - diagonalController] != null &&
@@ -979,7 +979,6 @@ public class GameController : MonoBehaviour
                             eatPositionDownLeft.Add(row - 1);
                             eatPositionDownLeft.Add(column - 1);
                             canEat = true;
-                            Debug.Log("OK TO KING EAT");
 
                         }
                     }
@@ -995,7 +994,7 @@ public class GameController : MonoBehaviour
                 finalCheck = canEat;
             }
         }
-        else 
+        else
         {
             if (currentPosition[1] > 0 && currentPosition[0] > 0)
             {
@@ -1038,48 +1037,31 @@ public class GameController : MonoBehaviour
                         }
                         while (valueControl > 0)
                         {
-/*                            Debug.Log(currentPosition[0] + " Row");
-                            Debug.Log(currentPosition[1] + " Column");
-                            Debug.Log(diagonalController + " diagonalController");
-                            Debug.Log(currentPosition[0] - diagonalController);
-                            Debug.Log(currentPosition[1] - diagonalController);
-                            Debug.Log(currentTable.GetPiecesPosition()[currentPosition[0] - diagonalController][currentPosition[1] - diagonalController] != null);
 
-
-                            if (currentTable.GetPiecesPosition()[currentPosition[0] - diagonalController][column - diagonalController] != null)
-                            {
-                                Debug.Log(currentTable.GetPiecesPosition()[currentPosition[0] - diagonalController][currentPosition[1] - diagonalController].GetIsBlack() != currentTable.GetPiecesPosition()[currentPosition[0]][currentPosition[1]].GetIsBlack());
-                                Debug.Log(currentTable.GetPiecesPosition()[currentPosition[0] - diagonalController][currentPosition[1] - diagonalController].GetIsBlack());
-                                Debug.Log(currentTable.GetPiecesPosition()[currentPosition[0]][currentPosition[1]].GetIsBlack());
-                            }*/
-                            /*                        Debug.Log(row - diagonalController + "   ROW");
-                                                    Debug.Log(column - diagonalController + "    COLLUMN");*/
-                            if (currentPosition[0] - diagonalController >= 0 && currentPosition[1] - diagonalController >= 0 && currentTable.GetPiecesPosition()[currentPosition[0] - diagonalController][currentPosition[1] - diagonalController] != null &&
-                       currentTable.GetPiecesPosition()[currentPosition[0] - diagonalController][currentPosition[1] - diagonalController].GetIsBlack() != currentTable.GetPiecesPosition()[currentPosition[0]][currentPosition[1]].GetIsBlack())
+                            if (currentPosition[0] - diagonalController >= 0 && currentPosition[1] - diagonalController >= 0 &&
+                                currentTable.GetPiecesPosition()[currentPosition[0] - diagonalController][currentPosition[1] - diagonalController] != null &&
+                                currentTable.GetPiecesPosition()[currentPosition[0] - diagonalController][currentPosition[1] - diagonalController].GetIsBlack() != currentTable.GetPiecesPosition()[currentPosition[0]][currentPosition[1]].GetIsBlack())
                             {
                                 contactPositionDownLeft = new List<int>();
                                 contactPositionDownLeft.Add(currentPosition[0] - diagonalController);
                                 contactPositionDownLeft.Add(currentPosition[1] - diagonalController);
                                 isPieceInContact = true;
                                 valueControl = 0;
-                                Debug.Log("aqui estou ");
                                 //diagonalCheck = false;
                             }
                             else
                             {
+                                Debug.Log(currentPosition[0] - diagonalController + " Row not simulated");
+                                Debug.Log(currentPosition[1] - diagonalController + " Column not simulated");
                                 List<int> auxPositions = new List<int>();
                                 auxPositions.Add(currentPosition[0] - diagonalController);
                                 auxPositions.Add(currentPosition[1] - diagonalController);
                                 Debug.Log(positionsKingMovePossibilities.Count + " MMNN V ");
                                 positionsKingMovePossibilities.Add(positionsKingMovePossibilities.Count, auxPositions);
-                                indexKingPositionController++;
+
                                 diagonalController++;
                                 valueControl--;
-                                /*
-                                                            if ((row == diagonalController) || (column == diagonalController))
-                                                            {
-                                                                diagonalCheck = false;
-                                                            }*/
+
                             }
                         }
                     }
@@ -1162,7 +1144,7 @@ public class GameController : MonoBehaviour
                         {
                             /*                        Debug.Log(row - diagonalController + "   ROW");
                                                     Debug.Log(column - diagonalController + "    COLLUMN");*/
-                            if (row - diagonalController >= 0 && column + diagonalController < currentTable.GetCurrentBoard().GetBoardMatrix().Count && currentTable.GetPiecesPosition()[row- diagonalController][column + diagonalController] != null &&
+                            if (row - diagonalController >= 0 && column + diagonalController < currentTable.GetCurrentBoard().GetBoardMatrix().Count && currentTable.GetPiecesPosition()[row - diagonalController][column + diagonalController] != null &&
                            currentTable.GetPiecesPosition()[row - diagonalController][column + diagonalController].GetIsBlack() != currentTable.GetPiecesPosition()[row][column].GetIsBlack())
                             {
                                 contacPositionDownRight = new List<int>();
@@ -1178,7 +1160,6 @@ public class GameController : MonoBehaviour
                                 List<int> auxPositions = new List<int>();
                                 auxPositions.Add(row - diagonalController);
                                 auxPositions.Add(column + diagonalController);
-                                Debug.Log(positionsKingMovePossibilities.Count + " MMNN V ");
                                 positionsKingMovePossibilities.Add(positionsKingMovePossibilities.Count, auxPositions);
                                 indexKingPositionController++;
                                 diagonalController++;
@@ -1196,7 +1177,6 @@ public class GameController : MonoBehaviour
                             eatPositionDownRight.Add(row - 1);
                             eatPositionDownRight.Add(column + 1);
                             canEat = true;
-                            Debug.Log("OK TO KING EAT");
 
                         }
                     }
@@ -1213,21 +1193,21 @@ public class GameController : MonoBehaviour
                 finalCheck = canEat;
             }
         }
-        else 
+        else
         {
             if (currentPosition[1] < currentTable.GetPiecesPosition()[currentPosition[1]].Count - 1)
             {
                 if (pieceToUpdate.GetKingStatus() == false)
                 {
-                    Debug.Log("BLASss");
+
                     if (hasContatc == false)
                     {
-                        Debug.Log("BLASss googo");
+
                         if (currentPosition[1] + 1 < currentTable.GetPiecesPosition()[0].Count && currentPosition[0] - 1 >= 0 &&
                             currentTable.GetPiecesPosition()[currentPosition[0] - 1][currentPosition[1] + 1] != null &&
                            currentTable.GetPiecesPosition()[currentPosition[0] - 1][currentPosition[1] + 1].GetIsBlack() != currentTable.GetPiecesPosition()[currentPosition[0]][currentPosition[1]].GetIsBlack())
                         {
-                            Debug.Log("OK OK ");
+
                             contacPositionDownRight = new List<int>();
                             contacPositionDownRight.Add(currentPosition[0] - 1);
                             contacPositionDownRight.Add(currentPosition[1] + 1);
@@ -1273,6 +1253,9 @@ public class GameController : MonoBehaviour
                             }
                             else
                             {
+
+                                Debug.Log(currentPosition[0] - diagonalController + " Row not simulated");
+                                Debug.Log(currentPosition[1] + diagonalController + " Column not simulated");
                                 List<int> auxPositions = new List<int>();
                                 auxPositions.Add(currentPosition[0] - diagonalController);
                                 auxPositions.Add(currentPosition[1] + diagonalController);
@@ -1379,7 +1362,6 @@ public class GameController : MonoBehaviour
                                 List<int> auxPositions = new List<int>();
                                 auxPositions.Add(row + diagonalController);
                                 auxPositions.Add(column - diagonalController);
-                                Debug.Log(positionsKingMovePossibilities.Count + " MMNN V ");
                                 positionsKingMovePossibilities.Add(positionsKingMovePossibilities.Count, auxPositions);
                                 indexKingPositionController++;
                                 diagonalController++;
@@ -1397,7 +1379,6 @@ public class GameController : MonoBehaviour
                             eatPositionUpLeft.Add(row - 1);
                             eatPositionUpLeft.Add(column + 1);
                             canEat = true;
-                            Debug.Log("OK TO KING EAT");
 
                         }
                     }
@@ -1412,7 +1393,7 @@ public class GameController : MonoBehaviour
                 finalCheck = canEat;
             }
         }
-        else 
+        else
         {
             if (currentPosition[1] > 0 && currentPosition[0] > 0)
             {
@@ -1431,7 +1412,7 @@ public class GameController : MonoBehaviour
                     }
                     else
                     {
-                        if (contactPositionUpLeft[0] + 1 < currentTable.GetPiecesPosition().Count && contactPositionUpLeft[1] - 1 >= 0 
+                        if (contactPositionUpLeft[0] + 1 < currentTable.GetPiecesPosition().Count && contactPositionUpLeft[1] - 1 >= 0
                             && currentTable.GetPiecesPosition()[contactPositionUpLeft[0] + 1][contactPositionUpLeft[1] - 1] == null)
                         {
                             eatPositionUpLeft = new List<int>();
@@ -1467,6 +1448,8 @@ public class GameController : MonoBehaviour
                             }
                             else
                             {
+                                Debug.Log(currentPosition[0] + diagonalController + " Row not simulated");
+                                Debug.Log(currentPosition[1] - diagonalController + " Column not simulated");
                                 List<int> auxPositions = new List<int>();
                                 auxPositions.Add(currentPosition[0] + diagonalController);
                                 auxPositions.Add(currentPosition[1] - diagonalController);
@@ -1579,9 +1562,6 @@ public class GameController : MonoBehaviour
                                 List<int> auxPositions = new List<int>();
                                 auxPositions.Add(row + diagonalController);
                                 auxPositions.Add(column + diagonalController);
-                                Debug.Log(row + diagonalController + " row");
-                                Debug.Log(column + diagonalController + " col");
-                                Debug.Log(positionsKingMovePossibilities.Count + " MMNN V ");
                                 positionsKingMovePossibilities.Add(positionsKingMovePossibilities.Count, auxPositions);
                                 indexKingPositionController++;
                                 diagonalController++;
@@ -1599,7 +1579,6 @@ public class GameController : MonoBehaviour
                             eatPositionUpRight.Add(row + 1);
                             eatPositionUpRight.Add(column + 1);
                             canEat = true;
-                            Debug.Log("OK TO KING EAT");
 
                         }
                     }
@@ -1677,11 +1656,11 @@ public class GameController : MonoBehaviour
                                 }
                                 else
                                 {
+                                    Debug.Log(currentPosition[0] + diagonalController + " Row not simulated");
+                                    Debug.Log(currentPosition[1] + diagonalController + " Column not simulated");
                                     List<int> auxPositions = new List<int>();
                                     auxPositions.Add(currentPosition[0] + diagonalController);
                                     auxPositions.Add(currentPosition[1] + diagonalController);
-                                    Debug.Log(currentPosition[0] + diagonalController + " row");
-                                    Debug.Log(currentPosition[1] + diagonalController + " col");
                                     Debug.Log(positionsKingMovePossibilities.Count + " MMNN V ");
                                     positionsKingMovePossibilities.Add(positionsKingMovePossibilities.Count, auxPositions);
                                     indexKingPositionController++;
@@ -1949,9 +1928,10 @@ public class GameController : MonoBehaviour
         /*Piece currentPieceClicked = GetClickedPiece().GetComponent<Piece>();*/
         int rowController = 0;
         int collumnController = 0;
-        positionsKingMovePossibilities = new Dictionary<int, List<int>>();
+        //positionsKingMovePossibilities = new Dictionary<int, List<int>>();
         while (rowController < currentTable.GetCurretBoardSpacePositions()[0].Count)
         {
+            positionsKingMovePossibilities = new Dictionary<int, List<int>>();
             if ((currentTable.GetPiecesPosition()[rowController][collumnController] != null) && (currentTable.GetPiecesPosition()[rowController][collumnController].GetIsBlack() == isBlackTurn))
             {
                 bool canEatUpLeft = false;
@@ -1978,7 +1958,7 @@ public class GameController : MonoBehaviour
                     canEatDownLeft = PieceInContactDownLeft(contactPositionDownLeft[0], contactPositionDownLeft[1], isPieceInContactWihtOpponentDownLeft, true);
 
                 }
-                bool isPieceInContactWihtOpponentDownRight = PieceInContactDownRight(rowController, collumnController, false , true);
+                bool isPieceInContactWihtOpponentDownRight = PieceInContactDownRight(rowController, collumnController, false, true);
                 if (isPieceInContactWihtOpponentDownRight)
                 {
                     canEatDownRight = PieceInContactDownRight(contacPositionDownRight[0], contacPositionDownRight[1], isPieceInContactWihtOpponentDownRight, true);
@@ -2001,14 +1981,14 @@ public class GameController : MonoBehaviour
 
         }
         Debug.Log(newListOfPiecesAbleToEat.Count);
-        for (int i = 0; i < newListOfPiecesAbleToEat.Count; i++)
-        {
-            Debug.Log(newListOfPiecesAbleToEat[i]);
-            if (i > 0 && i % 2 == 0) 
-            {
-                Debug.Log("able to eat");
-            }
-        }
+        /*        for (int i = 0; i < newListOfPiecesAbleToEat.Count; i++)
+                {
+                    Debug.Log(newListOfPiecesAbleToEat[i]);
+                    if (i > 0 && i % 2 == 0) 
+                    {
+                        Debug.Log("able to eat");
+                    }
+                }*/
         return newListOfPiecesAbleToEat;
     }
 
