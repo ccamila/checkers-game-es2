@@ -54,6 +54,7 @@ public class GameController : MonoBehaviour
             return _instance;
         }
 
+
         _instance = FindObjectOfType<GameController>();
 
         if (_instance == null)
