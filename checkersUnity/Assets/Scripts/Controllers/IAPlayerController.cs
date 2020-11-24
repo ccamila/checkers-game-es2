@@ -452,19 +452,15 @@ public class IAPlayerController : MonoBehaviour
 
         /**/
         //Gambiarra p/ IA demorar a jogar
-        //Start(boardPiceSelected);
         StartCoroutine(waiter(boardPiceSelected));
         /*/
+        //Codigo Original
         boardPiceSelected.GetComponent<BoardTrigger>().OnMouseDown();
         /**/
         return true;
     }
 
-    //Metodo Start e waiter somente utilizados na gambiarra para fazer IA demorar
-    void Start(GameObject boardPiceSelected)
-    {
-        StartCoroutine(waiter(boardPiceSelected));
-    }
+    //Metodo waiter somente utilizados na gambiarra para fazer IA demorar
 
     IEnumerator waiter(GameObject boardPiceSelected)
     {
