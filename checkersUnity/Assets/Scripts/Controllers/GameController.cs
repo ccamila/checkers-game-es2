@@ -9,6 +9,7 @@ public class GameController : MonoBehaviour
 
     PiecesConstructor piecesConstructor;
     TableConstructor tableConstructor;
+    IAPlayerController iaPlayerController;
     Piece pieceToUpdate;
     int[] currentPosition, newPosition;
 
@@ -71,8 +72,10 @@ public class GameController : MonoBehaviour
     {
         tableConstructor = TableConstructor.instance();
         piecesConstructor = PiecesConstructor.instance();
+        iaPlayerController = IAPlayerController.Instance();
         tableConstructor.ConstructBoard();
         piecesConstructor.ConstructPieces();
+        iaPlayerController.SetGameController();
         currentTable = new CurrentTable(tableConstructor.GetBoard(), piecesConstructor.GetPiecesPosition());
         //Debug.Log(currentTable.GetCurrentBoard().gameObject.name);
         //playbleBoard = tableConstructor.GetPlaybleArea();
@@ -121,6 +124,20 @@ public class GameController : MonoBehaviour
         currentPosition[0] = row;
         currentPosition[1] = column;
     }
+   
+    private void DoesAIMustPlay()
+    {
+        if( (isBlackTurn && iaPlayerController.GetIsIAPlayerBlack()) || (!isBlackTurn && !iaPlayerController.GetIsIAPlayerBlack()))
+        {
+            if (!iaPlayerController.MakeAMove())
+            {
+                Debug.Log("AI cant move");
+            }
+
+        }
+           
+    }
+
     public void UpdateGameObject()
     {
         if (initialTurnEatLock == false)
@@ -227,6 +244,7 @@ public class GameController : MonoBehaviour
                                 currentTable.UpdatePiecesPosition(contactPositionDownLeft[0], contactPositionDownLeft[1], null);
                                 positionToEatAgain = new Dictionary<int, List<int>>();
                                 dictionaryIndexController = 0;
+                                DoesAIMustPlay();
                             }
                         }
                         else
@@ -288,6 +306,7 @@ public class GameController : MonoBehaviour
                                 currentTable.UpdatePiecesPosition(contacPositionDownRight[0], contacPositionDownRight[1], null);
                                 positionToEatAgain = new Dictionary<int, List<int>>();
                                 dictionaryIndexController = 0;
+                                DoesAIMustPlay();
 
                             }
                         }
@@ -351,6 +370,7 @@ public class GameController : MonoBehaviour
                                 currentTable.UpdatePiecesPosition(contactPositionUpLeft[0], contactPositionUpLeft[1], null);
                                 positionToEatAgain = new Dictionary<int, List<int>>();
                                 dictionaryIndexController = 0;
+                                DoesAIMustPlay();
                             }
                         }
                         else
@@ -415,6 +435,7 @@ public class GameController : MonoBehaviour
                                 currentTable.UpdatePiecesPosition(contactPositionUpRight[0], contactPositionUpRight[1], null);
                                 positionToEatAgain = new Dictionary<int, List<int>>();
                                 dictionaryIndexController = 0;
+                                DoesAIMustPlay();
                             }
                         }
                         else
@@ -432,14 +453,10 @@ public class GameController : MonoBehaviour
                                             {
                                                 GameObject newBoardPositionPiece = currentTable.GetCurretBoardSpacePositions()[newPosition[0]][newPosition[1]].gameObject;
                                                 Vector2 newBoardPosition = new Vector2(newBoardPositionPiece.transform.position.x, newBoardPositionPiece.transform.position.y);
-
                                                 currentTable.GetCurrentBoard().SetBoardTilePlayable(currentPosition[0], currentPosition[1]);
-
                                                 pieceToUpdate.gameObject.transform.position = newBoardPosition;
-
                                                 currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
                                                 currentTable.GetCurrentBoard().SetBoardTilePlayable(newPosition[0], newPosition[1], false);
-
                                                 currentTable.UpdatePiecesPosition(currentPosition[0], currentPosition[1], null);
                                                 currentPosition[0] = newPosition[0];
                                                 currentPosition[1] = newPosition[1];
@@ -455,9 +472,7 @@ public class GameController : MonoBehaviour
                                                 }
                                                 positionToEatAgain.Add(dictionaryIndexController, auxiliarPositiontoEatList);
                                                 dictionaryIndexController++;
-
                                                 currentTable.GetPiecesPosition()[contactPositionDownLeft[0]][contactPositionDownLeft[1]].SetIsAvaiableToEat(false);
-
                                                 bool checkToEatAgain = CheckPieceDiagonals(newPosition[0], newPosition[1]);
                                                 Debug.Log(checkToEatAgain + " EATT again UP LEF");
                                                 if (checkToEatAgain)
@@ -484,7 +499,6 @@ public class GameController : MonoBehaviour
                                             {
                                                 Debug.Log("jogada morre aqui, liberar ");
                                             }
-
                                         }*/
                 }
             }
@@ -525,6 +539,7 @@ public class GameController : MonoBehaviour
                         SetClickedPiece(null);
                         isBlackTurn = !isBlackTurn;
                         piecesThatHasToEatInBigginingOfTurn = null;
+                        DoesAIMustPlay();
 
                     }
                     else
@@ -580,6 +595,7 @@ public class GameController : MonoBehaviour
                         SetClickedPiece(null);
                         isBlackTurn = !isBlackTurn;
                         piecesThatHasToEatInBigginingOfTurn = null;
+                        DoesAIMustPlay();
 
                     }
                     else
@@ -631,7 +647,8 @@ public class GameController : MonoBehaviour
                 }
                 else
                 {
-                    pieceToUpdate = null;
+                    DoesAIMustPlay();
+                   /* pieceToUpdate = null;
                     SetIsPieceClicked();
                     SetClickedPiece(null);
                     mandatoryEat = false;
@@ -651,6 +668,7 @@ public class GameController : MonoBehaviour
                         positionToEatAgain = new Dictionary<int, List<int>>();
                         dictionaryIndexController = 0;
                     }
+                    isBlackTurn = !isBlackTurn;*/
                 }
             }
             else
@@ -692,7 +710,8 @@ public class GameController : MonoBehaviour
                 }
                 else
                 {
-                    pieceToUpdate = null;
+                    DoesAIMustPlay();
+                    /*pieceToUpdate = null;
                     SetIsPieceClicked();
                     SetClickedPiece(null);
                     mandatoryEat = false;
@@ -712,6 +731,7 @@ public class GameController : MonoBehaviour
                         positionToEatAgain = new Dictionary<int, List<int>>();
                         dictionaryIndexController = 0;
                     }
+                    isBlackTurn = !isBlackTurn;*/
                 }
 
             }
@@ -755,26 +775,7 @@ public class GameController : MonoBehaviour
                 }
                 else
                 {
-                    pieceToUpdate = null;
-                    SetIsPieceClicked();
-                    SetClickedPiece(null);
-                    mandatoryEat = false;
-                    isBlackTurn = !isBlackTurn;
-                    piecesThatHasToEatInBigginingOfTurn = null;
-                    if (piecesToEat.Count > 0)
-                    {
-                        for (int i = 0; i < piecesToEat.Count; i++)
-                        {
-                            Debug.Log(piecesToEat[i].gameObject.name);
-                            Destroy(piecesToEat[i].gameObject);
-                            List<int> boardPieceList = new List<int>();
-                            boardPieceList = positionToEatAgain[i];
-                            currentTable.GetCurrentBoard().SetBoardTilePlayable(boardPieceList[0], boardPieceList[1], true);
-                        }
-                        positionToEatAgain = new Dictionary<int, List<int>>();
-                        dictionaryIndexController = 0;
-                    }
-
+                    DoesAIMustPlay();
                 }
 
             }
@@ -819,7 +820,8 @@ public class GameController : MonoBehaviour
                 }
                 else
                 {
-                    pieceToUpdate = null;
+                    DoesAIMustPlay();
+                   /* pieceToUpdate = null;
                     SetIsPieceClicked();
                     SetClickedPiece(null);
                     mandatoryEat = false;
@@ -839,6 +841,7 @@ public class GameController : MonoBehaviour
                         positionToEatAgain = new Dictionary<int, List<int>>();
                         dictionaryIndexController = 0;
                     }
+                    isBlackTurn = !isBlackTurn;*/
                 }
 
             }
