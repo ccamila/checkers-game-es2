@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 public class IAPlayerController : MonoBehaviour
@@ -448,7 +449,24 @@ public class IAPlayerController : MonoBehaviour
             Debug.LogError("No Board Pice with the name => " + boardPiceName);
             return false;
         }
+
+        /**/
+        //Gambiarra p/ IA demorar a jogar
+        StartCoroutine(waiter(boardPiceSelected));
+        /*/
+        //Codigo Original
         boardPiceSelected.GetComponent<BoardTrigger>().OnMouseDown();
+        /**/
         return true;
+    }
+
+    //Metodo waiter somente utilizados na gambiarra para fazer IA demorar
+
+    IEnumerator waiter(GameObject boardPiceSelected)
+    {
+
+        yield return new WaitForSeconds(4);
+        boardPiceSelected.GetComponent<BoardTrigger>().OnMouseDown();
+
     }
 }
