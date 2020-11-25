@@ -177,10 +177,10 @@ public class GameController : MonoBehaviour
            
     }
 
-    public void UpdateTurnUI(bool isBlackTurn)
+    public void UpdateTurnUI(bool isBlackTurnNow)
     {
-        Debug.Log("Disparando turno do preto: " + isBlackTurn);
-        turnGO.GetComponent<Animator>().SetBool("isBlackTurn", isBlackTurn);
+        Debug.Log("Disparando turno do preto: " + isBlackTurnNow);
+        turnGO.GetComponent<Animator>().SetBool("isBlackTurn", isBlackTurnNow);
     }
 
 
@@ -249,6 +249,7 @@ public class GameController : MonoBehaviour
 
                             pieceToUpdate.gameObject.transform.position = newBoardPosition;
                             MovePiece(pieceToUpdate, newBoardPosition, 1);
+                            UpdateTurnUI(!isBlackTurn);
                             currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
                             currentTable.GetCurrentBoard().SetBoardTilePlayable(newPosition[0], newPosition[1], false);
 
@@ -309,6 +310,7 @@ public class GameController : MonoBehaviour
 
                             pieceToUpdate.gameObject.transform.position = newBoardPosition;
                             MovePiece(pieceToUpdate, newBoardPosition, 1);
+                            UpdateTurnUI(!isBlackTurn);
                             currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
                             currentTable.GetCurrentBoard().SetBoardTilePlayable(newPosition[0], newPosition[1], false);
 
@@ -373,6 +375,7 @@ public class GameController : MonoBehaviour
 
                             pieceToUpdate.gameObject.transform.position = newBoardPosition;
                             MovePiece(pieceToUpdate, newBoardPosition, 1);
+                            UpdateTurnUI(!isBlackTurn);
                             currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
                             currentTable.GetCurrentBoard().SetBoardTilePlayable(newPosition[0], newPosition[1], false);
 
@@ -434,6 +437,7 @@ public class GameController : MonoBehaviour
 
                             pieceToUpdate.gameObject.transform.position = newBoardPosition;
                             MovePiece(pieceToUpdate, newBoardPosition, 1);
+                            UpdateTurnUI(!isBlackTurn);
                             currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
                             currentTable.GetCurrentBoard().SetBoardTilePlayable(newPosition[0], newPosition[1], false);
 
@@ -562,6 +566,7 @@ public class GameController : MonoBehaviour
 
                         pieceToUpdate.gameObject.transform.position = newBoardPosition;
                         MovePiece(pieceToUpdate, newBoardPosition, 1);
+                        UpdateTurnUI(!isBlackTurn);
                         currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
 
                         currentTable.GetCurrentBoard().SetBoardTilePlayable(newPosition[0], newPosition[1], false);
@@ -618,6 +623,7 @@ public class GameController : MonoBehaviour
 
                         pieceToUpdate.gameObject.transform.position = newBoardPosition;
                         MovePiece(pieceToUpdate, newBoardPosition, 1);
+                        UpdateTurnUI(!isBlackTurn);
                         currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
 
                         currentTable.GetCurrentBoard().SetBoardTilePlayable(newPosition[0], newPosition[1], false);
@@ -676,6 +682,7 @@ public class GameController : MonoBehaviour
 
                 pieceToUpdate.gameObject.transform.position = newBoardPosition;
                 MovePiece(pieceToUpdate, newBoardPosition, 1);
+                UpdateTurnUI(!isBlackTurn);
                 currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
                 currentTable.GetCurrentBoard().SetBoardTilePlayable(newPosition[0], newPosition[1], false);
                 currentTable.UpdatePiecesPosition(currentPosition[0], currentPosition[1], null);
@@ -739,6 +746,7 @@ public class GameController : MonoBehaviour
 
                 pieceToUpdate.gameObject.transform.position = newBoardPosition;
                 MovePiece(pieceToUpdate, newBoardPosition, 1);
+                UpdateTurnUI(!isBlackTurn);
                 currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
                 currentTable.GetCurrentBoard().SetBoardTilePlayable(newPosition[0], newPosition[1], false);
                 currentTable.UpdatePiecesPosition(currentPosition[0], currentPosition[1], null);
@@ -802,6 +810,7 @@ public class GameController : MonoBehaviour
 
                 pieceToUpdate.gameObject.transform.position = newBoardPosition;
                 MovePiece(pieceToUpdate, newBoardPosition, 1);
+                UpdateTurnUI(!isBlackTurn);
                 currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
                 currentTable.GetCurrentBoard().SetBoardTilePlayable(newPosition[0], newPosition[1], false);
                 currentTable.UpdatePiecesPosition(currentPosition[0], currentPosition[1], null);
@@ -867,6 +876,7 @@ public class GameController : MonoBehaviour
 
                 pieceToUpdate.gameObject.transform.position = newBoardPosition;
                 MovePiece(pieceToUpdate, newBoardPosition, 1);
+                UpdateTurnUI(!isBlackTurn);
                 currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
                 currentTable.GetCurrentBoard().SetBoardTilePlayable(newPosition[0], newPosition[1], false);
                 currentTable.UpdatePiecesPosition(currentPosition[0], currentPosition[1], null);
