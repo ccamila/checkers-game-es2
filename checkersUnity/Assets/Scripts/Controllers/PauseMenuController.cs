@@ -70,7 +70,6 @@ public class PauseMenuController : MonoBehaviour
 
     public void BtnExitClicked()
     {
-        //Voltar scene
-        //paused = false;
+        Application.LoadLevel("Menu");
     }
 }
