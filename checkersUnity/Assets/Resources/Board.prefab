@@ -43,7 +43,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5284a65aa5f690418350232d49de839, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boardClassic_8x8: 1
-  boardLarger_10x10: 0
   tableSize: 8
-  BoardPieces: []

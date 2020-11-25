@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 4235286537182620174}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 0.1}
+  m_LocalScale: {x: 2, y: 2, z: 0.1}
   m_Children:
   - {fileID: 8182558819910226086}
   m_Father: {fileID: 0}
@@ -52,7 +52,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4235286537182620174}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -108,7 +108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 024dfd09b5424474dbafe726e3958fb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPlayable: 0
+  table: {fileID: 0}
   centralPosition: {fileID: 8182558819910226086}
 --- !u!114 &8354884881772839796
 MonoBehaviour:
@@ -122,7 +122,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3caa707157a7a6345b6f4b94ce6f2de5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  grayMaterial: {fileID: 0}
 --- !u!114 &2474975685569440849
 MonoBehaviour:
   m_ObjectHideFlags: 0
