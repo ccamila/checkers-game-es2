@@ -1,6 +1,7 @@
 ﻿using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -11,10 +12,11 @@ public class GameController : MonoBehaviour
     TableConstructor tableConstructor;
     IAPlayerController iaPlayerController;
     Piece pieceToUpdate;
+    GameObject lastPieceClickedGO;
     int[] currentPosition, newPosition;
-    
+
     public GameObject turnGO;
-    
+
     private bool isPieceClicked = false;
     private bool mandatoryEat = false;
     private GameObject clickedPiece = null;
@@ -127,6 +129,39 @@ public class GameController : MonoBehaviour
         currentPosition[0] = row;
         currentPosition[1] = column;
     }
+
+    private void MovePiece(Piece piece, Vector3 newBoardPosition, int movementDuration)
+    {
+        GameObject pieceChild = piece.gameObject.transform.GetChild(0).gameObject;
+        pieceChild.GetComponent<DummyMovement>().SetDestination(newBoardPosition, 1);
+        piece.gameObject.transform.position = newBoardPosition;
+    }
+
+    private void KillPiece(GameObject pieceGO)
+    {
+        StartCoroutine(KillPiece_Coroutine(pieceGO));
+    }
+
+    private IEnumerator KillPiece_Coroutine(GameObject pieceGO)
+    {
+        Piece piece = pieceGO.GetComponent<Piece>();
+        GameObject graveyardGO;
+        //Define cor da peça
+        if (piece.GetIsBlack())
+        {
+            graveyardGO = GameObject.Find("GraveyardBlack");
+        }
+        else
+        {
+            graveyardGO = GameObject.Find("GraveyardWhite");
+        }
+        Debug.Log("Esperando...");
+        yield return new WaitForSeconds(1f);
+        Debug.Log("Terminou");
+        Graveyard graveyard = (Graveyard)graveyardGO.GetComponent(typeof(Graveyard));
+        MovePiece(piece, graveyard.GetNewPosition(), 1);
+
+    }
    
     private void DoesAIMustPlay()
     {
@@ -140,10 +175,11 @@ public class GameController : MonoBehaviour
   //      }
            
     }
+
     public void UpdateTurnUI(bool isBlackTurn)
     {
         Debug.Log("Disparando turno do preto: " + isBlackTurn);
-        //turnGO.GetComponent<Animator>().SetBool("isBlackTurn", isBlackTurn);
+        turnGO.GetComponent<Animator>().SetBool("isBlackTurn", isBlackTurn);
     }
 
 
@@ -211,7 +247,7 @@ public class GameController : MonoBehaviour
                             currentTable.GetCurrentBoard().SetBoardTilePlayable(currentPosition[0], currentPosition[1]);
 
                             pieceToUpdate.gameObject.transform.position = newBoardPosition;
-
+                            MovePiece(pieceToUpdate, newBoardPosition, 1);
                             currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
                             currentTable.GetCurrentBoard().SetBoardTilePlayable(newPosition[0], newPosition[1], false);
 
@@ -249,6 +285,7 @@ public class GameController : MonoBehaviour
                                 piecesThatHasToEatInBigginingOfTurn = null;
                                 piecesToEat = new List<Piece>();
                                 Debug.Log("Eating piece " + currentTable.GetPiecesPosition()[contactPositionDownLeft[0]][contactPositionDownLeft[1]].gameObject.name);
+                                KillPiece(currentTable.GetPiecesPosition()[contactPositionDownLeft[0]][contactPositionDownLeft[1]].gameObject);
                                 Destroy(currentTable.GetPiecesPosition()[contactPositionDownLeft[0]][contactPositionDownLeft[1]].gameObject);
                                 currentTable.UpdatePiecesPosition(contactPositionDownLeft[0], contactPositionDownLeft[1], null);
                                 positionToEatAgain = new Dictionary<int, List<int>>();
@@ -271,7 +308,7 @@ public class GameController : MonoBehaviour
                             currentTable.GetCurrentBoard().SetBoardTilePlayable(currentPosition[0], currentPosition[1]);
 
                             pieceToUpdate.gameObject.transform.position = newBoardPosition;
-
+                            MovePiece(pieceToUpdate, newBoardPosition, 1);
                             currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
                             currentTable.GetCurrentBoard().SetBoardTilePlayable(newPosition[0], newPosition[1], false);
 
@@ -310,6 +347,7 @@ public class GameController : MonoBehaviour
                                 isBlackTurn = !isBlackTurn;
                                 piecesThatHasToEatInBigginingOfTurn = null;
                                 Debug.Log("Eating piece " + currentTable.GetPiecesPosition()[contacPositionDownRight[0]][contacPositionDownRight[1]].gameObject.name);
+                                KillPiece(currentTable.GetPiecesPosition()[contacPositionDownRight[0]][contacPositionDownRight[1]].gameObject);
                                 Destroy(currentTable.GetPiecesPosition()[contacPositionDownRight[0]][contacPositionDownRight[1]].gameObject);
                                 currentTable.UpdatePiecesPosition(contacPositionDownRight[0], contacPositionDownRight[1], null);
                                 positionToEatAgain = new Dictionary<int, List<int>>();
@@ -335,7 +373,7 @@ public class GameController : MonoBehaviour
                             currentTable.GetCurrentBoard().SetBoardTilePlayable(currentPosition[0], currentPosition[1]);
 
                             pieceToUpdate.gameObject.transform.position = newBoardPosition;
-
+                            MovePiece(pieceToUpdate, newBoardPosition, 1);
                             currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
                             currentTable.GetCurrentBoard().SetBoardTilePlayable(newPosition[0], newPosition[1], false);
 
@@ -373,6 +411,7 @@ public class GameController : MonoBehaviour
                                 isBlackTurn = !isBlackTurn;
                                 piecesThatHasToEatInBigginingOfTurn = null;
                                 Debug.Log("Eating piece " + currentTable.GetPiecesPosition()[contactPositionUpLeft[0]][contactPositionUpLeft[1]].gameObject.name);
+                                KillPiece(currentTable.GetPiecesPosition()[contactPositionUpLeft[0]][contactPositionUpLeft[1]].gameObject);
                                 Destroy(currentTable.GetPiecesPosition()[contactPositionUpLeft[0]][contactPositionUpLeft[1]].gameObject);
                                 currentTable.UpdatePiecesPosition(contactPositionUpLeft[0], contactPositionUpLeft[1], null);
                                 positionToEatAgain = new Dictionary<int, List<int>>();
@@ -396,7 +435,7 @@ public class GameController : MonoBehaviour
                             currentTable.GetCurrentBoard().SetBoardTilePlayable(currentPosition[0], currentPosition[1]);
 
                             pieceToUpdate.gameObject.transform.position = newBoardPosition;
-
+                            MovePiece(pieceToUpdate, newBoardPosition, 1);
                             currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
                             currentTable.GetCurrentBoard().SetBoardTilePlayable(newPosition[0], newPosition[1], false);
 
@@ -437,6 +476,7 @@ public class GameController : MonoBehaviour
                                 isBlackTurn = !isBlackTurn;
                                 piecesThatHasToEatInBigginingOfTurn = null;
                                 Debug.Log("Eating piece " + currentTable.GetPiecesPosition()[contactPositionUpRight[0]][contactPositionUpRight[1]].gameObject.name);
+                                KillPiece(currentTable.GetPiecesPosition()[contactPositionUpRight[0]][contactPositionUpRight[1]].gameObject);
                                 Destroy(currentTable.GetPiecesPosition()[contactPositionUpRight[0]][contactPositionUpRight[1]].gameObject);
                                 currentTable.UpdatePiecesPosition(contactPositionUpRight[0], contactPositionUpRight[1], null);
                                 positionToEatAgain = new Dictionary<int, List<int>>();
@@ -524,6 +564,7 @@ public class GameController : MonoBehaviour
                         Vector2 newBoardPosition = new Vector2(newBoardPositionPiece.transform.position.x, newBoardPositionPiece.transform.position.y);
 
                         pieceToUpdate.gameObject.transform.position = newBoardPosition;
+                        MovePiece(pieceToUpdate, newBoardPosition, 1);
                         currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
 
                         currentTable.GetCurrentBoard().SetBoardTilePlayable(newPosition[0], newPosition[1], false);
@@ -579,6 +620,7 @@ public class GameController : MonoBehaviour
                         Vector2 newBoardPosition = new Vector2(newBoardPositionPiece.transform.position.x, newBoardPositionPiece.transform.position.y);
 
                         pieceToUpdate.gameObject.transform.position = newBoardPosition;
+                        MovePiece(pieceToUpdate, newBoardPosition, 1);
                         currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
 
                         currentTable.GetCurrentBoard().SetBoardTilePlayable(newPosition[0], newPosition[1], false);
@@ -636,6 +678,7 @@ public class GameController : MonoBehaviour
 
 
                 pieceToUpdate.gameObject.transform.position = newBoardPosition;
+                MovePiece(pieceToUpdate, newBoardPosition, 1);
                 currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
                 currentTable.GetCurrentBoard().SetBoardTilePlayable(newPosition[0], newPosition[1], false);
                 currentTable.UpdatePiecesPosition(currentPosition[0], currentPosition[1], null);
@@ -662,6 +705,7 @@ public class GameController : MonoBehaviour
                         for (int i = 0; i < piecesToEat.Count; i++)
                         {
                             Debug.Log(piecesToEat[i].gameObject.name);
+                            KillPiece(piecesToEat[i].gameObject);
                             Destroy(piecesToEat[i].gameObject);
                             List<int> boardPieceList = new List<int>();
                             boardPieceList = positionToEatAgain[i];
@@ -698,6 +742,7 @@ public class GameController : MonoBehaviour
                 dictionaryIndexController++;
 
                 pieceToUpdate.gameObject.transform.position = newBoardPosition;
+                MovePiece(pieceToUpdate, newBoardPosition, 1);
                 currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
                 currentTable.GetCurrentBoard().SetBoardTilePlayable(newPosition[0], newPosition[1], false);
                 currentTable.UpdatePiecesPosition(currentPosition[0], currentPosition[1], null);
@@ -723,6 +768,7 @@ public class GameController : MonoBehaviour
                         for (int i = 0; i < piecesToEat.Count; i++)
                         {
                             Debug.Log(piecesToEat[i].gameObject.name);
+                            KillPiece(piecesToEat[i].gameObject);
                             Destroy(piecesToEat[i].gameObject);
                             List<int> boardPieceList = new List<int>();
                             boardPieceList = positionToEatAgain[i];
@@ -760,6 +806,7 @@ public class GameController : MonoBehaviour
                 dictionaryIndexController++;
 
                 pieceToUpdate.gameObject.transform.position = newBoardPosition;
+                MovePiece(pieceToUpdate, newBoardPosition, 1);
                 currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
                 currentTable.GetCurrentBoard().SetBoardTilePlayable(newPosition[0], newPosition[1], false);
                 currentTable.UpdatePiecesPosition(currentPosition[0], currentPosition[1], null);
@@ -786,6 +833,7 @@ public class GameController : MonoBehaviour
                         for (int i = 0; i < piecesToEat.Count; i++)
                         {
                             Debug.Log(piecesToEat[i].gameObject.name);
+                            KillPiece(piecesToEat[i].gameObject);
                             Destroy(piecesToEat[i].gameObject);
                             List<int> boardPieceList = new List<int>();
                             boardPieceList = positionToEatAgain[i];
@@ -824,6 +872,7 @@ public class GameController : MonoBehaviour
                 dictionaryIndexController++;
 
                 pieceToUpdate.gameObject.transform.position = newBoardPosition;
+                MovePiece(pieceToUpdate, newBoardPosition, 1);
                 currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
                 currentTable.GetCurrentBoard().SetBoardTilePlayable(newPosition[0], newPosition[1], false);
                 currentTable.UpdatePiecesPosition(currentPosition[0], currentPosition[1], null);
@@ -850,6 +899,7 @@ public class GameController : MonoBehaviour
                         for (int i = 0; i < piecesToEat.Count; i++)
                         {
                             Debug.Log(piecesToEat[i].gameObject.name);
+                            KillPiece(piecesToEat[i].gameObject);
                             Destroy(piecesToEat[i].gameObject);
                             List<int> boardPieceList = new List<int>();
                             boardPieceList = positionToEatAgain[i];
@@ -887,6 +937,28 @@ public class GameController : MonoBehaviour
     public void SetClickedPiece(GameObject currentClickedPiece)
     {
         clickedPiece = currentClickedPiece;
+        SetClickedPieceUI(currentClickedPiece);
+    }
+
+    private void SetClickedPieceUI(GameObject currentClickedPiece)
+    {
+        //Para animação de selecionado da peça anterior
+        if (lastPieceClickedGO != null)
+        {
+            GameObject lastPieceClickedDummy = lastPieceClickedGO.gameObject.transform.GetChild(0).gameObject;
+            lastPieceClickedDummy.GetComponent<DummyMovement>().PieceIsClicked(false);
+        }
+        //Salva ultima peça clicada
+        lastPieceClickedGO = currentClickedPiece;
+        if (currentClickedPiece == null)
+        {
+            return;
+        }
+        //Pega função interna para comecar animação
+        GameObject currentClickedPieceDummy = currentClickedPiece.gameObject.transform.GetChild(0).gameObject;
+        currentClickedPieceDummy.GetComponent<DummyMovement>().PieceIsClicked(true);
+
+
     }
 
     public CurrentTable GetCurrentTable()
