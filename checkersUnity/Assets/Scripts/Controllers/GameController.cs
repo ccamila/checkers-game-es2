@@ -133,7 +133,14 @@ public class GameController : MonoBehaviour
     private void MovePiece(Piece piece, Vector3 newBoardPosition, int movementDuration)
     {
         GameObject pieceChild = piece.gameObject.transform.GetChild(0).gameObject;
-        pieceChild.GetComponent<DummyMovement>().SetDestination(newBoardPosition, 1);
+        pieceChild.GetComponent<DummyMovement>().SetDestination(newBoardPosition, 1, 1);
+        piece.gameObject.transform.position = newBoardPosition;
+    }
+
+    private void MoveDeadPiece(Piece piece, Vector3 newBoardPosition, int movementDuration)
+    {
+        GameObject pieceChild = piece.gameObject.transform.GetChild(0).gameObject;
+        pieceChild.GetComponent<DummyMovement>().SetDestination(newBoardPosition, 5, 1);
         piece.gameObject.transform.position = newBoardPosition;
     }
 
@@ -159,7 +166,7 @@ public class GameController : MonoBehaviour
         yield return new WaitForSeconds(1f);
         Debug.Log("Terminou");
         Graveyard graveyard = (Graveyard)graveyardGO.GetComponent(typeof(Graveyard));
-        MovePiece(piece, graveyard.GetNewPosition(), 1);
+        MoveDeadPiece(piece, graveyard.GetNewPosition(), 1);
         Destroy(piece);
 
     }
