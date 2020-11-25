@@ -6,6 +6,7 @@ using TMPro;
 
 public class HelpTextController : MonoBehaviour
 {
+    public bool somenteInicio;
     TextMeshProUGUI textToUse;
     int timeMultiplier = 1;
     // Start is called before the first frame update
@@ -19,7 +20,7 @@ public class HelpTextController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.anyKeyDown)
+        if (!somenteInicio && Input.anyKeyDown)
         {
             if (!Input.GetKeyDown("escape") && !Input.GetMouseButtonDown(0) && !Input.GetMouseButtonDown(1) && !Input.GetMouseButtonDown(2))
             {
