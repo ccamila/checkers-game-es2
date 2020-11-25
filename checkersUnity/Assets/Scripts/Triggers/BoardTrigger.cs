@@ -15,10 +15,7 @@ public class BoardTrigger : MonoBehaviour
 
         if (gameController.GetIsPieceClicked())
         {
-
             TableConstructor tableConstructor = TableConstructor.instance();
-            //Board board = tableConstructor.GetBoard();
-
 
             if (gameObject.GetComponent<BoardPiece>().IsPlayable())
             {
@@ -33,7 +30,6 @@ public class BoardTrigger : MonoBehaviour
                     
                     gameController.SetNewBoardPosition(gameObject.GetComponent<BoardPiece>());
                     gameController.UpdateGameObject();
-                    /*gameObject.GetComponent<BoardPiece>().SetPlayable();*/
                 }
             }
         }
