@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
+
 public class DummyMovement : MonoBehaviour
 {
 
@@ -34,14 +35,19 @@ public class DummyMovement : MonoBehaviour
         }
 
         t += Time.deltaTime / timeToReachTarget;
-        //UnityEngine.Debug.Log("t = " + t);
-
-        // ===> middlePosition serve para levantar a peça durante o movimento
-        if (t < 0.5) transform.position = Vector3.Lerp(startPosition, middlePosition, t*2);
-        else transform.position = Vector3.Lerp(middlePosition, targetPosition, (t-0.5f)*2);
+            
+        //Verifica deu erro por causa do pause
+        if (float.IsNaN(t)) return;
         
+        // ===> middlePosition serve para levantar a peça durante o movimento
+        if (t < 0.5) transform.position = Vector3.Lerp(startPosition, middlePosition, t * 2);
+        else transform.position = Vector3.Lerp(middlePosition, targetPosition, (t - 0.5f) * 2);
+
         //Volta o estado da animação para Idle
-        if (t > 1) pieceGO.GetComponent<Animator>().SetBool("IsMoving", false);
+        if (t > 1)
+        {
+            pieceGO.GetComponent<Animator>().SetBool("IsMoving", false);
+        }
         
     }
 
