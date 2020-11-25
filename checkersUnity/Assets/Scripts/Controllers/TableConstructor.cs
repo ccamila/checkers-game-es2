@@ -138,15 +138,6 @@ public class TableConstructor : MonoBehaviour
     {
         if (playableArea.Count > 0)
         {
-            /*            for (int i = 0; i < playableArea.Count; i++)
-                        {
-                            for (int j = 0; j < playableArea[0].Count; j++)
-                            {
-                                Debug.Log(playableArea[i][j].gameObject.name + " ## ## ##" + playableArea[i][j].IsPlayable());
-
-                            }
-
-                        }*/
             return playableArea;
         }
         return null;

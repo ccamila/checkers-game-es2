@@ -30,13 +30,13 @@ public class Board : MonoBehaviour, IBoard
 
     public void SetBoardTilePlayable(int row, int column)
     {
-        Debug.Log("updattng pos " + row + " " + column + " from " + boardPpiecesMatrix[row][column].IsPlayable() + " to " + !boardPpiecesMatrix[row][column].IsPlayable());
+  //      Debug.Log("updattng pos " + row + " " + column + " from " + boardPpiecesMatrix[row][column].IsPlayable() + " to " + !boardPpiecesMatrix[row][column].IsPlayable());
         boardPpiecesMatrix[row][column].SetPlayable();
     }
 
     public void SetBoardTilePlayable(int row, int column, bool playbleState)
     {
-        Debug.Log("updating pos " + row + " " + column + " from " + boardPpiecesMatrix[row][column].IsPlayable() + " to " + playbleState);
+//        Debug.Log("updating pos " + row + " " + column + " from " + boardPpiecesMatrix[row][column].IsPlayable() + " to " + playbleState);
         boardPpiecesMatrix[row][column].SetPlayable(playbleState);
     }
 
