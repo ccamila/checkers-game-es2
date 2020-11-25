@@ -11,6 +11,7 @@ public class GameController : MonoBehaviour
     TableConstructor tableConstructor;
     IAPlayerController iaPlayerController;
     Piece pieceToUpdate;
+    GameObject lastPieceClickedGO;
     int[] currentPosition, newPosition;
 
     public GameObject turnGO;
@@ -466,6 +467,28 @@ public class GameController : MonoBehaviour
     public void SetClickedPiece(GameObject currentClickedPiece)
     {
         clickedPiece = currentClickedPiece;
+        SetClickedPieceUI(currentClickedPiece);
+    }
+
+    private void SetClickedPieceUI(GameObject currentClickedPiece)
+    {
+        //Para animação de selecionado da peça anterior
+        if (lastPieceClickedGO != null)
+        {
+            GameObject lastPieceClickedDummy = lastPieceClickedGO.gameObject.transform.GetChild(0).gameObject;
+            lastPieceClickedDummy.GetComponent<DummyMovement>().PieceIsClicked(false);
+        }
+        //Salva ultima peça clicada
+        lastPieceClickedGO = currentClickedPiece;
+        if (currentClickedPiece == null)
+        {
+            return;
+        }
+        //Pega função interna para comecar animação
+        GameObject currentClickedPieceDummy = currentClickedPiece.gameObject.transform.GetChild(0).gameObject;
+        currentClickedPieceDummy.GetComponent<DummyMovement>().PieceIsClicked(true);
+
+
     }
 
     public CurrentTable GetCurrentTable()

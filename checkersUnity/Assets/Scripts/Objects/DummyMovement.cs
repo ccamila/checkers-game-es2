@@ -71,4 +71,9 @@ public class DummyMovement : MonoBehaviour
     {
         pieceGO.GetComponent<Animator>().SetBool("IsLady", true);
     }
+
+    public void PieceIsClicked(bool isSelected)
+    {
+        pieceGO.GetComponent<Animator>().SetBool("IsSelected", isSelected);
+    }
 }
