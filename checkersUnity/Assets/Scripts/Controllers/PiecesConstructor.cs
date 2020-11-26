@@ -18,6 +18,9 @@ public class PiecesConstructor : MonoBehaviour
     List<Piece> whitePiecesList;
     List<Piece> darkPiecesList;
 
+    int totalBlackPieces = 0;
+    int totalWhitePieces = 0;
+
     Board board;
 
     List<List<Piece>> piecesPosition;
@@ -86,6 +89,7 @@ public class PiecesConstructor : MonoBehaviour
                     board.UpdatePiecesPositionList(rowValue, columnValue, newPiece.GetComponent<Piece>());
                     placeController--;
                     auxiliarPiecesList[columnValue] = newPiece.GetComponent<Piece>();
+                    totalWhitePieces++;
                 }
                 else if (rowValue > (tableContructorInstance.GetPlaybleArea().Count / 2))
                 {
@@ -102,6 +106,7 @@ public class PiecesConstructor : MonoBehaviour
                     board.UpdatePiecesPositionList(rowValue, columnValue, newPiece.GetComponent<Piece>());
                     placeController--;
                     auxiliarPiecesList[columnValue] = newPiece.GetComponent<Piece>();
+                    totalBlackPieces++;
                 }
             }
 
@@ -168,4 +173,12 @@ public class PiecesConstructor : MonoBehaviour
         return piecesPosition;
     }
 
+    public int getTotalWhitePieces()
+    {
+        return totalWhitePieces;
+    }
+    public int getTotalBlackPieces()
+    {
+        return totalBlackPieces;
+    }
 }
