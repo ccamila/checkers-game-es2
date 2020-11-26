@@ -24,12 +24,14 @@ public class BoardTrigger : MonoBehaviour
                     gameController.SetNewBoardPosition(gameObject.GetComponent<BoardPiece>());
                     gameController.UpdateGameObjectBlockedDueMandatoryEat();
                     gameObject.GetComponent<BoardPiece>().SetPlayable();
+                    gameController.DoesAIMustPlay();
                 }
                 else 
                 {
                     
                     gameController.SetNewBoardPosition(gameObject.GetComponent<BoardPiece>());
                     gameController.UpdateGameObject();
+                    gameController.DoesAIMustPlay();
                 }
             }
         }
