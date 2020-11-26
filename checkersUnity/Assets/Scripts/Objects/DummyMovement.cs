@@ -45,7 +45,7 @@ public class DummyMovement : MonoBehaviour
         
     }
 
-    public void SetDestination(Vector3 destination, float time)
+    public void SetDestination(Vector3 destination, int h, float time)
     {
         //UnityEngine.Debug.Log("Setou novo destino");
 
@@ -60,7 +60,7 @@ public class DummyMovement : MonoBehaviour
         // ===> middlePosition serve para levantar a peça durante o movimento
         middlePosition = new Vector3((targetPosition.x + startPosition.x) / 2,
                             (targetPosition.y + startPosition.y) / 2,
-                            (targetPosition.z - 1)) ;
+                            (targetPosition.z - h)) ;
         /*
         UnityEngine.Debug.Log("targetPosition = " + targetPosition);
         UnityEngine.Debug.Log("startPosition = " + startPosition);

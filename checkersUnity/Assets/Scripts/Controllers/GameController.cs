@@ -133,7 +133,14 @@ public class GameController : MonoBehaviour
     private void MovePiece(Piece piece, Vector3 newBoardPosition, int movementDuration)
     {
         GameObject pieceChild = piece.gameObject.transform.GetChild(0).gameObject;
-        pieceChild.GetComponent<DummyMovement>().SetDestination(newBoardPosition, 1);
+        pieceChild.GetComponent<DummyMovement>().SetDestination(newBoardPosition, 1, 1);
+        piece.gameObject.transform.position = newBoardPosition;
+    }
+
+    private void MoveDeadPiece(Piece piece, Vector3 newBoardPosition, int movementDuration)
+    {
+        GameObject pieceChild = piece.gameObject.transform.GetChild(0).gameObject;
+        pieceChild.GetComponent<DummyMovement>().SetDestination(newBoardPosition, 5, 1);
         piece.gameObject.transform.position = newBoardPosition;
     }
 
@@ -159,21 +166,20 @@ public class GameController : MonoBehaviour
         yield return new WaitForSeconds(1f);
         Debug.Log("Terminou");
         Graveyard graveyard = (Graveyard)graveyardGO.GetComponent(typeof(Graveyard));
-        MovePiece(piece, graveyard.GetNewPosition(), 1);
+        MoveDeadPiece(piece, graveyard.GetNewPosition(), 1);
         Destroy(piece);
 
     }
-   
+
     private void DoesAIMustPlay()
     {
-        //        if( (isBlackTurn && iaPlayerController.GetIsIAPlayerBlack()) || (!isBlackTurn && !iaPlayerController.GetIsIAPlayerBlack()))
-        //       {
-        //           if (!iaPlayerController.MakeAMove())
-        //           {
-        //              Debug.Log("AI cant move");
-        //          }
-
-        //      }
+        if ((isBlackTurn && iaPlayerController.GetIsIAPlayerBlack()) || (!isBlackTurn && !iaPlayerController.GetIsIAPlayerBlack()))
+        {
+            if (!iaPlayerController.MakeAMove())
+            {
+                Debug.Log("AI cant move");
+            }
+        }
 
     }
 
@@ -233,7 +239,6 @@ public class GameController : MonoBehaviour
 
                             currentTable.GetCurrentBoard().SetBoardTilePlayable(currentPosition[0], currentPosition[1]);
 
-                            pieceToUpdate.gameObject.transform.position = newBoardPosition;
                             MovePiece(pieceToUpdate, newBoardPosition, 1);
                             UpdateTurnUI(!isBlackTurn);
                             currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
@@ -294,7 +299,6 @@ public class GameController : MonoBehaviour
 
                             currentTable.GetCurrentBoard().SetBoardTilePlayable(currentPosition[0], currentPosition[1]);
 
-                            pieceToUpdate.gameObject.transform.position = newBoardPosition;
                             MovePiece(pieceToUpdate, newBoardPosition, 1);
                             UpdateTurnUI(!isBlackTurn);
                             currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
@@ -359,7 +363,6 @@ public class GameController : MonoBehaviour
 
                             currentTable.GetCurrentBoard().SetBoardTilePlayable(currentPosition[0], currentPosition[1]);
 
-                            pieceToUpdate.gameObject.transform.position = newBoardPosition;
                             MovePiece(pieceToUpdate, newBoardPosition, 1);
                             UpdateTurnUI(!isBlackTurn);
                             currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
@@ -421,7 +424,6 @@ public class GameController : MonoBehaviour
 
                             currentTable.GetCurrentBoard().SetBoardTilePlayable(currentPosition[0], currentPosition[1]);
 
-                            pieceToUpdate.gameObject.transform.position = newBoardPosition;
                             MovePiece(pieceToUpdate, newBoardPosition, 1);
                             UpdateTurnUI(!isBlackTurn);
                             currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
@@ -750,7 +752,6 @@ public class GameController : MonoBehaviour
                     {
                         Vector2 newBoardPosition = new Vector2(newBoardPositionPiece.transform.position.x, newBoardPositionPiece.transform.position.y);
 
-                        pieceToUpdate.gameObject.transform.position = newBoardPosition;
                         MovePiece(pieceToUpdate, newBoardPosition, 1);
                         UpdateTurnUI(!isBlackTurn);
                         currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
@@ -801,7 +802,7 @@ public class GameController : MonoBehaviour
                         GameObject newBoardPositionPiece = currentTable.GetCurretBoardSpacePositions()[newPosition[0]][newPosition[1]].gameObject;
 
                         Vector2 newBoardPosition = new Vector2(newBoardPositionPiece.transform.position.x, newBoardPositionPiece.transform.position.y);
-                        pieceToUpdate.gameObject.transform.position = newBoardPosition;
+
                         MovePiece(pieceToUpdate, newBoardPosition, 1);
                         UpdateTurnUI(!isBlackTurn);
                         currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
@@ -860,7 +861,6 @@ public class GameController : MonoBehaviour
                 dictionaryIndexController++;
 
 
-                pieceToUpdate.gameObject.transform.position = newBoardPosition;
                 MovePiece(pieceToUpdate, newBoardPosition, 1);
                 UpdateTurnUI(!isBlackTurn);
                 currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
@@ -924,7 +924,6 @@ public class GameController : MonoBehaviour
                 positionToEatAgain.Add(dictionaryIndexController, auxiliarPositiontoEatList);
                 dictionaryIndexController++;
 
-                pieceToUpdate.gameObject.transform.position = newBoardPosition;
                 MovePiece(pieceToUpdate, newBoardPosition, 1);
                 UpdateTurnUI(!isBlackTurn);
                 currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
@@ -988,7 +987,6 @@ public class GameController : MonoBehaviour
                 positionToEatAgain.Add(dictionaryIndexController, auxiliarPositiontoEatList);
                 dictionaryIndexController++;
 
-                pieceToUpdate.gameObject.transform.position = newBoardPosition;
                 MovePiece(pieceToUpdate, newBoardPosition, 1);
                 UpdateTurnUI(!isBlackTurn);
                 currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
@@ -1054,7 +1052,6 @@ public class GameController : MonoBehaviour
                 positionToEatAgain.Add(dictionaryIndexController, auxiliarPositiontoEatList);
                 dictionaryIndexController++;
 
-                pieceToUpdate.gameObject.transform.position = newBoardPosition;
                 MovePiece(pieceToUpdate, newBoardPosition, 1);
                 UpdateTurnUI(!isBlackTurn);
                 currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
