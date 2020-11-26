@@ -1051,13 +1051,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1542825983}
-<<<<<<< HEAD
-        m_MethodName: LoadScene
-        m_Mode: 3
-=======
         m_MethodName: LoadGame
         m_Mode: 1
->>>>>>> b6f56a0d4b2e5405316cce6abac10bbdc65242f2
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1523,11 +1518,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1542825982}
   m_Enabled: 1
   m_EditorHideFlags: 0
-<<<<<<< HEAD
-  m_Script: {fileID: 11500000, guid: f27d7654e14bae442b9891cff5f7c54a, type: 3}
-=======
   m_Script: {fileID: 11500000, guid: 5713039040073644db9194422bee92c0, type: 3}
->>>>>>> b6f56a0d4b2e5405316cce6abac10bbdc65242f2
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &1542825984
