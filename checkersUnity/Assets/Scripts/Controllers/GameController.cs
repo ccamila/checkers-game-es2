@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
@@ -36,6 +38,15 @@ public class GameController : MonoBehaviour
     List<int> positionDownLeft;
     List<int> positionDownRight;
 
+    [SerializeField]
+    private GameObject popupWinner;
+
+    [SerializeField]
+    private Text TextWinner;
+
+    [SerializeField]
+    private Button ButtonToRestarts;
+
     Dictionary<int, List<int>> positionToEatAgain;
     int dictionaryIndexController = 0;
     List<Piece> piecesToEat;
@@ -46,6 +57,13 @@ public class GameController : MonoBehaviour
     Dictionary<int, List<int>> positionsKingMovePossibilities;
     int indexKingPositionController;
 
+    int totalBlackPieces = 0;
+    int totalWhitePieces = 0;
+    int totalBlackKings = 0;
+    int totalWhiteKings = 0;
+
+    int winnerStatus;
+
     [SerializeField]
     private bool obrigatoryEat = true;
 
@@ -55,8 +73,6 @@ public class GameController : MonoBehaviour
         {
             return _instance;
         }
-
-
         _instance = FindObjectOfType<GameController>();
 
         if (_instance == null)
@@ -82,9 +98,9 @@ public class GameController : MonoBehaviour
         piecesConstructor.ConstructPieces();
         iaPlayerController.SetGameController();
         currentTable = new CurrentTable(tableConstructor.GetBoard(), piecesConstructor.GetPiecesPosition());
-        //Debug.Log(currentTable.GetCurrentBoard().gameObject.name);
-        //playbleBoard = tableConstructor.GetPlaybleArea();
-        //checkersPiecesPositions = tableConstructor.GetBoard().GetPiecesPositionList();
+        totalBlackPieces = piecesConstructor.getTotalBlackPieces();
+        totalWhitePieces = piecesConstructor.getTotalWhitePieces();
+        popupWinner.SetActive(false);
     }
 
     public void SetCurrentClickedPiece(Piece piece)
@@ -189,7 +205,6 @@ public class GameController : MonoBehaviour
         turnGO.GetComponent<Animator>().SetBool("isBlackTurn", isBlackTurnNow);
     }
 
-
     public void UpdateGameObject()
     {
         if (initialTurnEatLock == false)
@@ -236,14 +251,11 @@ public class GameController : MonoBehaviour
                         {
                             GameObject newBoardPositionPiece = currentTable.GetCurretBoardSpacePositions()[newPosition[0]][newPosition[1]].gameObject;
                             Vector2 newBoardPosition = new Vector2(newBoardPositionPiece.transform.position.x, newBoardPositionPiece.transform.position.y);
-
                             currentTable.GetCurrentBoard().SetBoardTilePlayable(currentPosition[0], currentPosition[1]);
-
                             MovePiece(pieceToUpdate, newBoardPosition, 1);
                             UpdateTurnUI(!isBlackTurn);
                             currentTable.UpdatePiecesPosition(newPosition[0], newPosition[1], pieceToUpdate);
                             currentTable.GetCurrentBoard().SetBoardTilePlayable(newPosition[0], newPosition[1], false);
-
                             currentTable.UpdatePiecesPosition(currentPosition[0], currentPosition[1], null);
                             currentPosition[0] = newPosition[0];
                             currentPosition[1] = newPosition[1];
@@ -279,6 +291,29 @@ public class GameController : MonoBehaviour
                                 piecesToEat = new List<Piece>();
                                 Debug.Log("Eating piece " + currentTable.GetPiecesPosition()[contactPositionDownLeft[0]][contactPositionDownLeft[1]].gameObject.name);
                                 KillPiece(currentTable.GetPiecesPosition()[contactPositionDownLeft[0]][contactPositionDownLeft[1]].gameObject);
+                                if (currentTable.GetPiecesPosition()[contactPositionDownLeft[0]][contactPositionDownLeft[1]].GetIsBlack())
+                                {
+                                    if (currentTable.GetPiecesPosition()[contactPositionDownLeft[0]][contactPositionDownLeft[1]].GetKingStatus())
+                                    {
+                                        totalBlackKings--;
+                                    }
+                                    else
+                                    {
+                                        totalBlackPieces--;
+                                    }
+                                }
+                                else
+                                {
+                                    if (currentTable.GetPiecesPosition()[contactPositionDownLeft[0]][contactPositionDownLeft[1]].GetKingStatus())
+                                    {
+                                        totalWhiteKings--;
+                                    }
+                                    else
+                                    {
+                                        totalWhitePieces--;
+
+                                    }
+                                }
                                 currentTable.UpdatePiecesPosition(contactPositionDownLeft[0], contactPositionDownLeft[1], null);
                                 positionToEatAgain = new Dictionary<int, List<int>>();
                                 dictionaryIndexController = 0;
@@ -340,6 +375,29 @@ public class GameController : MonoBehaviour
                                 piecesThatHasToEatInBegginingOfTurn = null;
                                 Debug.Log("Eating piece " + currentTable.GetPiecesPosition()[contacPositionDownRight[0]][contacPositionDownRight[1]].gameObject.name);
                                 KillPiece(currentTable.GetPiecesPosition()[contacPositionDownRight[0]][contacPositionDownRight[1]].gameObject);
+                                if (currentTable.GetPiecesPosition()[contactPositionDownLeft[0]][contactPositionDownLeft[1]].GetIsBlack())
+                                {
+                                    if (currentTable.GetPiecesPosition()[contactPositionDownLeft[0]][contactPositionDownLeft[1]].GetKingStatus())
+                                    {
+                                        totalBlackKings--;
+                                    }
+                                    else
+                                    {
+                                        totalBlackPieces--;
+                                    }
+                                }
+                                else
+                                {
+                                    if (currentTable.GetPiecesPosition()[contactPositionDownLeft[0]][contactPositionDownLeft[1]].GetKingStatus())
+                                    {
+                                        totalWhiteKings--;
+                                    }
+                                    else
+                                    {
+                                        totalWhitePieces--;
+
+                                    }
+                                }
                                 currentTable.UpdatePiecesPosition(contacPositionDownRight[0], contacPositionDownRight[1], null);
                                 positionToEatAgain = new Dictionary<int, List<int>>();
                                 dictionaryIndexController = 0;
@@ -403,6 +461,29 @@ public class GameController : MonoBehaviour
                                 piecesThatHasToEatInBegginingOfTurn = null;
                                 Debug.Log("Eating piece " + currentTable.GetPiecesPosition()[contactPositionUpLeft[0]][contactPositionUpLeft[1]].gameObject.name);
                                 KillPiece(currentTable.GetPiecesPosition()[contactPositionUpLeft[0]][contactPositionUpLeft[1]].gameObject);
+                                if (currentTable.GetPiecesPosition()[contactPositionDownLeft[0]][contactPositionDownLeft[1]].GetIsBlack())
+                                {
+                                    if (currentTable.GetPiecesPosition()[contactPositionDownLeft[0]][contactPositionDownLeft[1]].GetKingStatus())
+                                    {
+                                        totalBlackKings--;
+                                    }
+                                    else
+                                    {
+                                        totalBlackPieces--;
+                                    }
+                                }
+                                else
+                                {
+                                    if (currentTable.GetPiecesPosition()[contactPositionDownLeft[0]][contactPositionDownLeft[1]].GetKingStatus())
+                                    {
+                                        totalWhiteKings--;
+                                    }
+                                    else
+                                    {
+                                        totalWhitePieces--;
+
+                                    }
+                                }
                                 currentTable.UpdatePiecesPosition(contactPositionUpLeft[0], contactPositionUpLeft[1], null);
                                 positionToEatAgain = new Dictionary<int, List<int>>();
                                 dictionaryIndexController = 0;
@@ -467,6 +548,29 @@ public class GameController : MonoBehaviour
                                 piecesThatHasToEatInBegginingOfTurn = null;
                                 Debug.Log("Eating piece " + currentTable.GetPiecesPosition()[contactPositionUpRight[0]][contactPositionUpRight[1]].gameObject.name);
                                 KillPiece(currentTable.GetPiecesPosition()[contactPositionUpRight[0]][contactPositionUpRight[1]].gameObject);
+                                if (currentTable.GetPiecesPosition()[contactPositionDownLeft[0]][contactPositionDownLeft[1]].GetIsBlack())
+                                {
+                                    if (currentTable.GetPiecesPosition()[contactPositionDownLeft[0]][contactPositionDownLeft[1]].GetKingStatus())
+                                    {
+                                        totalBlackKings--;
+                                    }
+                                    else
+                                    {
+                                        totalBlackPieces--;
+                                    }
+                                }
+                                else
+                                {
+                                    if (currentTable.GetPiecesPosition()[contactPositionDownLeft[0]][contactPositionDownLeft[1]].GetKingStatus())
+                                    {
+                                        totalWhiteKings--;
+                                    }
+                                    else
+                                    {
+                                        totalWhitePieces--;
+
+                                    }
+                                }
                                 currentTable.UpdatePiecesPosition(contactPositionUpRight[0], contactPositionUpRight[1], null);
                                 positionToEatAgain = new Dictionary<int, List<int>>();
                                 dictionaryIndexController = 0;
@@ -835,6 +939,23 @@ public class GameController : MonoBehaviour
             }
 
         }
+        if (totalBlackPieces == 0 && totalBlackKings == 0)
+        {
+            GetWinner(0);
+        }
+        else if (totalWhitePieces == 0 && totalWhiteKings == 0)
+        {
+            GetWinner(1);
+        }
+        else if (((totalBlackPieces == 0 && totalBlackKings == 2) && (totalWhitePieces == 0 && totalWhiteKings == 2)) ||
+            ((totalBlackPieces == 0 && totalBlackKings == 1) && (totalWhitePieces == 0 && totalWhiteKings == 2)) ||
+            ((totalBlackPieces == 0 && totalBlackKings == 2) && (totalWhitePieces == 0 && totalWhiteKings == 1)) ||
+            ((totalBlackPieces == 0 && totalBlackKings == 2) && (totalWhitePieces == 1 && totalWhiteKings == 1)) ||
+            ((totalBlackPieces == 1 && totalBlackKings == 1) && (totalWhitePieces == 0 && totalWhiteKings == 2)))
+        {
+            GetWinner(2);
+        }
+
     }
 
 
@@ -892,6 +1013,29 @@ public class GameController : MonoBehaviour
                             KillPiece(piecesToEat[i].gameObject);
                             List<int> boardPieceList = new List<int>();
                             boardPieceList = positionToEatAgain[i];
+                            if (currentTable.GetPiecesPosition()[boardPieceList[0]][boardPieceList[1]].GetIsBlack())
+                            {
+                                if (currentTable.GetPiecesPosition()[boardPieceList[0]][boardPieceList[1]].GetKingStatus())
+                                {
+                                    totalBlackKings--;
+                                }
+                                else
+                                {
+                                    totalBlackPieces--;
+                                }
+                            }
+                            else
+                            {
+                                if (currentTable.GetPiecesPosition()[boardPieceList[0]][boardPieceList[1]].GetKingStatus())
+                                {
+                                    totalWhiteKings--;
+                                }
+                                else
+                                {
+                                    totalWhitePieces--;
+
+                                }
+                            }
                             currentTable.GetCurrentBoard().SetBoardTilePlayable(boardPieceList[0], boardPieceList[1], true);
 
                         }
@@ -952,8 +1096,32 @@ public class GameController : MonoBehaviour
                         {
                             Debug.Log(piecesToEat[i].gameObject.name);
                             KillPiece(piecesToEat[i].gameObject);
+
                             List<int> boardPieceList = new List<int>();
                             boardPieceList = positionToEatAgain[i];
+                            if (currentTable.GetPiecesPosition()[boardPieceList[0]][boardPieceList[1]].GetIsBlack())
+                            {
+                                if (currentTable.GetPiecesPosition()[boardPieceList[0]][boardPieceList[1]].GetKingStatus())
+                                {
+                                    totalBlackKings--;
+                                }
+                                else
+                                {
+                                    totalBlackPieces--;
+                                }
+                            }
+                            else
+                            {
+                                if (currentTable.GetPiecesPosition()[boardPieceList[0]][boardPieceList[1]].GetKingStatus())
+                                {
+                                    totalWhiteKings--;
+                                }
+                                else
+                                {
+                                    totalWhitePieces--;
+
+                                }
+                            }
                             currentTable.GetCurrentBoard().SetBoardTilePlayable(boardPieceList[0], boardPieceList[1], true);
 
                         }
@@ -1018,6 +1186,29 @@ public class GameController : MonoBehaviour
                             KillPiece(piecesToEat[i].gameObject);
                             List<int> boardPieceList = new List<int>();
                             boardPieceList = positionToEatAgain[i];
+                            if (currentTable.GetPiecesPosition()[boardPieceList[0]][boardPieceList[1]].GetIsBlack())
+                            {
+                                if (currentTable.GetPiecesPosition()[boardPieceList[0]][boardPieceList[1]].GetKingStatus())
+                                {
+                                    totalBlackKings--;
+                                }
+                                else
+                                {
+                                    totalBlackPieces--;
+                                }
+                            }
+                            else
+                            {
+                                if (currentTable.GetPiecesPosition()[boardPieceList[0]][boardPieceList[1]].GetKingStatus())
+                                {
+                                    totalWhiteKings--;
+                                }
+                                else
+                                {
+                                    totalWhitePieces--;
+
+                                }
+                            }
                             currentTable.GetCurrentBoard().SetBoardTilePlayable(boardPieceList[0], boardPieceList[1], true);
                         }
                         positionToEatAgain = new Dictionary<int, List<int>>();
@@ -1081,8 +1272,32 @@ public class GameController : MonoBehaviour
                         {
                             Debug.Log(piecesToEat[i].gameObject.name);
                             KillPiece(piecesToEat[i].gameObject);
+
                             List<int> boardPieceList = new List<int>();
                             boardPieceList = positionToEatAgain[i];
+                            if (currentTable.GetPiecesPosition()[boardPieceList[0]][boardPieceList[1]].GetIsBlack())
+                            {
+                                if (currentTable.GetPiecesPosition()[boardPieceList[0]][boardPieceList[1]].GetKingStatus())
+                                {
+                                    totalBlackKings--;
+                                }
+                                else
+                                {
+                                    totalBlackPieces--;
+                                }
+                            }
+                            else
+                            {
+                                if (currentTable.GetPiecesPosition()[boardPieceList[0]][boardPieceList[1]].GetKingStatus())
+                                {
+                                    totalWhiteKings--;
+                                }
+                                else
+                                {
+                                    totalWhitePieces--;
+
+                                }
+                            }
                             currentTable.GetCurrentBoard().SetBoardTilePlayable(boardPieceList[0], boardPieceList[1], true);
 
                         }
@@ -1096,6 +1311,22 @@ public class GameController : MonoBehaviour
             {
                 Debug.Log("You have to eat at down right");
             }
+        }
+        if (totalBlackPieces == 0 && totalBlackKings == 0)
+        {
+            GetWinner(0);
+        }
+        else if (totalWhitePieces == 0 && totalWhiteKings == 0)
+        {
+            GetWinner(1);
+        }
+        else if (((totalBlackPieces == 0 && totalBlackKings == 2) && (totalWhitePieces == 0 && totalWhiteKings == 2)) ||
+            ((totalBlackPieces == 0 && totalBlackKings == 1) && (totalWhitePieces == 0 && totalWhiteKings == 2)) ||
+            ((totalBlackPieces == 0 && totalBlackKings == 2) && (totalWhitePieces == 0 && totalWhiteKings == 1)) ||
+            ((totalBlackPieces == 0 && totalBlackKings == 2) && (totalWhitePieces == 1 && totalWhiteKings == 1)) ||
+            ((totalBlackPieces == 1 && totalBlackKings == 1) && (totalWhitePieces == 0 && totalWhiteKings == 2)))
+        {
+            GetWinner(2);
         }
     }
 
@@ -2365,5 +2596,27 @@ public class GameController : MonoBehaviour
         return newListOfPiecesAbleToEat;
     }
 
+    private void GetWinner(int status)
+    {
+        popupWinner.SetActive(true);
+        if (status == 0)
+        {
+            TextWinner.text = "VOCÊ GANHOU !!";
+        }
+        else if (status == 1)
+        {
+            TextWinner.text = "VOCÊ PERDEU !!";
+        }
+        else if (status == 2)
+        {
+            TextWinner.text = "EMPATE !!";
+        }
+        winnerStatus = status;  
+    }
 
+
+    private void OnClickToRestart()
+    {
+        SceneManager.LoadScene("Main");
+    }
 }
