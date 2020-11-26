@@ -179,7 +179,6 @@ public class GameController : MonoBehaviour
             {
                 Debug.Log("AI cant move");
             }
-
         }
 
     }
