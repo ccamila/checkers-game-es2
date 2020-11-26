@@ -187,7 +187,7 @@ public class GameController : MonoBehaviour
 
     }
 
-    private void DoesAIMustPlay()
+    public void DoesAIMustPlay()
     {
         if ((isBlackTurn && iaPlayerController.GetIsIAPlayerBlack()) || (!isBlackTurn && !iaPlayerController.GetIsIAPlayerBlack()))
         {
